@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "positionHi": "अध्यक्ष",
+    "positionEn": "President",
+    "nameHi": "श्री नीतीश कुमार",
+    "nameEn": "Shri Nitish Kumar",
+    "image": "images/president.jpg"
+  },
+  {
+    "id": 2,
+    "positionHi": "सचिव",
+    "positionEn": "Secretary",
+    "nameHi": "रंजन",
+    "nameEn": "Rajan",
+    "image": "images/secretary.jpg"
+  },
+  {
+    "id": 3,
+    "positionHi": "कोषाध्यक्ष",
+    "positionEn": "Treasurer",
+    "nameHi": "निशांत",
+    "nameEn": "Nishant",
+    "image": "images/treasurer.jpg"
+  },
+  {
+    "id": 4,
+    "positionHi": "उपाध्यक्ष",
+    "positionEn": "Vice President",
+    "nameHi": "अनिका",
+    "nameEn": "Anika",
+    "image": null
+  },
+  {
+    "id": 5,
+    "positionHi": "समन्वयक",
+    "positionEn": "Coordinator",
+    "nameHi": "अद्विक, आरव, अर्जुन, कृष, शौर्य",
+    "nameEn": "Advik, Arav, Arjun, Krish, Shourya",
+    "image": null
+  }
+]

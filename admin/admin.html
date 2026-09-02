@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Panel | श्री श्री दुर्गा पूजा समिति</title>
+
+<!-- Admin CSS -->
+<link rel="stylesheet" href="admin/admin.css">
+
+
+</head>
+
+<body>
+
+<!-- =====================================================
+     LOGIN
+====================================================== -->
+
+<div class="login-page" id="loginPage">
+
+<div class="login-box">
+
+    <h1>🔐 <span data-i18n="adminLogin">Admin Login</span></h1>
+
+    <p>श्री श्री दुर्गा पूजा समिति</p>
+
+    <form id="loginForm">
+
+        <div class="form-group">
+
+            <label data-i18n="username">Username</label>
+
+            <input
+                type="text"
+                id="username"
+                data-placeholder-hi="यूज़रनेम दर्ज करें"
+                data-placeholder-en="Enter username"
+                placeholder="यूज़रनेम दर्ज करें"
+                required
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label data-i18n="password">Password</label>
+
+            <div class="password-wrapper">
+
+                <input
+                    type="password"
+                    id="password"
+                    data-placeholder-hi="पासवर्ड दर्ज करें"
+                    data-placeholder-en="Enter password"
+                    placeholder="पासवर्ड दर्ज करें"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <button
+                    type="button"
+                    id="togglePassword"
+                    class="password-toggle"
+                >
+                    👁️
+                </button>
+
+            </div>
+
+        </div>
+
+        <button
+            type="submit"
+            class="btn btn-primary"
+            data-i18n="login"
+        >
+            Login
+        </button>
+
+        <div class="error" id="loginError"></div>
+
+    </form>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     ADMIN PANEL
+====================================================== -->
+
+<div class="admin-layout" id="adminPanel">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-logo">
+
+        <h2>श्री श्री दुर्गा पूजा समिति</h2>
+
+        <small>ADMIN PANEL</small>
+
+    </div>
+
+    <button class="nav-btn active" data-section="dashboard">
+        📊 <span data-i18n="dashboard">Dashboard</span>
+    </button>
+
+    <button class="nav-btn" data-section="members">
+        👥 <span data-i18n="members">Members</span>
+    </button>
+
+    <button class="nav-btn" data-section="programs">
+        📅 <span data-i18n="programs">Programs</span>
+    </button>
+
+    <button class="nav-btn" data-section="notices">
+        📢 <span data-i18n="notices">Notices</span>
+    </button>
+
+    <button class="nav-btn" data-section="gallery">
+        🖼️ <span data-i18n="gallery">Gallery</span>
+    </button>
+
+    <button class="nav-btn" data-section="videos">
+        🎥 <span data-i18n="videos">Videos</span>
+    </button>
+
+    <button class="nav-btn" data-section="live">
+        🔴 <span data-i18n="liveDarshan">Live Darshan</span>
+    </button>
+
+    <button class="nav-btn" data-section="darshan">
+        🙏 <span data-i18n="specialDarshan">Special Darshan</span>
+    </button>
+
+    <button class="nav-btn" data-section="donations">
+        💰 <span data-i18n="donations">Donations</span>
+    </button>
+
+    <button class="nav-btn" data-section="contributors">
+        🤝 <span data-i18n="contributors">Contributors</span>
+    </button>
+
+    <button class="nav-btn" data-section="contacts">
+        📩 <span data-i18n="contactMessages">Contact Messages</span>
+    </button>
+
+    <button class="nav-btn logout-btn" id="logoutBtn">
+        🚪 <span data-i18n="logout">Logout</span>
+    </button>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <button
+            class="mobile-menu"
+            id="mobileMenu"
+        >
+            ☰
+        </button>
+
+        <h1 id="pageTitle">डैशबोर्ड</h1>
+
+        <div class="topbar-right">
+
+            <div class="language-switcher">
+
+                <button
+                    type="button"
+                    class="language-btn active"
+                    data-lang="hi"
+                >
+                    🇮🇳 हिंदी
+                </button>
+
+                <button
+                    type="button"
+                    class="language-btn"
+                    data-lang="en"
+                >
+                    🇬🇧 English
+                </button>
+
+            </div>
+
+            <span id="adminName"></span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         DASHBOARD
+    ================================================== -->
+
+    <section
+        class="content-section active"
+        id="dashboard"
+    >
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <h3 data-i18n="totalMembers">कुल सदस्य</h3>
+                <strong id="totalMembers">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <h3 data-i18n="totalDonations">कुल दान</h3>
+                <strong id="totalDonations">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <h3 data-i18n="totalAmount">कुल राशि</h3>
+                <strong id="totalAmount">₹0</strong>
+            </div>
+
+            <div class="stat-card">
+                <h3 data-i18n="newMessages">नए संदेश</h3>
+                <strong id="pendingContacts">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <h3 data-i18n="contributors">योगदानकर्ता</h3>
+                <strong id="approvedContributors">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <h3 data-i18n="programs">कार्यक्रम</h3>
+                <strong id="totalPrograms">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <h3 data-i18n="notices">सूचनाएँ</h3>
+                <strong id="totalNotices">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <h3 data-i18n="gallery">गैलरी</h3>
+                <strong id="totalGallery">0</strong>
+            </div>
+
+        </div>
+
+        <div class="card" style="margin-top:20px;">
+
+            <h2 data-i18n="recentDonations">
+                हाल के दान
+            </h2>
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th data-i18n="name">नाम</th>
+                            <th data-i18n="year">वर्ष</th>
+                            <th data-i18n="amount">राशि</th>
+                            <th data-i18n="date">दिनांक</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="recentDonations">
+
+                        <tr>
+                            <td colspan="4" data-i18n="loading">
+                                लोड हो रहा है...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         MEMBERS
+    ================================================== -->
+
+    <section class="content-section" id="members">
+
+        <div class="card">
+
+            <h2 data-i18n="committeeMembers">
+                👥 समिति सदस्य
+            </h2>
+
+            <div class="grid">
+
+                <div class="form-group">
+                    <label data-i18n="positionHindi">
+                        पद - हिंदी
+                    </label>
+                    <input id="memberPositionHi">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="positionEnglish">
+                        पद - English
+                    </label>
+                    <input id="memberPositionEn">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="nameHindi">
+                        नाम - हिंदी
+                    </label>
+                    <input id="memberNameHi">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="nameEnglish">
+                        नाम - English
+                    </label>
+                    <input id="memberNameEn">
+                </div>
+                <div class="form-group">
+                 <label data-i18n="memberType">
+                   सदस्य प्रकार
+                   </label>
+
+                  <select id="memberType">
+                    <option value="officeBearer">
+                    🏛️ Office Bearer
+                    </option>
+
+                    <option value="generalMember">
+                    👥 General Member
+                   </option>
+                 </select>
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="imageUrl">
+                        Image URL
+                    </label>
+                    <input id="memberImage">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="order">
+                        क्रम
+                    </label>
+                    <input
+                        type="number"
+                        id="memberOrder"
+                        value="0"
+                    >
+                </div>
+
+            </div>
+
+            <button
+                class="btn btn-add"
+                onclick="addMember()"
+                data-i18n="addMember"
+            >
+                + सदस्य जोड़ें
+            </button>
+
+        </div>
+
+        <div class="card">
+
+            <h2 data-i18n="membersList">
+                सदस्य सूची
+            </h2>
+
+            <div
+                class="table-wrap"
+                id="membersList"
+            >
+                Loading...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         PROGRAMS
+    ================================================== -->
+
+    <section class="content-section" id="programs">
+
+        <div class="card">
+
+            <h2 data-i18n="pujaProgram">
+                📅 पूजा कार्यक्रम
+            </h2>
+
+            <div class="grid">
+
+                <div class="form-group">
+                    <label data-i18n="year">वर्ष</label>
+                    <input
+                        type="number"
+                        id="programYear"
+                        value="2026"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="date">दिनांक</label>
+                    <input
+                        type="date"
+                        id="programDate"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="dayHindi">दिन - हिंदी</label>
+                    <input id="programDayHi">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="dayEnglish">
+                        Day - English
+                    </label>
+                    <input id="programDayEn">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="titleHindi">
+                        शीर्षक - हिंदी
+                    </label>
+                    <input id="programTitleHi">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="titleEnglish">
+                        Title - English
+                    </label>
+                    <input id="programTitleEn">
+                </div>
+
+                <div class="form-group full">
+                    <label data-i18n="descriptionHindi">
+                        विवरण - हिंदी
+                    </label>
+                    <textarea id="programDescriptionHi"></textarea>
+                </div>
+
+                <div class="form-group full">
+                    <label data-i18n="descriptionEnglish">
+                        Description - English
+                    </label>
+                    <textarea id="programDescriptionEn"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="time">समय</label>
+                    <input id="programTime">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="order">क्रम</label>
+                    <input
+                        type="number"
+                        id="programOrder"
+                        value="0"
+                    >
+                </div>
+
+            </div>
+
+            <button
+                class="btn btn-add"
+                onclick="addProgram()"
+                data-i18n="addProgram"
+            >
+                + कार्यक्रम जोड़ें
+            </button>
+
+        </div>
+
+        <div class="card">
+
+            <h2 data-i18n="programList">
+                कार्यक्रम सूची
+            </h2>
+
+            <div
+                class="table-wrap"
+                id="programsList"
+            >
+                Loading...
+            </div>
+
+        </div>
+
+    </section>
+
+<!-- =================================================
+     NOTICES
+================================================== -->
+
+<section class="content-section" id="notices">
+
+    <div class="card">
+
+        <h2 data-i18n="notice">
+            📢 सूचना
+        </h2>
+
+        <div class="grid">
+
+            <!-- HINDI TITLE -->
+            <div class="form-group">
+
+                <label data-i18n="titleHindi">
+                    शीर्षक - हिंदी
+                </label>
+
+                <input
+                    type="text"
+                    id="noticeTitleHi"
+                    data-placeholder-hi="सूचना का शीर्षक"
+                    data-placeholder-en="Notice title in Hindi"
+                    placeholder="सूचना का शीर्षक"
+                >
+
+            </div>
+
+
+            <!-- ENGLISH TITLE -->
+            <div class="form-group">
+
+                <label data-i18n="titleEnglish">
+                    Title - English
+                </label>
+
+                <input
+                    type="text"
+                    id="noticeTitleEn"
+                    data-placeholder-hi="सूचना का शीर्षक अंग्रेजी में"
+                    data-placeholder-en="Notice title in English"
+                    placeholder="सूचना का शीर्षक अंग्रेजी में"
+                >
+
+            </div>
+
+
+            <!-- HINDI MESSAGE -->
+            <div class="form-group full">
+
+                <label data-i18n="messageHindi">
+                    संदेश - हिंदी
+                </label>
+
+                <textarea
+                    id="noticeMessageHi"
+                    data-placeholder-hi="सूचना का संदेश लिखें..."
+                    data-placeholder-en="Enter notice message in Hindi..."
+                    placeholder="सूचना का संदेश लिखें..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- ENGLISH MESSAGE -->
+            <div class="form-group full">
+
+                <label data-i18n="messageEnglish">
+                    Message - English
+                </label>
+
+                <textarea
+                    id="noticeMessageEn"
+                    data-placeholder-hi="सूचना का संदेश अंग्रेजी में लिखें..."
+                    data-placeholder-en="Enter notice message in English..."
+                    placeholder="सूचना का संदेश लिखें..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- DATE -->
+            <div class="form-group">
+
+                <label data-i18n="date">
+                    दिनांक
+                </label>
+
+                <input
+                    type="date"
+                    id="noticeDate"
+                >
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="btn btn-add"
+            onclick="addNotice()"
+            data-i18n="addNotice"
+        >
+            + सूचना जोड़ें
+        </button>
+
+    </div>
+
+
+    <!-- NOTICE LIST -->
+
+    <div class="card">
+
+        <h2 data-i18n="noticeList">
+            सूचना सूची
+        </h2>
+
+        <div
+            class="table-wrap"
+            id="noticesList"
+        >
+            Loading...
+        </div>
+
+    </div>
+
+</section>
+
+    <!-- =================================================
+         GALLERY
+    ================================================== -->
+
+    <section class="content-section" id="gallery">
+
+        <div class="card">
+
+            <h2 data-i18n="gallery">
+                🖼️ गैलरी
+            </h2>
+
+            <div class="grid">
+
+                <div class="form-group">
+                    <label data-i18n="titleHindi">
+                        शीर्षक - हिंदी
+                    </label>
+                    <input id="galleryTitleHi">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="titleEnglish">
+                        Title - English
+                    </label>
+                    <input id="galleryTitleEn">
+                </div>
+
+                <div class="form-group full">
+                    <label data-i18n="imageUrl">
+                        Image URL
+                    </label>
+                    <input id="galleryImage">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="year">वर्ष</label>
+                    <input
+                        type="number"
+                        id="galleryYear"
+                        value="2026"
+                    >
+                </div>
+
+                <div class="form-group">
+
+                    <label data-i18n="category">
+                        श्रेणी
+                    </label>
+
+                    <select id="galleryCategory">
+
+                        <option
+                            value="puja"
+                            data-i18n="puja"
+                        >
+                            पूजा
+                        </option>
+
+                        <option
+                            value="event"
+                            data-i18n="event"
+                        >
+                            कार्यक्रम
+                        </option>
+
+                        <option
+                            value="committee"
+                            data-i18n="committee"
+                        >
+                            समिति
+                        </option>
+
+                        <option
+                            value="other"
+                            data-i18n="other"
+                        >
+                            अन्य
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="date">दिनांक</label>
+                    <input
+                        type="date"
+                        id="galleryDate"
+                    >
+                </div>
+
+            </div>
+
+            <button
+                class="btn btn-add"
+                onclick="addGallery()"
+                data-i18n="addGallery"
+            >
+                + गैलरी जोड़ें
+            </button>
+
+        </div>
+
+        <div class="card">
+
+            <h2 data-i18n="galleryList">
+                गैलरी सूची
+            </h2>
+
+            <div
+                class="table-wrap"
+                id="galleryList"
+            >
+                Loading...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         VIDEOS
+    ================================================== -->
+
+    <section class="content-section" id="videos">
+
+        <div class="card">
+
+            <h2 data-i18n="youtubeVideo">
+                🎥 YouTube वीडियो
+            </h2>
+
+            <div class="grid">
+
+                <div class="form-group">
+                    <label data-i18n="titleHindi">
+                        शीर्षक - हिंदी
+                    </label>
+                    <input id="videoTitleHi">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="titleEnglish">
+                        Title - English
+                    </label>
+                    <input id="videoTitleEn">
+                </div>
+
+                <div class="form-group full">
+                    <label data-i18n="youtubeUrl">
+                        YouTube URL
+                    </label>
+                    <input id="youtubeUrl">
+                </div>
+
+                <div class="form-group full">
+                    <label data-i18n="thumbnailUrl">
+                        Thumbnail URL
+                    </label>
+                    <input id="videoThumbnail">
+                </div>
+
+            </div>
+
+            <button
+                class="btn btn-add"
+                onclick="addVideo()"
+                data-i18n="addVideo"
+            >
+                + वीडियो जोड़ें
+            </button>
+
+        </div>
+
+        <div class="card">
+
+            <h2 data-i18n="videoList">
+                वीडियो सूची
+            </h2>
+
+            <div
+                class="table-wrap"
+                id="videosList"
+            >
+                Loading...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         LIVE DARSHAN
+    ================================================== -->
+
+    <section class="content-section" id="live">
+
+        <div class="card">
+
+            <h2 data-i18n="liveDarshan">
+                🔴 लाइव दर्शन
+            </h2>
+
+            <div class="grid">
+
+                <div class="form-group">
+                    <label data-i18n="titleHindi">
+                        शीर्षक - हिंदी
+                    </label>
+                    <input id="liveTitleHi">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="titleEnglish">
+                        Title - English
+                    </label>
+                    <input id="liveTitleEn">
+                </div>
+
+                <div class="form-group full">
+                    <label data-i18n="streamUrl">
+                        Stream URL
+                    </label>
+                    <input id="liveStreamUrl">
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        <input
+                            type="checkbox"
+                            id="liveActive"
+                        >
+
+                        <span data-i18n="active">
+                            Active
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            <button
+                class="btn btn-warning"
+                onclick="updateLive()"
+                data-i18n="saveLive"
+            >
+                लाइव दर्शन सेव करें
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         SPECIAL DARSHAN
+    ================================================== -->
+
+    <section class="content-section" id="darshan">
+
+        <div class="card">
+
+            <h2 data-i18n="specialDarshan">
+                🙏 विशेष दर्शन
+            </h2>
+
+            <div class="grid">
+
+                <div class="form-group">
+                    <label data-i18n="titleHindi">
+                        शीर्षक - हिंदी
+                    </label>
+                    <input id="darshanTitleHi">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="titleEnglish">
+                        Title - English
+                    </label>
+                    <input id="darshanTitleEn">
+                </div>
+
+                <div class="form-group full">
+                    <label data-i18n="imageUrl">
+                        Image URL
+                    </label>
+                    <input id="darshanImage">
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        <input
+                            type="checkbox"
+                            id="darshanActive"
+                        >
+
+                        <span data-i18n="active">
+                            Active
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            <button
+                class="btn btn-warning"
+                onclick="updateDarshan()"
+                data-i18n="saveDarshan"
+            >
+                विशेष दर्शन सेव करें
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         DONATIONS
+    ================================================== -->
+
+    <section class="content-section" id="donations">
+
+        <div class="card">
+
+            <h2 data-i18n="donationManagement">
+                💰 दान प्रबंधन
+            </h2>
+
+            <div class="grid">
+
+                <div class="form-group">
+                    <label data-i18n="year">वर्ष</label>
+                    <input
+                        type="number"
+                        id="donationYear"
+                        value="2026"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="donorName">
+                        Donor Name *
+                    </label>
+                    <input id="donationName">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="fatherName">
+                        Father's Name
+                    </label>
+                    <input id="donationFatherName">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="designation">
+                        Designation
+                    </label>
+                    <input id="donationDesignation">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="organization">
+                        Company / Organization
+                    </label>
+                    <input id="donationOrganization">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="mobile">
+                        Mobile
+                    </label>
+                    <input id="donationMobile">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="email">
+                        Email
+                    </label>
+                    <input id="donationEmail">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="amount">
+                        Amount *
+                    </label>
+                    <input
+                        type="number"
+                        id="donationAmount"
+                    >
+                </div>
+
+                <div class="form-group full">
+                    <label data-i18n="address">
+                        Address
+                    </label>
+                    <textarea id="donationAddress"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="receivedBy">
+                        Received By
+                    </label>
+                    <input id="donationReceivedBy">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="date">
+                        Date
+                    </label>
+                    <input
+                        type="date"
+                        id="donationDate"
+                    >
+                </div>
+
+                <div class="form-group">
+
+                    <label data-i18n="paymentMode">
+                        Payment Mode
+                    </label>
+
+                    <select id="donationPaymentMode">
+
+                        <option value="" data-i18n="select">
+                            Select
+                        </option>
+
+                        <option value="Cash" data-i18n="cash">
+                            Cash
+                        </option>
+
+                        <option value="UPI">
+                            UPI
+                        </option>
+
+                        <option
+                            value="Bank Transfer"
+                            data-i18n="bankTransfer"
+                        >
+                            Bank Transfer
+                        </option>
+
+                        <option value="Cheque" data-i18n="cheque">
+                            Cheque
+                        </option>
+
+                        <option value="Other" data-i18n="other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="remarks">
+                        Remarks
+                    </label>
+                    <input id="donationRemarks">
+                </div>
+
+            </div>
+
+         <div class="action-row">
+
+               <button
+           type="button"
+           class="btn btn-add"
+           onclick="addDonation(event)"
+           data-i18n="addDonation"
+                 >
+              + दान जोड़ें
+                 </button>
+
+               <button
+              type="button"
+              class="btn btn-secondary"
+             onclick="exportDonations()"
+            data-i18n="exportExcel"
+             >
+             📥 Excel Export
+             </button>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h2 data-i18n="donationRecords">
+                दान रिकॉर्ड
+            </h2>
+
+            <div
+                class="table-wrap"
+                id="donationsList"
+            >
+                Loading...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         CONTRIBUTORS
+    ================================================== -->
+
+    <section class="content-section" id="contributors">
+
+        <div class="card">
+
+            <h2 data-i18n="contributors">
+                🤝 योगदानकर्ता
+            </h2>
+
+            <div class="grid">
+
+                <div class="form-group">
+                    <label data-i18n="name">नाम</label>
+                    <input id="contributorName">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="year">वर्ष</label>
+                    <input
+                        type="number"
+                        id="contributorYear"
+                        value="2026"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="amount">राशि</label>
+                    <input
+                        type="number"
+                        id="contributorAmount"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="message">संदेश</label>
+                    <input id="contributorMessage">
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        <input
+                            type="checkbox"
+                            id="contributorApproved"
+                        >
+
+                        <span data-i18n="approved">
+                            Approved
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            <button
+                class="btn btn-add"
+                onclick="addContributor()"
+                data-i18n="addContributor"
+            >
+                + योगदानकर्ता जोड़ें
+            </button>
+
+        </div>
+
+        <div class="card">
+
+            <h2 data-i18n="contributorList">
+                योगदानकर्ता सूची
+            </h2>
+
+            <div
+                class="table-wrap"
+                id="contributorsList"
+            >
+                Loading...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         CONTACTS
+    ================================================== -->
+
+    <section class="content-section" id="contacts">
+
+        <div class="card">
+
+            <h2 data-i18n="contactMessages">
+                📩 संपर्क संदेश
+            </h2>
+
+            <div
+                class="table-wrap"
+                id="contactsList"
+            >
+                Loading...
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+```
+
+</div>
+
+<!-- Admin JavaScript -->
+
+<script src="admin/admin.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,2328 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        श्री श्री दुर्गा पूजा समिति | ब्रह्मस्थान
+    </title>
+
+    <meta name="description"
+        content="श्री श्री दुर्गा पूजा समिति, ब्रह्मस्थान, केवई पुल, चंडी, नालंदा, बिहार">
+
+    <meta name="keywords"
+        content="Durga Puja Samiti, Brahmasthan, Chandi, Nalanda, Bihar, Durga Puja">
+
+    <meta name="author"
+        content="Shree Shree Durga Puja Samiti">
+
+    <link rel="icon"
+        href="images/logo.png">
+
+    <link rel="stylesheet"
+        href="style.css">
+
+</head>
+
+
+
+<body>
+
+    <video
+    id="websiteBackgroundVideo"
+    class="website-background-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    webkit-playsinline
+    preload="auto">
+
+    <source src="./videos/durga-puja-bg.mp4" type="video/mp4">
+
+</video>
+
+<div class="website-video-overlay"></div>
+
+    <!-- =====================================================
+         LANGUAGE BAR
+    ====================================================== -->
+
+    <div class="language-bar">
+
+        <span>
+            भाषा / Language:
+        </span>
+
+        <button
+            id="hindiBtn"
+            onclick="changeLanguage('hi')">
+
+            🇮🇳 हिंदी
+
+        </button>
+
+        <button
+            id="englishBtn"
+            onclick="changeLanguage('en')">
+
+            🇬🇧 English
+
+        </button>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         HEADER / NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+            <div class="logo-box">
+
+                <img
+                    src="images/logo.png"
+                    alt="श्री श्री दुर्गा पूजा समिति Logo">
+
+            </div>
+
+
+            <div class="brand-text">
+
+                <h2
+                    data-hi="श्री श्री दुर्गा पूजा समिति"
+                    data-en="Shree Shree Durga Puja Samiti">
+
+                    श्री श्री दुर्गा पूजा समिति
+
+                </h2>
+
+
+                <p
+                    data-hi="ब्रह्मस्थान, केवई पुल, चंडी, नालंदा, बिहार"
+                    data-en="Brahmasthan, Kevai Pul, Chandi, Nalanda, Bihar">
+
+                    ब्रह्मस्थान, केवई पुल, चंडी,
+                    नालंदा, बिहार
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MOBILE MENU -->
+
+        <button
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open Menu">
+
+            ☰
+
+        </button>
+
+
+
+        <!-- =================================================
+             MAIN NAVIGATION
+        ================================================== -->
+
+        <nav id="mainNav">
+
+            <ul>
+
+
+                <!-- ================= HOME ================= -->
+
+                <li>
+
+                    <a
+                        href="#home"
+                        data-hi="होम"
+                        data-en="Home">
+
+                        होम
+
+                    </a>
+
+                </li>
+
+
+
+                <!-- ================= ABOUT ================= -->
+
+                <li>
+
+                    <a
+                        href="#about"
+                        data-hi="हमारे बारे में"
+                        data-en="About Us">
+
+                        हमारे बारे में
+
+                    </a>
+
+                </li>
+ <!-- =================================================
+     COMMITTEE DROPDOWN
+================================================= -->
+
+<li class="dropdown">
+
+    <button
+        type="button"
+        class="dropdown-toggle">
+
+        👥
+
+        <span
+            data-hi="समिति"
+            data-en="Committee">
+
+            समिति
+
+        </span>
+
+        <span class="arrow">
+            ▾
+        </span>
+
+    </button>
+
+
+    <ul class="dropdown-menu">
+
+        <!-- OFFICE BEARERS -->
+
+        <li>
+
+            <a
+                href="#office-bearers"
+                data-hi="🏛️ पदाधिकारी"
+                data-en="🏛️ Office Bearers">
+
+                🏛️ पदाधिकारी
+
+            </a>
+
+        </li>
+
+
+        <!-- GENERAL MEMBERS -->
+
+        <li>
+
+            <a
+                href="#general-members"
+                data-hi="👥 सदस्य"
+                data-en="👥 Members">
+
+                👥 सदस्य
+
+            </a>
+
+        </li>
+
+    </ul>
+
+</li>
+                <!-- =================================================
+                     PUJA
+                ================================================== -->
+
+                <li class="dropdown">
+
+                    <button
+                        type="button"
+                        class="dropdown-toggle">
+
+                        🪔
+
+                        <span
+                            data-hi="पूजा"
+                            data-en="Puja">
+
+                            पूजा
+
+                        </span>
+
+                        <span class="arrow">
+                            ▾
+                        </span>
+
+                    </button>
+
+
+                    <ul class="dropdown-menu">
+
+                        <li>
+
+                            <a
+                                href="#program"
+                                data-hi="कार्यक्रम"
+                                data-en="Program">
+
+                                कार्यक्रम
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a
+                                href="#notices"
+                                data-hi="नोटिस"
+                                data-en="Notices">
+
+                                नोटिस
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </li>
+
+
+
+                <!-- =================================================
+                     MEDIA
+                ================================================== -->
+
+                <li class="dropdown">
+
+                    <button
+                        type="button"
+                        class="dropdown-toggle">
+
+                        📸
+
+                        <span
+                            data-hi="मीडिया"
+                            data-en="Media">
+
+                            मीडिया
+
+                        </span>
+
+                        <span class="arrow">
+                            ▾
+                        </span>
+
+                    </button>
+
+
+                    <ul class="dropdown-menu">
+
+
+                        <li>
+
+                            <a
+                                href="#gallery"
+                                data-hi="फोटो गैलरी"
+                                data-en="Photo Gallery">
+
+                                फोटो गैलरी
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a
+                                href="#videos"
+                                data-hi="वीडियो"
+                                data-en="Videos">
+
+                                वीडियो
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a
+                                href="#live"
+                                data-hi="लाइव दर्शन"
+                                data-en="Live Darshan">
+
+                                लाइव दर्शन
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a
+                                href="#darshan"
+                                data-hi="विशेष दर्शन"
+                                data-en="Special Darshan">
+
+                                विशेष दर्शन
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </li>
+
+
+
+                <!-- =================================================
+                     SUPPORT / DONATION
+                ================================================== -->
+
+                <li class="dropdown">
+
+                    <button
+                        type="button"
+                        class="dropdown-toggle">
+
+                        🙏
+
+                        <span
+                            data-hi="सहयोग"
+                            data-en="Support">
+
+                            सहयोग
+
+                        </span>
+
+                        <span class="arrow">
+                            ▾
+                        </span>
+
+                    </button>
+
+
+                    <ul class="dropdown-menu">
+
+
+                        <li>
+
+                            <a
+                                href="#donation"
+                                data-hi="ऑनलाइन सहयोग"
+                                data-en="Online Donation">
+
+                                ऑनलाइन सहयोग
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a
+                                href="#contributors"
+                                data-hi="सहयोगकर्ता"
+                                data-en="Contributors">
+
+                                सहयोगकर्ता
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a
+                                href="#donation-records"
+                                data-hi="चंदा रिकॉर्ड"
+                                data-en="Donation Records">
+
+                                चंदा रिकॉर्ड
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </li>
+
+
+
+                <!-- =================================================
+                     CONTACT
+                ================================================== -->
+
+                <li class="dropdown">
+
+                    <button
+                        type="button"
+                        class="dropdown-toggle">
+
+                        📞
+
+                        <span
+                            data-hi="संपर्क"
+                            data-en="Contact">
+
+                            संपर्क
+
+                        </span>
+
+                        <span class="arrow">
+                            ▾
+                        </span>
+
+                    </button>
+
+
+                    <ul class="dropdown-menu">
+
+
+                        <li>
+
+                            <a
+                                href="#contact"
+                                data-hi="संपर्क करें"
+                                data-en="Contact Us">
+
+                                संपर्क करें
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a
+                                href="#location"
+                                data-hi="स्थान"
+                                data-en="Location">
+
+                                स्थान
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </li>
+
+                <!-- =================================================
+                     ADMIN LOGIN
+                ================================================== -->
+
+                <li>
+
+                    <a
+                        href="/admin.html"
+                        class="admin-login"
+                        data-hi="🔐 Admin Login"
+                        data-en="🔐 Admin Login">
+
+                        🔐 Admin Login
+
+                    </a>
+
+                </li>
+            </ul>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main>
+
+
+
+        <!-- =================================================
+             HOME / HERO
+        ================================================== -->
+
+        <section
+            id="home"
+            class="hero">
+
+
+            
+
+
+            <!-- DARK / DEVOTIONAL OVERLAY -->
+
+            <div class="hero-overlay"></div>
+
+
+            <!-- LIGHT GLOW -->
+
+            <div class="hero-glow hero-glow-one"></div>
+
+            <div class="hero-glow hero-glow-two"></div>
+
+
+            <!-- FLOATING DECORATION -->
+
+            <div class="hero-particles">
+
+                <span>✦</span>
+                <span>✧</span>
+                <span>🪔</span>
+                <span>✦</span>
+                <span>🌸</span>
+                <span>✧</span>
+
+            </div>
+
+
+            <!-- HERO CONTENT -->
+
+            <div class="hero-content">
+
+
+                <div class="hero-text">
+
+
+                    <p
+                        class="welcome"
+                        data-hi="🙏 आप सभी का हार्दिक स्वागत है"
+                        data-en="🙏 A warm welcome to everyone">
+
+                        🙏 आप सभी का हार्दिक स्वागत है
+
+                    </p>
+
+
+                    <h1
+                        data-hi="श्री श्री दुर्गा पूजा समिति"
+                        data-en="Shree Shree Durga Puja Samiti">
+
+                        श्री श्री दुर्गा पूजा समिति
+
+                    </h1>
+
+
+                    <h2
+                        data-hi="ब्रह्मस्थान, केवई पुल, चंडी, नालंदा, बिहार"
+                        data-en="Brahmasthan, Kevai Pul, Chandi, Nalanda, Bihar">
+
+                        ब्रह्मस्थान, केवई पुल, चंडी,
+                        नालंदा, बिहार
+
+                    </h2>
+
+
+                    <p
+                        class="tagline"
+                        data-hi="🔱 जय माता दी 🔱"
+                        data-en="🔱 Jai Mata Di 🔱">
+
+                        🔱 जय माता दी 🔱
+
+                    </p>
+
+
+                    <div class="hero-buttons">
+
+
+                        <a
+                            href="#program"
+                            class="btn primary"
+                            data-hi="🪔 पूजा कार्यक्रम"
+                            data-en="🪔 Puja Program">
+
+                            🪔 पूजा कार्यक्रम
+
+                        </a>
+
+
+                        <a
+                            href="#donation"
+                            class="btn secondary"
+                            data-hi="🙏 सहयोग करें"
+                            data-en="Support Us">
+
+                            🙏 सहयोग करें
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+                
+
+                <div class="hero-image">
+
+                    <div class="image-frame">
+
+                        <img
+                            src="images/mata-rani.jpg"
+                            alt="माँ दुर्गा">
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+
+        <!-- =================================================
+             COUNTDOWN
+        ================================================== -->
+
+        <section
+            id="countdown"
+            class="section countdown-section">
+
+
+            <div class="section-title">
+<!-- SMALL FOREGROUND MAA DURGA CARD -->
+                <span>⏳</span>
+
+                <h2
+                    data-hi="माँ दुर्गा के आगमन में"
+                    data-en="Countdown to Maa Durga">
+
+                    माँ दुर्गा के आगमन में
+
+                </h2>
+
+            </div>
+
+
+            <div class="countdown-container">
+
+
+                <div class="countdown-box">
+
+                    <strong id="days">
+                        00
+                    </strong>
+
+                    <span
+                        data-hi="दिन"
+                        data-en="Days">
+
+                        दिन
+
+                    </span>
+
+                </div>
+
+
+                <div class="countdown-box">
+
+                    <strong id="hours">
+                        00
+                    </strong>
+
+                    <span
+                        data-hi="घंटे"
+                        data-en="Hours">
+
+                        घंटे
+
+                    </span>
+
+                </div>
+
+
+                <div class="countdown-box">
+
+                    <strong id="minutes">
+                        00
+                    </strong>
+
+                    <span
+                        data-hi="मिनट"
+                        data-en="Minutes">
+
+                        मिनट
+
+                    </span>
+
+                </div>
+
+
+                <div class="countdown-box">
+
+                    <strong id="seconds">
+                        00
+                    </strong>
+
+                    <span
+                        data-hi="सेकंड"
+                        data-en="Seconds">
+
+                        सेकंड
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             QUICK ACTIONS
+        ================================================== -->
+
+        <section class="quick-actions">
+
+
+            <a
+                href="#donation"
+                class="quick-action">
+
+                🙏
+
+                <span
+                    data-hi="सहयोग करें"
+                    data-en="Donate">
+
+                    सहयोग करें
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="#program"
+                class="quick-action">
+
+                📅
+
+                <span
+                    data-hi="पूजा कार्यक्रम"
+                    data-en="Puja Program">
+
+                    पूजा कार्यक्रम
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="#gallery"
+                class="quick-action">
+
+                📸
+
+                <span
+                    data-hi="गैलरी देखें"
+                    data-en="View Gallery">
+
+                    गैलरी देखें
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="#location"
+                class="quick-action">
+
+                📍
+
+                <span
+                    data-hi="स्थान देखें"
+                    data-en="View Location">
+
+                    स्थान देखें
+
+                </span>
+
+            </a>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             ABOUT
+        ================================================== -->
+
+        <section
+            id="about"
+            class="section">
+
+
+            <div class="section-title">
+
+                <span>🔱</span>
+
+                <h2
+                    data-hi="हमारे बारे में"
+                    data-en="About Us">
+
+                    हमारे बारे में
+
+                </h2>
+
+            </div>
+
+
+            <div class="about-card">
+
+
+                <h3
+                    data-hi="श्री श्री दुर्गा पूजा समिति"
+                    data-en="Shree Shree Durga Puja Samiti">
+
+                    श्री श्री दुर्गा पूजा समिति
+
+                </h3>
+
+
+                <p
+                    data-hi="श्री श्री दुर्गा पूजा समिति, ब्रह्मस्थान, केवई पुल, चंडी, नालंदा, बिहार में प्रत्येक वर्ष माँ दुर्गा की पूजा एवं उत्सव का आयोजन करती है। हमारा उद्देश्य धार्मिक आस्था, सामाजिक एकता और भाईचारे को बढ़ावा देना है।"
+
+                    data-en="Shree Shree Durga Puja Samiti organizes Maa Durga Puja and the festival every year at Brahmasthan, Kevai Pul, Chandi, Nalanda, Bihar. Our aim is to promote religious devotion, social unity and brotherhood.">
+
+                    श्री श्री दुर्गा पूजा समिति, ब्रह्मस्थान,
+                    केवई पुल, चंडी, नालंदा, बिहार में प्रत्येक वर्ष
+                    माँ दुर्गा की पूजा एवं उत्सव का आयोजन करती है।
+
+                    हमारा उद्देश्य धार्मिक आस्था, सामाजिक एकता और
+                    भाईचारे को बढ़ावा देना है।
+
+                </p>
+
+
+                <div class="about-details">
+
+
+                    <div>
+
+                        <strong
+                            data-hi="स्थापना वर्ष"
+                            data-en="Established">
+
+                            स्थापना वर्ष
+
+                        </strong>
+
+                        <span id="establishedYear">
+                            2016
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong
+                            data-hi="स्थान"
+                            data-en="Location">
+
+                            स्थान
+
+                        </strong>
+
+                        <span>
+                            <p data-hi="ब्रह्मस्थान, केवई पुल, चंडी, नालंदा, बिहार" data-en="Brahamsthan,Kevai Pul,Chandi, Nalanda, Bihar">
+                                ब्रह्मस्थान  केवई पुल चंडी, नालंदा, बिहार
+                            </p>
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+<!-- =================================================
+     OFFICE BEARERS
+================================================= -->
+
+<section
+    id="office-bearers"
+    class="section committee-page">
+
+    <div class="section-title">
+
+        <span>🏛️</span>
+
+        <h2
+            data-hi="समिति पदाधिकारी"
+            data-en="Office Bearers">
+
+            समिति पदाधिकारी
+
+        </h2>
+
+    </div>
+
+
+    
+
+    <!-- OFFICE BEARERS FROM MONGODB -->
+
+    <div
+        class="members-container"
+        id="officeBearersContainer">
+
+        <div class="member-loading">
+
+            ⏳
+
+            <span
+                data-hi="पदाधिकारी लोड हो रहे हैं..."
+                data-en="Loading office bearers...">
+
+                पदाधिकारी लोड हो रहे हैं...
+
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =================================================
+     GENERAL MEMBERS
+================================================= -->
+
+<section
+    id="general-members"
+    class="section committee-page">
+
+    <div class="section-title">
+
+        <span>👥</span>
+
+        <h2
+            data-hi="समिति सदस्य"
+            data-en="General Members">
+
+            समिति सदस्य
+
+        </h2>
+
+    </div>
+
+
+    
+
+
+    <!-- GENERAL MEMBERS FROM MONGODB -->
+
+    <div
+        class="members-container"
+        id="generalMembersContainer">
+
+        <div class="member-loading">
+
+            ⏳
+
+            <span
+                data-hi="सदस्य लोड हो रहे हैं..."
+                data-en="Loading members...">
+
+                सदस्य लोड हो रहे हैं...
+
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+        <!-- =================================================
+             PUJA PROGRAM
+        ================================================== -->
+
+        <section
+            id="program"
+            class="section program-section">
+
+
+            <div class="section-title">
+
+                <span>🪔</span>
+
+                <h2
+                    data-hi="पूजा कार्यक्रम"
+                    data-en="Puja Program">
+
+                    पूजा कार्यक्रम
+
+                </h2>
+
+            </div>
+
+
+            <div class="year-selector">
+
+
+                <label
+                    for="programYear"
+                    data-hi="वर्ष चुनें"
+                    data-en="Select Year">
+
+                    वर्ष चुनें
+
+                </label>
+
+
+                <select id="programYear">
+
+                    <option value="2026">
+                        2026
+                    </option>
+
+                </select>
+
+
+            </div>
+
+
+            <div
+                class="program-container"
+                id="programContainer">
+
+                <!-- Dynamic Events -->
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             NOTICES
+        ================================================== -->
+
+        <section
+            id="notices"
+            class="section notice-section">
+
+
+            <div class="section-title">
+
+                <span>🔔</span>
+
+                <h2
+                    data-hi="नोटिस एवं घोषणाएँ"
+                    data-en="Notices & Announcements">
+
+                    नोटिस एवं घोषणाएँ
+
+                </h2>
+
+            </div>
+
+
+            <div
+                class="notice-container"
+                id="noticeContainer">
+
+
+                <div class="notice-card">
+
+
+                    <span class="notice-icon">
+                        🔔
+                    </span>
+
+
+                    <div>
+
+                        <h3
+                            data-hi="महत्वपूर्ण सूचना"
+                            data-en="Important Notice">
+
+                            महत्वपूर्ण सूचना
+
+                        </h3>
+
+
+                        <p
+                            data-hi="समिति की नवीनतम सूचना यहाँ दिखाई जाएगी।"
+                            data-en="Latest committee notice will appear here.">
+
+                            समिति की नवीनतम सूचना यहाँ दिखाई जाएगी।
+
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             GALLERY
+        ================================================== -->
+
+        <section
+            id="gallery"
+            class="section gallery-section">
+
+
+            <div class="section-title">
+
+                <span>📸</span>
+
+                <h2
+                    data-hi="फोटो गैलरी"
+                    data-en="Photo Gallery">
+
+                    फोटो गैलरी
+
+                </h2>
+
+            </div>
+
+
+            <div class="gallery-controls">
+
+
+                <select id="galleryYear">
+
+                    <option value="all">
+                        सभी वर्ष
+                    </option>
+
+                    <option value="2026">
+                        2026
+                    </option>
+
+                </select>
+
+
+                <select id="galleryCategory">
+
+                    <option value="all">
+                        सभी श्रेणियाँ
+                    </option>
+
+                    <option value="puja">
+                        पूजा
+                    </option>
+
+                    <option value="pandal">
+                        पंडाल
+                    </option>
+
+                    <option value="aarti">
+                        आरती
+                    </option>
+
+                    <option value="bhandara">
+                        भंडारा
+                    </option>
+
+                    <option value="cultural">
+                        सांस्कृतिक कार्यक्रम
+                    </option>
+
+                    <option value="visarjan">
+                        विसर्जन
+                    </option>
+
+                </select>
+
+
+            </div>
+
+
+            <div
+                class="gallery-container"
+                id="galleryContainer">
+
+
+                <div class="gallery-item">
+
+                    <img
+                        src="images/mata-rani.jpg"
+                        alt="माता रानी">
+
+                </div>
+
+
+                <div class="gallery-item">
+
+                    <img
+                        src="images/puja-1.jpg"
+                        alt="दुर्गा पूजा">
+
+                </div>
+
+
+                <div class="gallery-item">
+
+                    <img
+                        src="images/puja-2.jpg"
+                        alt="दुर्गा पूजा">
+
+                </div>
+
+
+                <div class="gallery-item">
+
+                    <img
+                        src="images/puja-3.jpg"
+                        alt="माता रानी">
+
+                </div>
+
+
+                <div class="gallery-item">
+
+                    <img
+                        src="images/puja-4.jpg"
+                        alt="दुर्गा पूजा">
+
+                </div>
+
+
+                <div class="gallery-item">
+
+                    <img
+                        src="images/puja-5.jpg"
+                        alt="दुर्गा पूजा">
+
+                </div>
+
+
+                <div class="gallery-item">
+
+                    <img
+                        src="images/puja-6.jpg"
+                        alt="दुर्गा पूजा">
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             VIDEOS
+        ================================================== -->
+
+        <section
+            id="videos"
+            class="section video-section">
+
+
+            <div class="section-title">
+
+                <span>🎬</span>
+
+                <h2
+                    data-hi="वीडियो"
+                    data-en="Videos">
+
+                    वीडियो
+
+                </h2>
+
+            </div>
+
+
+            <div
+                class="video-container"
+                id="videoContainer">
+
+
+                <div class="video-placeholder">
+
+                    🎬
+
+                    <p
+                        data-hi="जल्द ही वीडियो उपलब्ध होंगे।"
+                        data-en="Videos will be available soon.">
+
+                        जल्द ही वीडियो उपलब्ध होंगे।
+
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             LIVE DARSHAN
+        ================================================== -->
+
+        <section
+            id="live"
+            class="section live-section">
+
+
+            <div class="section-title">
+
+                <span>🔴</span>
+
+                <h2
+                    data-hi="लाइव दर्शन"
+                    data-en="Live Darshan">
+
+                    लाइव दर्शन
+
+                </h2>
+
+            </div>
+
+
+            <div
+                class="live-container"
+                id="liveContainer">
+
+
+                <div class="live-placeholder">
+
+
+                    <span>
+                        🔴
+                    </span>
+
+
+                    <h3
+                        data-hi="लाइव दर्शन"
+                        data-en="Live Darshan">
+
+                        लाइव दर्शन
+
+                    </h3>
+
+
+                    <p
+                        data-hi="लाइव प्रसारण शुरू होने पर यहाँ दिखाई देगा।"
+                        data-en="Live stream will appear here when available.">
+
+                        लाइव प्रसारण शुरू होने पर यहाँ दिखाई देगा।
+
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SPECIAL DARSHAN
+        ================================================== -->
+
+        <section
+            id="darshan"
+            class="section darshan-section">
+
+
+            <div class="section-title">
+
+                <span>🪔</span>
+
+                <h2
+                    data-hi="विशेष दर्शन"
+                    data-en="Special Darshan">
+
+                    विशेष दर्शन
+
+                </h2>
+
+            </div>
+
+
+            <div class="darshan-card">
+
+
+                <img
+                    src="images/mata-rani.jpg"
+                    alt="माँ दुर्गा">
+
+
+                <div class="darshan-content">
+
+
+                    <h3
+                        data-hi="🙏 माँ दुर्गा के दर्शन करें"
+                        data-en="🙏 Darshan of Maa Durga">
+
+                        🙏 माँ दुर्गा के दर्शन करें
+
+                    </h3>
+
+
+                    <p
+                        data-hi="दिव्य दर्शन अनुभव के लिए नीचे दिए गए बटन पर क्लिक करें।"
+                        data-en="Click below for a devotional darshan experience.">
+
+                        दिव्य दर्शन अनुभव के लिए नीचे दिए गए बटन पर क्लिक करें।
+
+                    </p>
+
+
+                    <button
+                        id="darshanModeBtn"
+                        class="btn primary">
+
+                        🙏 दर्शन करें
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ONLINE DONATION
+        ================================================== -->
+
+        <section
+            id="donation"
+            class="section donation-section">
+
+
+            <div class="section-title">
+
+                <span>🙏</span>
+
+                <h2
+                    data-hi="ऑनलाइन सहयोग"
+                    data-en="Online Donation">
+
+                    ऑनलाइन सहयोग
+
+                </h2>
+
+            </div>
+
+
+            <div class="donation-card">
+
+
+                <h3
+                    data-hi="माँ दुर्गा पूजा में आपका सहयोग"
+                    data-en="Your Support for Durga Puja">
+
+                    माँ दुर्गा पूजा में आपका सहयोग
+
+                </h3>
+
+
+                <p
+                    data-hi="आपका छोटा सा सहयोग पूजा आयोजन को सफल बनाने में महत्वपूर्ण भूमिका निभाता है।"
+                    data-en="Your contribution helps make the Durga Puja celebration successful.">
+
+                    आपका छोटा सा सहयोग पूजा आयोजन को सफल बनाने में
+                    महत्वपूर्ण भूमिका निभाता है।
+
+                </p>
+
+
+
+                <!-- DONATION FORM -->
+
+                <form id="donationForm">
+
+
+                    <div class="form-group">
+
+                        <label for="donorName">
+
+                            नाम *
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="donorName"
+                            data-hi="अपना नाम लिखें"
+                            data-en="Enter your name"
+                            name="name"
+                            required
+                            placeholder="अपना नाम लिखें">
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label for="donorMobile">
+                               
+                            मोबाइल नंबर *
+
+                        </label>
+
+
+                        <input
+                            type="tel"
+                            id="donorMobile"
+                            name="mobile"
+                            required
+                            maxlength="10"
+                            inputmode="numeric"
+                            placeholder="10 अंकों का मोबाइल नंबर">
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label for="donorEmail">
+
+                            Email
+
+                        </label>
+
+
+                        <input
+                            type="email"
+                            id="donorEmail"
+                            name="email"
+                            placeholder="example@email.com">
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label for="donorAddress">
+
+                            पता
+
+                        </label>
+
+
+                        <textarea
+                            id="donorAddress"
+                            name="address"
+                            placeholder="अपना पता लिखें"></textarea>
+
+                    </div>
+
+
+
+                    <!-- AMOUNT -->
+
+                    <div class="form-group">
+
+                        <label>
+
+                            सहयोग राशि *
+
+                        </label>
+
+
+                        <div class="amount-options">
+
+
+                            <button
+                                type="button"
+                                data-amount="101">
+
+                                ₹101
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                data-amount="501">
+
+                                ₹501
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                data-amount="1001">
+
+                                ₹1001
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                data-amount="2501">
+
+                                ₹2501
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                data-amount="5001">
+
+                                ₹5001
+
+                            </button>
+
+
+                        </div>
+
+
+                        <input
+                            type="number"
+                            id="donationAmount"
+                            name="amount"
+                            min="1"
+                            step="1"
+                            required
+                            placeholder="अन्य राशि">
+
+                    </div>
+
+
+
+                    <button
+                        type="submit"
+                        class="btn primary">
+
+                        💳 आगे बढ़ें
+
+                    </button>
+
+
+                </form>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             CONTRIBUTORS
+        ================================================== -->
+
+        <section
+            id="contributors"
+            class="section contributors-section">
+
+
+            <div class="section-title">
+
+                <span>🏆</span>
+
+                <h2
+                    data-hi="हमारे सहयोगकर्ता"
+                    data-en="Our Contributors">
+
+                    हमारे सहयोगकर्ता
+
+                </h2>
+
+            </div>
+
+
+            <div
+                class="contributors-container"
+                id="contributorsContainer">
+
+                <!-- Approved public contributors -->
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             PUBLIC DONATION RECORDS
+        ================================================== -->
+
+        <section
+            id="donation-records"
+            class="section donation-records-section">
+
+
+            <div class="section-title">
+
+                <span>📊</span>
+
+                <h2
+                    data-hi="चंदा रिकॉर्ड"
+                    data-en="Donation Records">
+
+                    चंदा रिकॉर्ड
+
+                </h2>
+
+            </div>
+
+
+            <div class="donation-records-card">
+
+
+                <h3
+                    data-hi="📊 वार्षिक चंदा रिकॉर्ड"
+                    data-en="📊 Yearly Donation Records">
+
+                    📊 वार्षिक चंदा रिकॉर्ड
+
+                </h3>
+
+
+                <p
+                    data-hi="यहाँ केवल सार्वजनिक रूप से दिखाने योग्य सहयोग रिकॉर्ड प्रदर्शित किए जाएंगे। व्यक्तिगत एवं संवेदनशील जानकारी सार्वजनिक नहीं की जाएगी।"
+                    data-en="Only publicly approved donation information will be displayed here. Personal and sensitive information will not be made public.">
+
+                    यहाँ केवल सार्वजनिक रूप से दिखाने योग्य
+                    सहयोग रिकॉर्ड प्रदर्शित किए जाएंगे।
+
+                    व्यक्तिगत एवं संवेदनशील जानकारी सार्वजनिक
+                    नहीं की जाएगी।
+
+                </p>
+
+
+                <!-- YEAR FILTER -->
+
+                <div class="record-controls">
+
+
+                    <div>
+
+                        <label
+                            for="publicDonationYear"
+                            data-hi="📅 वर्ष चुनें"
+                            data-en="📅 Select Year">
+
+                            📅 वर्ष चुनें
+
+                        </label>
+
+
+                        <select id="publicDonationYear">
+
+                            <option value="all">
+                                सभी वर्ष
+                            </option>
+
+                            <option value="2026">
+                                2026
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- PUBLIC SUMMARY -->
+
+                <div class="donation-summary">
+
+
+                    <div class="summary-box">
+
+                        <span>
+                            👥
+                        </span>
+
+                        <h4
+                            data-hi="कुल सहयोगकर्ता"
+                            data-en="Total Contributors">
+
+                            कुल सहयोगकर्ता
+
+                        </h4>
+
+
+                        <strong id="publicTotalDonors">
+                            0
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="summary-box">
+
+                        <span>
+                            💰
+                        </span>
+
+                        <h4
+                            data-hi="कुल सहयोग"
+                            data-en="Total Collection">
+
+                            कुल सहयोग
+
+                        </h4>
+
+
+                        <strong id="publicTotalDonation">
+                            ₹0
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- PUBLIC RECORD TABLE -->
+
+                <div class="donation-table-container">
+
+
+                    <table class="donation-table">
+
+
+                        <thead>
+
+                            <tr>
+
+
+                                <th
+                                    data-hi="क्रम संख्या"
+                                    data-en="S.No.">
+
+                                    क्रम संख्या
+
+                                </th>
+
+
+                                <th
+                                    data-hi="वर्ष"
+                                    data-en="Year">
+
+                                    वर्ष
+
+                                </th>
+
+
+                                <th
+                                    data-hi="सहयोगकर्ता"
+                                    data-en="Contributor">
+
+                                    सहयोगकर्ता
+
+                                </th>
+
+
+                                <th
+                                    data-hi="राशि"
+                                    data-en="Amount">
+
+                                    राशि
+
+                                </th>
+
+
+                                <th
+                                    data-hi="भुगतान माध्यम"
+                                    data-en="Payment Method">
+
+                                    भुगतान माध्यम
+
+                                </th>
+
+
+                                <th
+                                    data-hi="तारीख"
+                                    data-en="Date">
+
+                                    तारीख
+
+                                </th>
+
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="publicDonationTableBody">
+
+
+                            <tr>
+
+                                <td
+                                    colspan="6"
+                                    data-hi="अभी कोई सार्वजनिक रिकॉर्ड उपलब्ध नहीं है।"
+                                    data-en="No public records available yet.">
+
+                                    अभी कोई सार्वजनिक रिकॉर्ड उपलब्ध नहीं है।
+
+                                </td>
+
+                            </tr>
+
+
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             CONTACT
+        ================================================== -->
+
+        <section
+            id="contact"
+            class="section contact-section">
+
+
+            <div class="section-title">
+
+                <span>📞</span>
+
+                <h2
+                    data-hi="संपर्क करें"
+                    data-en="Contact Us">
+
+                    संपर्क करें
+
+                </h2>
+
+            </div>
+
+
+            <div class="contact-card">
+
+
+                <h3
+                    data-hi="श्री श्री दुर्गा पूजा समिति"
+                    data-en="Shree Shree Durga Puja Samiti">
+
+                    श्री श्री दुर्गा पूजा समिति
+
+                </h3>
+
+
+                <p>
+                    📱 7488585355
+                </p>
+
+
+                <p>
+                    📧 durgapujasamiti.brahmasthan@gmail.com
+                </p>
+
+
+
+                <!-- CONTACT FORM -->
+
+                <form id="contactForm">
+
+
+                    <input
+                        type="text"
+                        id="contactName"
+                        placeholder="आपका नाम"
+                        required>
+
+
+                    <input
+                        type="tel"
+                        id="contactMobile"
+                        maxlength="10"
+                        placeholder="मोबाइल नंबर"
+                        required>
+
+
+                    <input
+                        type="email"
+                        id="contactEmail"
+                        placeholder="Email">
+
+
+                    <textarea
+                        id="contactMessage"
+                        placeholder="अपना संदेश लिखें"
+                        required></textarea>
+
+
+                    <button
+                        type="submit"
+                        class="btn primary">
+
+                        📩 संदेश भेजें
+
+                    </button>
+
+
+                </form>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             LOCATION
+        ================================================== -->
+
+        <section
+            id="location"
+            class="section location-section">
+
+
+            <div class="section-title">
+
+                <span>📍</span>
+
+                <h2
+                    data-hi="स्थान"
+                    data-en="Location">
+
+                    स्थान
+
+                </h2>
+
+            </div>
+
+
+            <div class="location-card">
+
+
+                <h3
+                    data-hi="श्री श्री दुर्गा पूजा समिति"
+                    data-en="Shree Shree Durga Puja Samiti">
+
+                    श्री श्री दुर्गा पूजा समिति
+
+                </h3>
+
+
+                <p
+                    data-hi="📍 ब्रह्मस्थान, केवई पुल दुर्गा स्थान, चंडी, नालंदा, बिहार - 803108"
+                    data-en="📍 Brahmasthan, Kevai Pul Durga Location, Chandi, Nalanda, Bihar - 803108">
+
+                    📍 ब्रह्मस्थान, केवई पुल दुर्गा स्थान,
+                    चंडी, नालंदा, बिहार - 803108
+
+                </p>
+
+
+                <a
+                    href="https://www.google.com/maps/search/?api=1&query=89J4%2B366%2C+Chandi-Jalalpur+Rd%2C+Dasturpar%2C+Rukhai%2C+Bihar+801307"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn primary">
+
+                    📍 Google Maps पर Location देखें
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="footer">
+
+
+        <h3
+            data-hi="🔱 श्री श्री दुर्गा पूजा समिति"
+            data-en="🔱 Shree Shree Durga Puja Samiti">
+
+            🔱 श्री श्री दुर्गा पूजा समिति
+
+        </h3>
+
+
+        <p
+            data-hi="ब्रह्मस्थान, केवई पुल, चंडी, नालंदा, बिहार"
+            data-en="Brahmasthan, Kevai Pul, Chandi, Nalanda, Bihar">
+
+            ब्रह्मस्थान, केवई पुल, चंडी,
+            नालंदा, बिहार
+
+        </p>
+
+
+        <p>
+            🙏 जय माता दी 🙏
+        </p>
+
+
+        <hr>
+
+
+        <p>
+
+            © 2026 Shree Shree Durga Puja Samiti.
+
+            <span
+                data-hi="सर्वाधिकार सुरक्षित।"
+                data-en="All Rights Reserved.">
+
+                सर्वाधिकार सुरक्षित।
+
+            </span>
+
+        </p>
+
+
+        <p>
+            🙏............ Thank you............🙏
+        </p>
+
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         SPECIAL DARSHAN OVERLAY
+    ====================================================== -->
+
+    <div
+        id="darshanOverlay"
+        class="darshan-overlay"
+        aria-hidden="true">
+
+
+        <button
+            id="closeDarshan"
+            class="darshan-close"
+            aria-label="Close Darshan">
+
+            ✕
+
+        </button>
+
+
+        <div class="darshan-overlay-content">
+
+
+            <img
+                src="images/mata-rani.jpg"
+                alt="माँ दुर्गा">
+
+
+            <h2>
+                🙏 जय माता दी 🙏
+            </h2>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script src="script.js"></script>
+
+
+</body>
+
+</html>
+
