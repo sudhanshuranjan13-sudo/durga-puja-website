@@ -3772,3 +3772,42 @@ body > *:not(.website-background-video):not(.website-video-overlay) {
     position: relative;
     
 }
+/* =========================================================
+   HEADER FIX - LANGUAGE BAR + NAVBAR
+   Keep existing Look & Feel
+   ========================================================= */
+
+/* Language Bar - FIXED */
+.language-bar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 9999 !important;
+}
+
+/* Main Navbar - FIXED BELOW LANGUAGE BAR */
+.navbar {
+    position: fixed !important;
+    top: 45px !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 9998 !important;
+}
+
+/* Page content ko header ke neeche se start karna */
+body {
+    padding-top: 127px !important;
+}
+
+/* Sections ko fixed header ke neeche hide hone se bachana */
+section {
+    scroll-margin-top: 127px;
+}
+
+/* Dropdown header ke upar nahi aayega */
+.dropdown-menu {
+    z-index: 10000;
+}
