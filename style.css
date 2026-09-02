@@ -3811,3 +3811,221 @@ section {
 .dropdown-menu {
     z-index: 10000;
 }
+/* =========================================================
+   FINAL FIX - DESKTOP + MOBILE FIXED HEADER
+   Keep Existing Look & Feel
+========================================================= */
+
+/* ---------- DESKTOP ---------- */
+
+.language-bar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 9999 !important;
+}
+
+.navbar {
+    position: fixed !important;
+    top: 45px !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 9998 !important;
+}
+
+body {
+    padding-top: 127px !important;
+}
+
+section {
+    scroll-margin-top: 127px !important;
+}
+
+.dropdown-menu {
+    z-index: 10000 !important;
+}
+
+
+/* =========================================================
+   MOBILE FIX
+========================================================= */
+
+@media (max-width: 900px) {
+
+    /* Language Bar fixed */
+    .language-bar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+
+        width: 100% !important;
+        min-height: 45px !important;
+        height: 45px !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        flex-wrap: nowrap !important;
+
+        padding: 5px 8px !important;
+
+        z-index: 9999 !important;
+    }
+
+    /* Language text */
+    .language-bar span {
+        width: auto !important;
+        margin-bottom: 0 !important;
+
+        font-size: 12px !important;
+        white-space: nowrap !important;
+    }
+
+    /* Language buttons */
+    .language-bar button {
+        padding: 5px 10px !important;
+        font-size: 11px !important;
+        white-space: nowrap !important;
+    }
+
+
+    /* =====================================================
+       MOBILE NAVBAR FIXED BELOW LANGUAGE BAR
+    ===================================================== */
+
+    .navbar {
+        position: fixed !important;
+
+        top: 45px !important;
+        left: 0 !important;
+        right: 0 !important;
+
+        width: 100% !important;
+
+        min-height: 75px !important;
+
+        z-index: 9998 !important;
+
+        flex-wrap: wrap !important;
+    }
+
+
+    /* =====================================================
+       MOBILE MENU
+    ===================================================== */
+
+    #mainNav {
+        position: relative !important;
+        z-index: 9997 !important;
+    }
+
+    #mainNav.active {
+        display: block !important;
+    }
+
+    #mainNav > ul {
+        width: 100% !important;
+    }
+
+
+    /* Dropdown header ke andar hi rahe */
+    .dropdown-menu {
+        position: static !important;
+
+        width: 100% !important;
+
+        z-index: 10000 !important;
+
+        transform: none !important;
+    }
+
+
+    /* =====================================================
+       PAGE CONTENT HEADER KE NICHE
+    ===================================================== */
+
+    body {
+        padding-top: 120px !important;
+    }
+
+
+    /* =====================================================
+       SECTION ANCHOR FIX
+    ===================================================== */
+
+    section {
+        scroll-margin-top: 120px !important;
+    }
+
+    html {
+        scroll-padding-top: 120px !important;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .language-bar {
+        height: 45px !important;
+        min-height: 45px !important;
+        padding: 5px 6px !important;
+        gap: 5px !important;
+    }
+
+    .language-bar span {
+        font-size: 11px !important;
+    }
+
+    .language-bar button {
+        padding: 5px 8px !important;
+        font-size: 10px !important;
+    }
+
+    .navbar {
+        top: 45px !important;
+        min-height: 75px !important;
+    }
+
+    body {
+        padding-top: 120px !important;
+    }
+
+    section {
+        scroll-margin-top: 120px !important;
+    }
+
+    html {
+        scroll-padding-top: 120px !important;
+    }
+}
+
+
+/* =========================================================
+   EXTRA SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .language-bar {
+        gap: 3px !important;
+        padding: 4px !important;
+    }
+
+    .language-bar span {
+        font-size: 9px !important;
+    }
+
+    .language-bar button {
+        padding: 4px 6px !important;
+        font-size: 9px !important;
+    }
+}
