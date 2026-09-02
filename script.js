@@ -194,53 +194,19 @@ function changeLanguage(language) {
     /* -----------------------------------------
        RE-RENDER DYNAMIC DATA
     ----------------------------------------- */
-if (membersData.length) {
+    if (membersData.length) {
 
-    const officeBearers =
-        membersData.filter(member => {
-
-            const type =
-                String(member.memberType || "")
-                    .trim()
-                    .toLowerCase();
-
-            return (
-                type === "office" ||
-                type === "office bearer" ||
-                type === "officebearer" ||
-                type === "office_bearer" ||
-                type === "पदाधिकारी"
-            );
-
-        });
-
-
-    const generalMembers =
-        membersData.filter(member => {
-
-            const type =
-                String(member.memberType || "")
-                    .trim()
-                    .toLowerCase();
-
-            return (
-                type === "general" ||
-                type === "general member" ||
-                type === "generalmember" ||
-                type === "general_member" ||
-                type === "सदस्य"
-            );
-
-        });
-
-
-    renderOfficeBearers(
-        officeBearers
+    const officeBearers = membersData.filter(
+        member => getMemberType(member) === "office"
     );
 
-    renderGeneralMembers(
-        generalMembers
+    const generalMembers = membersData.filter(
+        member => getMemberType(member) === "general"
     );
+
+    renderOfficeBearers(officeBearers);
+
+    renderGeneralMembers(generalMembers);
 }
 
     if (programData.length) {
@@ -615,7 +581,91 @@ function startCountdown() {
     );
 
 }
+  /* =========================================================
+   NORMALIZE MEMBER TYPE
+  ========================================================= */
 
+function getMemberType(member) {
+
+    let type =
+        String(
+            member.memberType ||
+            member.type ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+    /* -----------------------------------------
+       OFFICE BEARERS
+    ----------------------------------------- */
+
+    if (
+        type.includes("office") ||
+        type.includes("bearer") ||
+        type.includes("पदाधिकारी") 
+       
+      )    {
+
+        return "office";
+
+        }
+
+
+    /* -----------------------------------------
+       GENERAL MEMBERS
+    ----------------------------------------- */
+
+    if (
+        type.includes("general") ||
+        type.includes("member") ||
+        type.includes("सदस्य")
+    ) {
+
+        return "general";
+
+    }
+
+
+    /* -----------------------------------------
+       FALLBACK USING POSITION
+    ----------------------------------------- */
+
+    const position =
+        String(
+            member.positionHi ||
+            member.positionEn ||
+            member.position ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    if (
+        position.includes("president") ||
+        position.includes("secretary") ||
+        position.includes("treasurer") ||
+        position.includes("vice president") ||
+        position.includes("coordinator") ||
+        position.includes("अध्यक्ष") ||
+        position.includes("सचिव") ||
+        position.includes("कोषाध्यक्ष") ||
+        position.includes("उपाध्यक्ष") ||
+        position.includes("संयोजक")
+    ) {
+
+        return "office";
+
+    }
+
+
+    return "general";
+
+}
+/* =========================================================
+   LOAD COMMITTEE MEMBERS FROM MONGODB
+========================================================= */
 /* =========================================================
    LOAD COMMITTEE MEMBERS FROM MONGODB
 ========================================================= */
@@ -628,6 +678,7 @@ async function loadMembers() {
     const generalContainer =
         document.getElementById("generalMembersContainer");
 
+
     if (!officeContainer && !generalContainer) {
 
         console.error(
@@ -637,23 +688,28 @@ async function loadMembers() {
         return;
     }
 
+
     try {
 
         console.log(
             "🔄 Loading committee members from MongoDB..."
         );
 
+
         const response = await fetch(
             `${API_BASE_URL}/members?t=${Date.now()}`,
             {
                 method: "GET",
+
                 headers: {
                     "Accept": "application/json",
                     "Cache-Control": "no-cache"
                 },
+
                 cache: "no-store"
             }
         );
+
 
         if (!response.ok) {
 
@@ -663,24 +719,31 @@ async function loadMembers() {
 
         }
 
-        const result = await response.json();
+
+        const result =
+            await response.json();
+
 
         console.log(
             "✅ Members received from MongoDB:",
             result
         );
 
+
         /* =========================================
-           GET ARRAY
+           GET ARRAY FROM API RESPONSE
         ========================================= */
 
         let members = [];
+
 
         if (Array.isArray(result)) {
 
             members = result;
 
-        } else if (
+        }
+
+        else if (
             result &&
             Array.isArray(result.data)
         ) {
@@ -689,6 +752,16 @@ async function loadMembers() {
 
         }
 
+        else if (
+            result &&
+            Array.isArray(result.members)
+        ) {
+
+            members = result.members;
+
+        }
+
+
         console.log(
             "👥 Total Members:",
             members.length
@@ -696,109 +769,52 @@ async function loadMembers() {
 
 
         /* =========================================
-           SAVE GLOBAL DATA
-        ========================================= */
-
-        membersData = members;
-
-
-        /* =========================================
            NORMALIZE MEMBER TYPE
+           
+           IMPORTANT:
+           पहले normalizedMembers बन रहा है,
+           उसके बाद membersData में save होगा।
         ========================================= */
 
         const normalizedMembers =
-            members.map((member, index) => {
+            members.map(
+                (member, index) => {
 
-                let type =
-                    String(
-                        member.memberType ||
-                        member.type ||
-                        ""
-                    )
-                    .trim()
-                    .toLowerCase();
+                    return {
 
-                /*
-                   If memberType exists,
-                   use it.
-                */
+                        ...member,
 
-                if (
-                    type.includes("office") ||
-                    type.includes("bearer") ||
-                    type.includes("पदाधिकारी")
-                ) {
+                        memberType:
+                            getMemberType(member),
 
-                    type = "office";
+                        order:
+                            Number(member.order) ||
+                            index + 1
+
+                    };
 
                 }
-
-                else if (
-                    type.includes("general") ||
-                    type.includes("member") ||
-                    type.includes("सदस्य")
-                ) {
-
-                    type = "general";
-
-                }
-
-                /*
-                   IMPORTANT:
-                   If memberType is missing,
-                   determine from position.
-                */
-
-                else {
-
-                    const position =
-                        String(
-                            member.positionHi ||
-                            member.positionEn ||
-                            member.position ||
-                            ""
-                        )
-                        .trim()
-                        .toLowerCase();
-
-
-                    if (
-                        position.includes("president") ||
-                        position.includes("secretary") ||
-                        position.includes("treasurer") ||
-                        position.includes("vice president") ||
-                        position.includes("coordinator") ||
-                        position.includes("अध्यक्ष") ||
-                        position.includes("सचिव") ||
-                        position.includes("कोषाध्यक्ष") ||
-                        position.includes("उपाध्यक्ष") ||
-                        position.includes("संयोजक")
-                    ) {
-
-                        type = "office";
-
-                    } else {
-
-                        type = "general";
-
-                    }
-
-                }
-
-
-                return {
-                    ...member,
-                    memberType: type,
-                    order:
-                        Number(member.order) ||
-                        index + 1
-                };
-
-            });
+            );
 
 
         /* =========================================
-           SEPARATE MEMBERS
+           SAVE NORMALIZED DATA GLOBALLY
+           
+           IMPORTANT FIX
+        ========================================= */
+
+        membersData =
+            normalizedMembers;
+
+
+        console.log(
+            "✅ Normalized Members:",
+            membersData
+        );
+
+
+        /* =========================================
+           SEPARATE OFFICE BEARERS
         ========================================= */
 
         const officeBearers =
@@ -807,6 +823,10 @@ async function loadMembers() {
                     member.memberType === "office"
             );
 
+
+        /* =========================================
+           SEPARATE GENERAL MEMBERS
+        ========================================= */
 
         const generalMembers =
             normalizedMembers.filter(
@@ -820,6 +840,7 @@ async function loadMembers() {
             officeBearers
         );
 
+
         console.log(
             "👥 General Members:",
             generalMembers
@@ -827,12 +848,17 @@ async function loadMembers() {
 
 
         /* =========================================
-           RENDER
+           RENDER OFFICE BEARERS
         ========================================= */
 
         renderOfficeBearers(
             officeBearers
         );
+
+
+        /* =========================================
+           RENDER GENERAL MEMBERS
+        ========================================= */
 
         renderGeneralMembers(
             generalMembers
@@ -847,6 +873,10 @@ async function loadMembers() {
         );
 
 
+        /* =========================================
+           OFFICE BEARER ERROR
+        ========================================= */
+
         if (officeContainer) {
 
             officeContainer.innerHTML = `
@@ -856,11 +886,13 @@ async function loadMembers() {
                     👥
 
                     <span>
+
                         ${
                             currentLanguage === "hi"
                                 ? "पदाधिकारियों की जानकारी लोड नहीं हो सकी।"
                                 : "Office bearers could not be loaded."
                         }
+
                     </span>
 
                 </div>
@@ -869,6 +901,10 @@ async function loadMembers() {
 
         }
 
+
+        /* =========================================
+           GENERAL MEMBER ERROR
+        ========================================= */
 
         if (generalContainer) {
 
@@ -879,11 +915,13 @@ async function loadMembers() {
                     👥
 
                     <span>
+
                         ${
                             currentLanguage === "hi"
                                 ? "सदस्यों की जानकारी लोड नहीं हो सकी।"
                                 : "General members could not be loaded."
                         }
+
                     </span>
 
                 </div>
