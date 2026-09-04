@@ -989,32 +989,36 @@ text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.85);
 
 
 /* =========================================================
-   PROGRAM
+   CUSTOM PROGRAM YEAR DROPDOWN
 ========================================================= */
 
-.program-section {
-    max-width: 1400px;
+.program-year-selector {
+     margin-top: -30px;
+    margin-bottom: 30px;
+    text-align: center;
 }
 
 .year-selector {
     display: flex;
-
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-
-    gap: 10px;
-
-    margin-bottom: 30px;
+    justify-content: center;
 }
 
 .year-selector label {
     font-weight: bold;
-
     color: #6b2d00;
+    margin-bottom: 8px;
 }
 
-.year-selector select,
-.gallery-controls select {
+.custom-year-dropdown {
+    position: relative;
+    width: 130px;
+    margin: 0 auto;
+}
+.year-dropdown-button {
+    width: 100%;
+
     padding: 10px 15px;
 
     border: 1px solid #e1c98a;
@@ -1025,11 +1029,151 @@ text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.85);
 
     color: #6b2d00;
 
-    outline: none;
+    font-size: 16px;
+
+    font-weight: 600;
 
     cursor: pointer;
+
+    outline: none;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    transition: 0.2s ease;
 }
 
+.year-dropdown-button:hover {
+    border-color: #d62828;
+}
+
+.year-arrow {
+    font-size: 11px;
+
+    transition: transform 0.2s ease;
+}
+
+.custom-year-dropdown.open .year-arrow {
+    transform: rotate(180deg);
+}
+
+
+/* =========================================================
+   YEAR DROPDOWN MENU
+========================================================= */
+
+.year-dropdown-menu {
+    position: absolute;
+
+    top: calc(100% + 6px);
+
+    left: 0;
+
+    width: 100%;
+
+    max-height: 220px;
+
+    overflow-y: auto;
+
+    display: none;
+
+    padding: 5px 0;
+
+    background: white;
+
+    border: 1px solid #e1c98a;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.12);
+
+    z-index: 9999;
+}
+
+.custom-year-dropdown.open .year-dropdown-menu {
+    display: block;
+}
+
+
+/* =========================================================
+   YEAR OPTION
+========================================================= */
+
+.year-option {
+    padding: 10px 15px;
+
+    color: #6b2d00;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    text-align: center;
+
+    transition: 0.2s ease;
+}
+
+.year-option:hover {
+    background: #fff3d6;
+
+    color: #d62828;
+}
+
+.year-option.selected {
+    background: #d62828;
+
+    color: white;
+
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   YEAR SCROLLBAR
+========================================================= */
+
+.year-dropdown-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.year-dropdown-menu::-webkit-scrollbar-track {
+    background: #f5f5f5;
+}
+
+.year-dropdown-menu::-webkit-scrollbar-thumb {
+    background: #d6b56c;
+
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   MOBILE YEAR DROPDOWN
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .custom-year-dropdown {
+        width: 120px;
+    }
+
+    .year-dropdown-button {
+        padding: 9px 12px;
+
+        font-size: 15px;
+    }
+
+    .year-option {
+        padding: 9px 12px;
+
+        font-size: 14px;
+    }
+
+}
 .program-container {
     display: grid;
 
@@ -1240,6 +1384,161 @@ text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.85);
 
     flex-wrap: wrap;
 }
+/* =========================================================
+   GALLERY YEAR CUSTOM DROPDOWN
+========================================================= */
+
+.gallery-year-dropdown {
+    position: relative;
+    width: 180px;
+    z-index: 100;
+}
+
+.gallery-year-button {
+    width: 100%;
+    min-height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 10px 14px;
+
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+
+    background: white;
+    color: #333;
+
+    font-size: 16px;
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.gallery-year-button:hover {
+    box-shadow:
+        0 7px 18px rgba(0, 0, 0, 0.12);
+}
+
+.gallery-year-arrow {
+    font-size: 12px;
+    transition: transform 0.2s ease;
+}
+
+.gallery-year-dropdown.open
+.gallery-year-arrow {
+    transform: rotate(180deg);
+}
+
+
+/* =========================================================
+   YEAR MENU
+========================================================= */
+
+.gallery-year-menu {
+    display: none;
+
+    position: absolute;
+
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+
+    background: white;
+
+    border: 1px solid rgba(0, 0, 0, 0.12);
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.15);
+
+    overflow-y: auto;
+
+    /*
+       लगभग 5 years visible
+    */
+    max-height: 225px;
+
+    z-index: 9999;
+}
+
+.gallery-year-dropdown.open
+.gallery-year-menu {
+    display: block;
+}
+
+
+/* =========================================================
+   YEAR OPTIONS
+========================================================= */
+
+.gallery-year-option {
+    padding: 10px 14px;
+
+    min-height: 45px;
+
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.gallery-year-option:hover {
+    background: #f3f3f3;
+}
+
+.gallery-year-option.selected {
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.gallery-year-menu::-webkit-scrollbar {
+    width: 7px;
+}
+
+.gallery-year-menu::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.gallery-year-menu::-webkit-scrollbar-thumb {
+    background: #aaa;
+    border-radius: 10px;
+}
+
+.gallery-year-menu::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .gallery-year-dropdown {
+        width: 180px;
+    }
+
+    .gallery-year-menu {
+        max-height: 225px;
+    }
+
+}
 
 .gallery-container {
     display: grid;
@@ -1344,7 +1643,175 @@ text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.85);
    color: #4a4a4a;
 }
 
+/* =========================================================
+   VIDEO ITEMS
+========================================================= */
 
+.video-item {
+    background: white;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.1);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.video-item:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+
+/* =========================================================
+   VIDEO FRAME
+========================================================= */
+
+.video-frame {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    overflow: hidden;
+
+    background: #000;
+}
+
+
+.video-frame iframe {
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    border: none;
+}
+.video-frame video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    background: #000;
+}
+
+
+/* =========================================================
+   VIDEO TITLE
+========================================================= */
+
+.video-title {
+    padding: 15px 18px;
+
+    font-size: 17px;
+
+    font-weight: 600;
+
+    line-height: 1.5;
+
+    color: #333;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   VIDEO PLACEHOLDER
+========================================================= */
+
+.video-placeholder {
+    grid-column: 1 / -1;
+
+    width: 100%;
+
+    min-height: 250px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 20px;
+
+    background: white;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.1);
+
+    color: #aaa;
+
+    font-size: 55px;
+}
+
+
+.video-placeholder p {
+    margin-top: 10px;
+
+    font-size: 17px;
+
+    color: #4a4a4a;
+}
+
+
+/* =========================================================
+   VIDEO RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .video-container {
+        grid-template-columns: 1fr;
+
+        gap: 18px;
+    }
+
+    .video-title {
+        font-size: 16px;
+
+        padding: 13px 15px;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .video-container {
+        gap: 15px;
+    }
+
+    .video-item {
+        border-radius: 15px;
+    }
+
+    .video-placeholder {
+        min-height: 200px;
+
+        font-size: 45px;
+    }
+
+    .video-placeholder p {
+        font-size: 15px;
+
+        text-align: center;
+
+        padding: 0 15px;
+    }
+
+}
 /* =========================================================
    LIVE DARSHAN
 ========================================================= */

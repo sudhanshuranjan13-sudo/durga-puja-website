@@ -8,6 +8,7 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const multer = require("multer");
+const fs = require("fs");
 const XLSX = require("xlsx");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -25,6 +26,239 @@ const PORT = process.env.PORT || 5000;
 
 const FRONTEND_DIR = path.join(__dirname, "..");
 
+const VIDEO_UPLOAD_DIR =
+    path.join(
+        __dirname,
+        "uploads",
+        "videos"
+    );
+
+    // ============================================================
+// PHOTO UPLOAD DIRECTORY
+// ============================================================
+
+const PHOTO_UPLOAD_DIR =
+    path.join(
+        __dirname,
+        "uploads",
+        "gallery"
+    );
+
+
+// Create gallery photo upload folder automatically
+     fs.mkdirSync(
+    PHOTO_UPLOAD_DIR,
+    {
+        recursive: true
+    }
+);
+
+
+// Create video upload folder automatically
+fs.mkdirSync(
+    VIDEO_UPLOAD_DIR,
+    {
+        recursive: true
+    }
+);
+// ============================================================
+// VIDEO UPLOAD CONFIGURATION
+// ============================================================
+
+const videoStorage =
+    multer.diskStorage({
+
+        destination:
+            (req, file, cb) => {
+
+                cb(
+                    null,
+                    VIDEO_UPLOAD_DIR
+                );
+
+            },
+
+        filename:
+            (req, file, cb) => {
+
+                const extension =
+                    path.extname(
+                        file.originalname
+                    ).toLowerCase();
+
+                const fileName =
+                    "video-" +
+                    Date.now() +
+                    "-" +
+                    Math.round(
+                        Math.random() * 1E9
+                    ) +
+                    extension;
+
+                cb(
+                    null,
+                    fileName
+                );
+
+            }
+
+    });
+
+
+ const videoUpload =
+    multer({
+
+        storage:
+            videoStorage,
+
+        limits: {
+
+            fileSize:
+                100 * 1024 * 1024
+
+        },
+
+        fileFilter:
+            (req, file, cb) => {
+
+                const allowedExtensions = [
+
+                    ".mp4",
+                    ".webm",
+                    ".mov",
+                    ".m4v"
+
+                ];
+
+                const extension =
+                    path.extname(
+                        file.originalname
+                    ).toLowerCase();
+
+
+                if (
+                    allowedExtensions
+                        .includes(extension)
+                ) {
+
+                    cb(
+                        null,
+                        true
+                    );
+
+                } else {
+
+                    cb(
+                        new Error(
+                            "Only MP4, WEBM, MOV or M4V video files are allowed."
+                        )
+                    );
+
+                }
+
+            }
+
+    }
+ );
+
+ // ============================================================
+// GALLERY PHOTO UPLOAD CONFIGURATION
+// ============================================================
+
+const photoStorage =
+    multer.diskStorage({
+
+        destination:
+            (req, file, cb) => {
+
+                cb(
+                    null,
+                    PHOTO_UPLOAD_DIR
+                );
+
+            },
+
+        filename:
+            (req, file, cb) => {
+
+                const extension =
+                    path.extname(
+                        file.originalname
+                    ).toLowerCase();
+
+                const fileName =
+                    "photo-" +
+                    Date.now() +
+                    "-" +
+                    Math.round(
+                        Math.random() * 1E9
+                    ) +
+                    extension;
+
+                cb(
+                    null,
+                    fileName
+                );
+
+            }
+
+    });
+
+
+const photoUpload =
+    multer({
+
+        storage:
+            photoStorage,
+
+        limits: {
+
+            fileSize:
+                10 * 1024 * 1024
+
+        },
+
+        fileFilter:
+            (req, file, cb) => {
+
+                const allowedExtensions = [
+
+                    ".jpg",
+                    ".jpeg",
+                    ".png",
+                    ".webp",
+                    ".gif"
+
+                ];
+
+                const extension =
+                    path.extname(
+                        file.originalname
+                    ).toLowerCase();
+
+                if (
+                    allowedExtensions
+                        .includes(extension)
+                ) {
+
+                    cb(
+                        null,
+                        true
+                    );
+
+                } else {
+
+                    cb(
+                        new Error(
+                            "Only JPG, JPEG, PNG, WEBP or GIF image files are allowed."
+                        )
+                    );
+
+                }
+
+            }
+
+    });
 const MONGO_URL =
     process.env.MONGO_URL ||
     "mongodb://127.0.0.1:27017";
@@ -65,6 +299,26 @@ app.use(express.urlencoded({
 app.use(
     express.static(FRONTEND_DIR)
 );
+// ============================================================
+// SERVE UPLOADED VIDEOS
+// ============================================================
+
+app.use(
+    "/uploads/videos",
+    express.static(
+        VIDEO_UPLOAD_DIR
+    )
+);
+// ============================================================
+// SERVE UPLOADED GALLERY PHOTOS
+// ============================================================
+
+app.use(
+    "/uploads/gallery",
+    express.static(
+        PHOTO_UPLOAD_DIR
+    )
+);
 
 
 // ============================================================
@@ -87,18 +341,44 @@ app.get("/", (req, res) => {
 // ADMIN PAGE
 // ============================================================
 
-app.get("/admin.html", (req, res) => {
-
-    res.sendFile(
-        path.join(
-            FRONTEND_DIR,
-            "admin",
-            "admin.html"
-        )
+const ADMIN_PAGE =
+    path.join(
+        FRONTEND_DIR,
+        "admin",
+        "admin.html"
     );
+
+
+// /admin
+app.get("/admin", (req, res) => {
+
+    res.sendFile(ADMIN_PAGE);
 
 });
 
+
+// /admin/
+app.get("/admin/", (req, res) => {
+
+    res.sendFile(ADMIN_PAGE);
+
+});
+
+
+// /admin.html
+app.get("/admin.html", (req, res) => {
+
+    res.sendFile(ADMIN_PAGE);
+
+});
+
+
+// /admin/index.html
+app.get("/admin/index.html", (req, res) => {
+
+    res.sendFile(ADMIN_PAGE);
+
+});
 
 // ============================================================
 // MONGODB
@@ -958,6 +1238,10 @@ app.put(
                     safeString(
                         req.body.nameEn
                     ),
+                 memberType:
+                    safeString(
+                      req.body.memberType
+                   ),
 
                 image:
                     safeString(
@@ -1922,6 +2206,165 @@ app.get(
 
     }
 );
+// ============================================================
+// DIRECT GALLERY PHOTO UPLOAD
+// ============================================================
+
+
+app.post(
+    "/api/admin/gallery/upload",
+    requireAdmin,
+    photoUpload.single("photoFile"),
+    async (req, res) => {
+
+        try {
+
+            if (!req.file) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Please select a photo file."
+
+                });
+
+            }
+
+
+            const item = {
+
+                titleHi:
+                    safeString(
+                        req.body.titleHi
+                    ),
+
+                titleEn:
+                    safeString(
+                        req.body.titleEn
+                    ),
+
+                image:
+                    "/uploads/gallery/" +
+                    req.file.filename,
+
+                year:
+                    toNumber(
+                        req.body.year,
+                        new Date().getFullYear()
+                    ),
+
+                category:
+                    safeString(
+                        req.body.category
+                    ) || "puja",
+
+                date:
+                    safeString(
+                        req.body.date
+                    ) ||
+                    new Date()
+                        .toISOString()
+                        .slice(0, 10),
+
+                active:
+                    true,
+
+                originalName:
+                    req.file.originalname,
+
+                fileName:
+                    req.file.filename,
+
+                createdAt:
+                    new Date(),
+
+                updatedAt:
+                    new Date()
+
+            };
+
+
+            const result =
+                await collections.gallery
+                    .insertOne(
+                        item
+                    );
+
+
+            res.status(201).json({
+
+                success: true,
+
+                message:
+                    "Gallery photo uploaded successfully.",
+
+                id:
+                    result.insertedId,
+
+                image:
+                    item.image
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Gallery photo upload error:",
+                error
+            );
+
+
+            // Delete uploaded file if MongoDB insert fails
+            if (req.file) {
+
+                const uploadedFile =
+                    path.join(
+                        PHOTO_UPLOAD_DIR,
+                        req.file.filename
+                    );
+
+                try {
+
+                    if (
+                        fs.existsSync(
+                            uploadedFile
+                        )
+                    ) {
+
+                        fs.unlinkSync(
+                            uploadedFile
+                        );
+
+                    }
+
+                } catch (deleteError) {
+
+                    console.error(
+                        "Failed to delete uploaded gallery photo:",
+                        deleteError
+                    );
+
+                }
+
+            }
+
+
+            res.status(500).json({
+
+                success: false,
+
+                message:
+                    error.message ||
+                    "Gallery photo upload failed."
+
+            });
+
+        }
+
+    }
+);
 
 
 // ADD
@@ -2137,7 +2580,10 @@ app.put(
 );
 
 
-// DELETE
+// ============================================================
+// DELETE GALLERY ITEM
+// ============================================================
+
 app.delete(
     "/api/admin/gallery/:id",
     requireAdmin,
@@ -2165,12 +2611,75 @@ app.delete(
             }
 
 
+            // Find gallery item first
+            const galleryItem =
+                await collections.gallery.findOne({
+
+                    _id: id
+
+                });
+
+
+            if (!galleryItem) {
+
+                return res.status(404).json({
+
+                    success: false,
+
+                    message:
+                        "Gallery item not found."
+
+                });
+
+            }
+
+
+            // Delete MongoDB record
             const result =
                 await collections.gallery.deleteOne({
 
                     _id: id
 
                 });
+
+
+            // Delete uploaded physical file
+            if (
+                result.deletedCount > 0 &&
+                galleryItem.fileName
+            ) {
+
+                const uploadedFile =
+                    path.join(
+                        PHOTO_UPLOAD_DIR,
+                        galleryItem.fileName
+                    );
+
+
+                try {
+
+                    if (
+                        fs.existsSync(
+                            uploadedFile
+                        )
+                    ) {
+
+                        fs.unlinkSync(
+                            uploadedFile
+                        );
+
+                    }
+
+                } catch (fileDeleteError) {
+
+                    console.error(
+                        "Gallery file delete error:",
+                        fileDeleteError
+                    );
+
+                }
+
+            }
 
 
             res.json({
@@ -2180,14 +2689,18 @@ app.delete(
 
                 message:
                     result.deletedCount > 0
-                        ? "Gallery item deleted."
+                        ? "Gallery item deleted successfully."
                         : "Gallery item not found."
 
             });
 
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                "Delete gallery error:",
+                error
+            );
+
 
             res.status(500).json({
 
@@ -4161,6 +4674,164 @@ app.post(
 );
 
 
+   
+
+// ============================================================
+// DIRECT VIDEO UPLOAD
+// ============================================================
+
+app.post(
+    "/api/admin/videos/upload",
+    requireAdmin,
+    videoUpload.single("videoFile"),
+    async (req, res) => {
+
+        try {
+
+            if (!req.file) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Please select a video file."
+
+                });
+
+            }
+
+
+            const video = {
+
+                titleHi:
+                    safeString(
+                        req.body.titleHi
+                    ),
+
+                titleEn:
+                    safeString(
+                        req.body.titleEn
+                    ),
+
+                youtubeUrl:
+                    "",
+
+                thumbnail:
+                    safeString(
+                        req.body.thumbnail
+                    ),
+
+                videoType:
+                    "upload",
+
+                videoUrl:
+                    "/uploads/videos/" +
+                    req.file.filename,
+
+                originalName:
+                    req.file.originalname,
+
+                fileName:
+                    req.file.filename,
+
+                active:
+                    true,
+
+                date:
+                    new Date(),
+
+                createdAt:
+                    new Date(),
+
+                updatedAt:
+                    new Date()
+
+            };
+
+
+            const result =
+                await collections.videos
+                    .insertOne(
+                        video
+                    );
+
+
+            res.status(201).json({
+
+                success: true,
+
+                message:
+                    "Video uploaded successfully.",
+
+                id:
+                    result.insertedId,
+
+                videoUrl:
+                    video.videoUrl
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Video upload error:",
+                error
+            );
+
+
+            if (req.file) {
+
+                const uploadedFile =
+                    path.join(
+                        VIDEO_UPLOAD_DIR,
+                        req.file.filename
+                    );
+
+                try {
+
+                    if (
+                        fs.existsSync(
+                            uploadedFile
+                        )
+                    ) {
+
+                        fs.unlinkSync(
+                            uploadedFile
+                        );
+
+                    }
+
+                } catch (deleteError) {
+
+                    console.error(
+                        "Failed to delete uploaded video:",
+                        deleteError
+                    );
+
+                }
+
+            }
+
+
+            res.status(500).json({
+
+                success: false,
+
+                message:
+                    error.message ||
+                    "Video upload failed."
+
+            });
+
+        }
+
+    }
+);
+
+
+
+
 // ============================================================
 // EXPORT DONATIONS
 // ============================================================
@@ -5147,6 +5818,7 @@ connectMongoDB()
 
         app.listen(
             PORT,
+            "0.0.0.0",
             () => {
 
                 console.log(

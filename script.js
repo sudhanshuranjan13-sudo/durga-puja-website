@@ -18,8 +18,10 @@ let currentLanguage =
 let membersData = [];
 let programData = [];
 let noticesData = [];
+let selectedProgramYear = "2026";
 let galleryData = [];
 let contributorsData = [];
+let videosData = [];
 
 
 /* =========================================================
@@ -60,7 +62,7 @@ async function initializeWebsite() {
         await loadGallery();
         await loadContributors();
         await loadPublicDonations();
-        
+        await loadVideos();
 
         console.log(
             "✅ Website initialized successfully."
@@ -224,6 +226,9 @@ function changeLanguage(language) {
     if (galleryData.length) {
         filterGallery();
     }
+    if (videosData.length) {
+    renderVideos();
+}
 
 }
 
@@ -663,9 +668,7 @@ function getMemberType(member) {
     return "general";
 
 }
-/* =========================================================
-   LOAD COMMITTEE MEMBERS FROM MONGODB
-========================================================= */
+
 /* =========================================================
    LOAD COMMITTEE MEMBERS FROM MONGODB
 ========================================================= */
@@ -1470,9 +1473,59 @@ function renderProgram() {
     container.innerHTML = "";
 
 
+    /* =====================================================
+       YEAR WISE FILTER
+    ===================================================== */
+
+    const filteredPrograms =
+        programData.filter(event => {
+
+            let eventYear =
+                event.year ??
+                event.programYear ??
+                event.pujaYear ??
+                "";
+
+
+            /* If year field is not available,
+               get year from event date */
+
+            if (
+                !eventYear &&
+                event.date
+            ) {
+
+                const dateString =
+                    String(event.date);
+
+                const yearMatch =
+                    dateString.match(
+                        /\b(19|20)\d{2}\b/
+                    );
+
+                if (yearMatch) {
+                    eventYear =
+                        yearMatch[0];
+                }
+
+            }
+
+
+            return (
+                String(eventYear) ===
+                String(selectedProgramYear)
+            );
+
+        });
+
+
+    /* =====================================================
+       NO PROGRAM FOR SELECTED YEAR
+    ===================================================== */
+
     if (
-        !Array.isArray(programData) ||
-        programData.length === 0
+        !Array.isArray(filteredPrograms) ||
+        filteredPrograms.length === 0
     ) {
 
         container.innerHTML = `
@@ -1485,8 +1538,10 @@ function renderProgram() {
 
                     ${
                         currentLanguage === "hi"
-                            ? "इस वर्ष का पूजा कार्यक्रम अभी उपलब्ध नहीं है।"
-                            : "Puja program is not available for this year."
+
+                            ? `${selectedProgramYear} का पूजा कार्यक्रम अभी उपलब्ध नहीं है।`
+
+                            : `Puja program for ${selectedProgramYear} is not available yet.`
                     }
 
                 </span>
@@ -1496,16 +1551,20 @@ function renderProgram() {
         `;
 
         return;
-
     }
 
 
-    programData.forEach(event => {
+    /* =====================================================
+       RENDER ONLY SELECTED YEAR
+    ===================================================== */
+
+    filteredPrograms.forEach(event => {
 
         const card =
             document.createElement(
                 "div"
             );
+
 
         card.className =
             "program-card";
@@ -1513,11 +1572,13 @@ function renderProgram() {
 
         const day =
             currentLanguage === "hi"
+
                 ? (
                     event.dayHi ||
                     event.day ||
                     ""
                 )
+
                 : (
                     event.dayEn ||
                     event.day ||
@@ -1527,11 +1588,13 @@ function renderProgram() {
 
         const title =
             currentLanguage === "hi"
+
                 ? (
                     event.titleHi ||
                     event.title ||
                     ""
                 )
+
                 : (
                     event.titleEn ||
                     event.title ||
@@ -1541,11 +1604,13 @@ function renderProgram() {
 
         const description =
             currentLanguage === "hi"
+
                 ? (
                     event.descriptionHi ||
                     event.description ||
                     ""
                 )
+
                 : (
                     event.descriptionEn ||
                     event.description ||
@@ -1553,18 +1618,74 @@ function renderProgram() {
                 );
 
 
+        const date =
+            event.date || "";
+
+
+        const time =
+            event.time || "";
+
+
         card.innerHTML = `
 
             <div class="day">
+
                 ${escapeHTML(day)}
+
             </div>
 
+
+            ${
+                date
+
+                    ? `
+
+                        <div class="program-date">
+
+                            📅
+
+                            ${escapeHTML(
+                                formatProgramDate(date)
+                            )}
+
+                        </div>
+
+                    `
+
+                    : ""
+            }
+
+
+            ${
+                time
+
+                    ? `
+
+                        <div class="program-time">
+
+                            🕐
+
+                            ${escapeHTML(time)}
+
+                        </div>
+
+                    `
+
+                    : ""
+            }
+
+
             <h3>
+
                 ${escapeHTML(title)}
+
             </h3>
 
+
             <p>
+
                 ${escapeHTML(description)}
+
             </p>
 
         `;
@@ -1575,6 +1696,29 @@ function renderProgram() {
     });
 
 }
+function formatProgramDate(date) {
+
+    if (!date) {
+        return "";
+    }
+
+    const d = new Date(date);
+
+    if (isNaN(d.getTime())) {
+        return date;
+    }
+
+    return d.toLocaleDateString(
+        currentLanguage === "hi"
+            ? "hi-IN"
+            : "en-IN",
+        {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        }
+    );
+}
 
 
 /* =========================================================
@@ -1583,40 +1727,169 @@ function renderProgram() {
 
 function setupProgramYear() {
 
-    const programYear =
+    const dropdown =
+
+        document.querySelector(
+            ".custom-year-dropdown"
+        );
+
+    const button =
+        document.getElementById(
+            "yearDropdownButton"
+        );
+
+    const menu =
+        document.getElementById(
+            "yearDropdownMenu"
+        );
+
+    const selectedText =
+        document.getElementById(
+            "selectedYearText"
+        );
+
+    const hiddenInput =
         document.getElementById(
             "programYear"
         );
 
-    if (!programYear) {
+    if (
+        !dropdown ||
+        !button ||
+        !menu ||
+        !selectedText ||
+        !hiddenInput
+    ) {
         return;
     }
 
 
-    programYear.addEventListener(
-        "change",
-        async () => {
+    /* =====================================================
+       OPEN / CLOSE DROPDOWN
+    ===================================================== */
 
-            const selectedYear =
-                programYear.value;
+    button.addEventListener(
+        "click",
+        function(event) {
 
+            event.stopPropagation();
 
-            console.log(
-                "📅 Selected Puja Year:",
-                selectedYear
-            );
-
-
-            await loadProgram(
-                selectedYear
+            dropdown.classList.toggle(
+                "open"
             );
 
         }
     );
 
+
+    /* =====================================================
+       YEAR SELECTION
+    ===================================================== */
+
+    const options =
+        menu.querySelectorAll(
+            ".year-option"
+        );
+
+    options.forEach(option => {
+
+        option.addEventListener(
+            "click",
+            async function(event) {
+
+                event.stopPropagation();
+
+                const selectedYear =
+                    this.dataset.year;
+
+                    /* Save selected year */
+                      selectedProgramYear =
+                      String(selectedYear);
+
+                /* Update button */
+                selectedText.textContent =
+                    selectedYear;
+
+                /* Update hidden value */
+                hiddenInput.value =
+                    selectedYear;
+
+
+                /* Remove old selected */
+                options.forEach(item => {
+
+                    item.classList.remove(
+                        "selected"
+                    );
+
+                });
+
+
+                /* Add selected */
+                this.classList.add(
+                    "selected"
+                );
+
+
+                /* Close dropdown */
+                dropdown.classList.remove(
+                    "open"
+                );
+
+
+                console.log(
+                    "📅 Selected Puja Year:",
+                    selectedYear
+                );
+
+
+                /* Load selected year */
+                await loadProgram(
+                    selectedYear
+                );
+
+            }
+        );
+
+    });
+
+
+    /* =====================================================
+       CLOSE WHEN CLICKING OUTSIDE
+    ===================================================== */
+
+    document.addEventListener(
+        "click",
+        function() {
+
+            dropdown.classList.remove(
+                "open"
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       SHOW CURRENT YEAR POSITION
+    ===================================================== */
+
+    const currentOption =
+        menu.querySelector(
+            '.year-option[data-year="' +
+            hiddenInput.value +
+            '"]'
+        );
+
+    if (currentOption) {
+
+        currentOption.scrollIntoView({
+            block: "center"
+        });
+
+    }
+
 }
-
-
 /* =========================================================
    LOAD NOTICES
 ========================================================= */
@@ -1807,6 +2080,7 @@ function renderNotices() {
                     notice.message ||
                     ""
                 );
+                const date = notice.date || "";
 
 
         const card =
@@ -1820,23 +2094,33 @@ function renderNotices() {
 
         card.innerHTML = `
 
-            <span class="notice-icon">
-                🔔
-            </span>
+    <span class="notice-icon">
+        🔔
+    </span>
 
-            <div>
+    <div>
 
-                <h3>
-                    ${escapeHTML(title)}
-                </h3>
+        <h3>
+            ${escapeHTML(title)}
+        </h3>
 
-                <p>
-                    ${escapeHTML(description)}
-                </p>
+        ${
+            date
+                ? `
+                    <div class="notice-date">
+                        📅 ${escapeHTML(formatNoticeDate(date))}
+                    </div>
+                `
+                : ""
+        }
 
-            </div>
+        <p>
+            ${escapeHTML(description)}
+        </p>
 
-        `;
+          </div>
+
+          `;
 
 
         container.appendChild(card);
@@ -1844,7 +2128,29 @@ function renderNotices() {
     });
 
 }
+function formatNoticeDate(date) {
 
+    if (!date) {
+        return "";
+    }
+
+    const d = new Date(date);
+
+    if (isNaN(d.getTime())) {
+        return date;
+    }
+
+    return d.toLocaleDateString(
+        currentLanguage === "hi"
+            ? "hi-IN"
+            : "en-IN",
+        {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        }
+    );
+}
 
 /* =========================================================
    LOAD GALLERY
@@ -1857,134 +2163,283 @@ async function loadGallery() {
             "galleryContainer"
         );
 
+
     if (!container) {
         return;
     }
 
 
-    galleryData = [
+    try {
 
-        {
-            year: 2026,
-            category: "puja",
-            image: "images/mata-rani.jpg",
-            title: "माता रानी"
-        },
+        container.innerHTML = `
 
-        {
-            year: 2026,
-            category: "puja",
-            image: "images/puja-1.jpg",
-            title: "दुर्गा पूजा"
-        },
+            <div class="gallery-placeholder">
 
-        {
-            year: 2026,
-            category: "puja",
-            image: "images/puja-2.jpg",
-            title: "दुर्गा पूजा"
-        },
+                📸
 
-        {
-            year: 2026,
-            category: "aarti",
-            image: "images/puja-3.jpg",
-            title: "आरती"
-        },
+                <span>
 
-        {
-            year: 2026,
-            category: "pandal",
-            image: "images/puja-4.jpg",
-            title: "पंडाल"
-        },
+                    ${
+                        currentLanguage === "hi"
+                            ? "फोटो लोड हो रही हैं..."
+                            : "Loading photos..."
+                    }
 
-        {
-            year: 2026,
-            category: "cultural",
-            image: "images/puja-5.jpg",
-            title: "सांस्कृतिक कार्यक्रम"
-        },
+                </span>
 
-        {
-            year: 2026,
-            category: "visarjan",
-            image: "images/puja-6.jpg",
-            title: "विसर्जन"
+            </div>
+
+        `;
+
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/gallery`,
+                {
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Gallery API Error: ${response.status}`
+            );
+
         }
 
-    ];
+
+        const result =
+            await response.json();
 
 
-    setupGalleryFilters();
+        if (Array.isArray(result)) {
 
-    filterGallery();
+            galleryData = result;
+
+        } else if (
+            result &&
+            Array.isArray(result.data)
+        ) {
+
+            galleryData = result.data;
+
+        } else {
+
+            galleryData = [];
+
+        }
+
+
+        console.log(
+            "✅ Gallery loaded from API:",
+            galleryData
+        );
+
+
+        setupGalleryFilters();
+
+        filterGallery();
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ Gallery loading failed:",
+            error
+        );
+
+
+        galleryData = [];
+
+
+        container.innerHTML = `
+
+            <div class="gallery-placeholder">
+
+                📸
+
+                <span>
+
+                    ${
+                        currentLanguage === "hi"
+                            ? "फोटो लोड नहीं हो सकीं।"
+                            : "Photos could not be loaded."
+                    }
+
+                </span>
+
+            </div>
+
+        `;
+
+    }
 
 }
 
 
 /* =========================================================
-   GALLERY FILTER
+   GALLERY FILTER SETUP
+========================================================= */
+
+/* =========================================================
+   GALLERY FILTER SETUP
 ========================================================= */
 
 function setupGalleryFilters() {
 
-    const yearFilter =
-        document.getElementById(
-            "galleryYear"
-        );
+    const yearElement =
+        document.getElementById("galleryYear");
 
-    const categoryFilter =
-        document.getElementById(
-            "galleryCategory"
-        );
+    const categoryElement =
+        document.getElementById("galleryCategory");
+
+    const yearButton =
+        document.getElementById("galleryYearButton");
+
+    const yearMenu =
+        document.getElementById("galleryYearMenu");
+
+    const yearDropdown =
+        document.querySelector(".gallery-year-dropdown");
+
+    const selectedYearText =
+        document.getElementById("gallerySelectedYear");
 
 
     if (
-        !yearFilter ||
-        !categoryFilter
+        !yearElement ||
+        !categoryElement
     ) {
-
         return;
-
     }
 
 
-    /*
-       Duplicate event listener prevent
-    */
+    /* =====================================================
+       CATEGORY FILTER
+    ===================================================== */
+
+    categoryElement.onchange =
+        function () {
+
+            filterGallery();
+
+        };
+
+
+    /* =====================================================
+       CUSTOM YEAR DROPDOWN
+    ===================================================== */
 
     if (
-        yearFilter.dataset.listenerAttached !== "true"
+        yearButton &&
+        yearMenu &&
+        yearDropdown
     ) {
 
-        yearFilter.addEventListener(
-            "change",
-            filterGallery
+        yearButton.onclick =
+            function (event) {
+
+                event.stopPropagation();
+
+                yearDropdown.classList.toggle("open");
+
+            };
+
+
+        const yearOptions =
+            yearMenu.querySelectorAll(
+                ".gallery-year-option"
+            );
+
+
+        yearOptions.forEach(option => {
+
+            option.onclick =
+                function (event) {
+
+                    event.stopPropagation();
+
+
+                    const selectedYear =
+                        this.dataset.year;
+
+
+                    /* Hidden value update */
+
+                    yearElement.value =
+                        selectedYear;
+
+
+                    /* Button text update */
+
+                    if (selectedYear === "all") {
+
+                        selectedYearText.textContent =
+                            "सभी वर्ष";
+
+                    } else {
+
+                        selectedYearText.textContent =
+                            selectedYear;
+
+                    }
+
+
+                    /* Selected class */
+
+                    yearOptions.forEach(item => {
+
+                        item.classList.remove(
+                            "selected"
+                        );
+
+                    });
+
+
+                    this.classList.add(
+                        "selected"
+                    );
+
+
+                    /* Close dropdown */
+
+                    yearDropdown.classList.remove(
+                        "open"
+                    );
+
+
+                    /* Filter gallery */
+
+                    filterGallery();
+
+                };
+
+        });
+
+
+        /* Close when clicking outside */
+
+        document.addEventListener(
+            "click",
+            function () {
+
+                yearDropdown.classList.remove(
+                    "open"
+                );
+
+            }
         );
-
-        yearFilter.dataset.listenerAttached =
-            "true";
-
-    }
-
-
-    if (
-        categoryFilter.dataset.listenerAttached !== "true"
-    ) {
-
-        categoryFilter.addEventListener(
-            "change",
-            filterGallery
-        );
-
-        categoryFilter.dataset.listenerAttached =
-            "true";
 
     }
 
 }
 
+
+/* =========================================================
+   FILTER GALLERY
+========================================================= */
 
 function filterGallery() {
 
@@ -1993,10 +2448,12 @@ function filterGallery() {
             "galleryYear"
         );
 
+
     const categoryElement =
         document.getElementById(
             "galleryCategory"
         );
+
 
     const container =
         document.getElementById(
@@ -2017,6 +2474,7 @@ function filterGallery() {
 
     const year =
         yearElement.value;
+
 
     const category =
         categoryElement.value;
@@ -2077,6 +2535,44 @@ function filterGallery() {
 
     filtered.forEach(item => {
 
+        const imageUrl =
+            item.image &&
+            (
+                item.image.startsWith("http://") ||
+                item.image.startsWith("https://")
+            )
+                ? item.image
+                : item.image
+                    ? window.location.origin +
+                      (
+                          item.image.startsWith("/")
+                              ? item.image
+                              : "/" + item.image
+                      )
+                    : "";
+
+
+        const title =
+            currentLanguage === "hi"
+                ? (
+                    item.titleHi ||
+                    item.titleEn ||
+                    "Gallery Photo"
+                )
+                : (
+                    item.titleEn ||
+                    item.titleHi ||
+                    "Gallery Photo"
+                );
+
+
+        /* Skip records without an image */
+
+        if (!imageUrl) {
+            return;
+        }
+
+
         const galleryItem =
             document.createElement(
                 "div"
@@ -2090,9 +2586,10 @@ function filterGallery() {
         galleryItem.innerHTML = `
 
             <img
-                src="${escapeHTML(item.image)}"
-                alt="${escapeHTML(item.title)}"
-                loading="lazy">
+                src="${escapeHTML(imageUrl)}"
+                alt="${escapeHTML(title)}"
+                loading="lazy"
+                onerror="this.parentElement.remove();">
 
         `;
 
@@ -2105,80 +2602,384 @@ function filterGallery() {
 
 }
 
-
 /* =========================================================
    VIDEOS
 ========================================================= */
 
-function loadVideos(videos = []) {
+function getYouTubeEmbedUrl(url) {
+
+    if (!url) {
+        return null;
+    }
+
+    try {
+
+        const videoUrl =
+            new URL(url);
+
+        let videoId = "";
+
+        /* youtube.com/watch?v=VIDEO_ID */
+
+        if (
+            videoUrl.hostname.includes("youtube.com") &&
+            videoUrl.pathname === "/watch"
+        ) {
+
+            videoId =
+                videoUrl.searchParams.get("v");
+
+        }
+
+        /* youtu.be/VIDEO_ID */
+
+        else if (
+            videoUrl.hostname === "youtu.be"
+        ) {
+
+            videoId =
+                videoUrl.pathname.substring(1);
+
+        }
+
+        /* youtube.com/shorts/VIDEO_ID */
+
+        else if (
+            videoUrl.hostname.includes("youtube.com") &&
+            videoUrl.pathname.startsWith("/shorts/")
+        ) {
+
+            videoId =
+                videoUrl.pathname
+                    .split("/")[2];
+
+        }
+
+        if (!videoId) {
+            return null;
+        }
+
+        videoId =
+            videoId.split("&")[0];
+
+        return (
+            "https://www.youtube.com/embed/" +
+            videoId
+        );
+
+    } catch (error) {
+
+        return null;
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD VIDEOS FROM BACKEND
+========================================================= */
+
+async function loadVideos() {
 
     const container =
         document.getElementById(
             "videoContainer"
         );
 
-
     if (!container) {
         return;
     }
 
 
-    if (!Array.isArray(videos) || !videos.length) {
+    try {
+
+        console.log(
+            "🔄 Loading videos from MongoDB..."
+        );
+
 
         container.innerHTML = `
 
-            <div class="gallery-placeholder">
+            <div class="video-placeholder">
 
                 🎥
 
-                <span>
+                <p>
 
                     ${
                         currentLanguage === "hi"
-                            ? "अभी कोई वीडियो उपलब्ध नहीं है।"
-                            : "No videos available yet."
+                            ? "वीडियो लोड हो रहे हैं..."
+                            : "Loading videos..."
                     }
 
-                </span>
+                </p>
 
             </div>
 
         `;
 
-        return;
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/videos?t=${Date.now()}`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Accept": "application/json",
+                        "Cache-Control": "no-cache"
+                    },
+
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Videos API Error: ${response.status}`
+            );
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "✅ Videos received from MongoDB:",
+            result
+        );
+
+
+        /* =========================================
+           GET ARRAY FROM API RESPONSE
+        ========================================= */
+
+        if (Array.isArray(result)) {
+
+            videosData = result;
+
+        }
+
+        else if (
+            result &&
+            Array.isArray(result.data)
+        ) {
+
+            videosData = result.data;
+
+        }
+
+        else if (
+            result &&
+            Array.isArray(result.videos)
+        ) {
+
+            videosData = result.videos;
+
+        }
+
+        else {
+
+            videosData = [];
+
+        }
+
+
+        console.log(
+            "🎥 Total Videos:",
+            videosData.length
+        );
+
+
+        renderVideos();
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ Videos loading failed:",
+            error
+        );
+
+
+        videosData = [];
+
+
+        container.innerHTML = `
+
+            <div class="video-placeholder">
+
+                🎥
+
+                <p>
+
+                    ${
+                        currentLanguage === "hi"
+                            ? "वीडियो लोड नहीं हो सके।"
+                            : "Videos could not be loaded."
+                    }
+
+                </p>
+
+            </div>
+
+        `;
 
     }
 
+}
+
+
+function renderVideos() {
+
+    const container =
+        document.getElementById(
+            "videoContainer"
+        );
+
+    if (!container) {
+        return;
+    }
+
+    if (
+        !Array.isArray(videosData) ||
+        videosData.length === 0
+    ) {
+
+        container.innerHTML = `
+            <div class="video-placeholder">
+
+                🎥
+
+                <p>
+                    ${
+                        currentLanguage === "hi"
+                            ? "अभी कोई वीडियो उपलब्ध नहीं है।"
+                            : "No videos available yet."
+                    }
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
 
     container.innerHTML = "";
 
+    videosData.forEach(video => {
 
-    videos.forEach(video => {
+        const title =
+            currentLanguage === "hi"
+                ? (
+                    video.titleHi ||
+                    video.titleEn ||
+                    "दुर्गा पूजा वीडियो"
+                )
+                : (
+                    video.titleEn ||
+                    video.titleHi ||
+                    "Durga Puja Video"
+                );
+
 
         const wrapper =
             document.createElement(
                 "div"
             );
 
-
         wrapper.className =
             "video-item";
 
 
+        /* =================================================
+           DIRECT UPLOADED VIDEO
+        ================================================== */
+
+        if (
+            video.videoType === "upload" &&
+            video.videoUrl
+        ) {
+
+            wrapper.innerHTML = `
+
+                <div class="video-frame">
+
+                    <video
+                        src="${escapeHTML(video.videoUrl)}"
+                        controls
+                        preload="metadata"
+                        playsinline>
+                    </video>
+
+                </div>
+
+                <div class="video-title">
+
+                    ${escapeHTML(title)}
+
+                </div>
+
+            `;
+
+            container.appendChild(
+                wrapper
+            );
+
+            return;
+        }
+
+
+        /* =================================================
+           YOUTUBE VIDEO
+        ================================================== */
+
+        const embedUrl =
+            getYouTubeEmbedUrl(
+                video.youtubeUrl
+            );
+
+        if (!embedUrl) {
+            return;
+        }
+
+
         wrapper.innerHTML = `
 
-            <iframe
-                src="${escapeHTML(video.url)}"
-                title="${escapeHTML(
-                    video.title ||
-                    "Durga Puja Video"
-                )}"
-                frameborder="0"
-                allowfullscreen>
-            </iframe>
+            <div class="video-frame">
+
+                <iframe
+                    src="${escapeHTML(embedUrl)}"
+                    title="${escapeHTML(title)}"
+                    loading="lazy"
+                    frameborder="0"
+                    allow="
+                        accelerometer;
+                        autoplay;
+                        clipboard-write;
+                        encrypted-media;
+                        gyroscope;
+                        picture-in-picture;
+                        web-share
+                    "
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen>
+                </iframe>
+
+            </div>
+
+            <div class="video-title">
+
+                ${escapeHTML(title)}
+
+            </div>
 
         `;
-
 
         container.appendChild(
             wrapper
@@ -2186,8 +2987,34 @@ function loadVideos(videos = []) {
 
     });
 
-}
 
+    /* =================================================
+       NO VALID VIDEOS
+    ================================================== */
+
+    if (!container.children.length) {
+
+        container.innerHTML = `
+
+            <div class="video-placeholder">
+
+                🎥
+
+                <p>
+                    ${
+                        currentLanguage === "hi"
+                            ? "कोई मान्य वीडियो उपलब्ध नहीं है।"
+                            : "No valid videos available."
+                    }
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
 
 /* =========================================================
    LIVE DARSHAN

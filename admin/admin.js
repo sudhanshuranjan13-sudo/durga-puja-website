@@ -8,6 +8,7 @@ let token = localStorage.getItem("durgaAdminToken");
 
 let currentLanguage =
 localStorage.getItem("adminLanguage") || "hi";
+
 //let noticeLanguage = "hi";
 
 /* =========================================================
@@ -416,82 +417,6 @@ document
    NOTICE LANGUAGE
 ========================================================= */
 
-let noticeLanguage = "hi";
-
-
-function setNoticeLanguage(language) {
-
-    if (
-        language !== "hi" &&
-        language !== "en"
-    ) {
-        language = "hi";
-    }
-
-    noticeLanguage = language;
-
-
-    const hindiFields =
-        document.getElementById(
-            "noticeHindiFields"
-        );
-
-    const englishFields =
-        document.getElementById(
-            "noticeEnglishFields"
-        );
-
-    const hindiBtn =
-        document.getElementById(
-            "noticeHindiBtn"
-        );
-
-    const englishBtn =
-        document.getElementById(
-            "noticeEnglishBtn"
-        );
-
-
-    if (hindiFields) {
-
-        hindiFields.style.display =
-            language === "hi"
-                ? "block"
-                : "none";
-
-    }
-
-
-    if (englishFields) {
-
-        englishFields.style.display =
-            language === "en"
-                ? "block"
-                : "none";
-
-    }
-
-
-    if (hindiBtn) {
-
-        hindiBtn.classList.toggle(
-            "active",
-            language === "hi"
-        );
-
-    }
-
-
-    if (englishBtn) {
-
-        englishBtn.classList.toggle(
-            "active",
-            language === "en"
-        );
-
-    }
-
-}
 
 
 /* =========================================================
@@ -1116,6 +1041,81 @@ try {
 PROGRAMS
 ========================================================= */
 
+/* =========================================================
+   LOAD PROGRAM DATE & DAY BY YEAR
+========================================================= */
+
+async function loadProgramByYear() {
+
+    const year =
+        Number(
+            value("programYear")
+        );
+
+    if (!year) {
+        return;
+    }
+
+    try {
+
+        const programs =
+            await apiRequest(
+                "/api/programs"
+            );
+
+        const yearPrograms =
+            programs.filter(
+                program =>
+                    Number(program.year) === year
+            );
+
+        if (
+            yearPrograms.length === 0
+        ) {
+
+            document.getElementById(
+                "programDate"
+            ).value = "";
+
+            document.getElementById(
+                "programDayHi"
+            ).value = "";
+
+            document.getElementById(
+                "programDayEn"
+            ).value = "";
+
+            return;
+        }
+
+        const program =
+            yearPrograms[0];
+
+        document.getElementById(
+            "programDate"
+        ).value =
+            program.date || "";
+
+        document.getElementById(
+            "programDayHi"
+        ).value =
+            program.dayHi || "";
+
+        document.getElementById(
+            "programDayEn"
+        ).value =
+            program.dayEn || "";
+
+    } catch(error) {
+
+        console.error(
+            "Failed to load program by year:",
+            error
+        );
+
+    }
+
+}
 async function loadPrograms() {
 
 try {
@@ -1272,7 +1272,9 @@ try {
 
 }
 
+
 }
+
 
 /* =========================================================
 NOTICES
@@ -1348,121 +1350,71 @@ try {
 
 }
 
-
 async function addNotice() {
+
+    const titleHi = value("noticeTitleHi");
+    const titleEn = value("noticeTitleEn");
+    const messageHi = value("noticeMessageHi");
+    const messageEn = value("noticeMessageEn");
+    const date = value("noticeDate");
+
+    if (!titleHi && !titleEn) {
+        alert(
+            currentLanguage === "hi"
+                ? "कृपया कम से कम एक शीर्षक दर्ज करें।"
+                : "Please enter at least one notice title."
+        );
+        return;
+    }
+
+    if (!messageHi && !messageEn) {
+        alert(
+            currentLanguage === "hi"
+                ? "कृपया कम से कम एक संदेश दर्ज करें।"
+                : "Please enter at least one notice message."
+        );
+        return;
+    }
 
     try {
 
-        const titleHi =
-            noticeLanguage === "hi"
-                ? value("noticeTitleHi")
-                : "";
+        await apiRequest("/api/admin/notices", {
+            method: "POST",
 
-        const titleEn =
-            noticeLanguage === "en"
-                ? value("noticeTitleEn")
-                : "";
-
-        const messageHi =
-            noticeLanguage === "hi"
-                ? value("noticeMessageHi")
-                : "";
-
-        const messageEn =
-            noticeLanguage === "en"
-                ? value("noticeMessageEn")
-                : "";
-
-
-        if (
-            noticeLanguage === "hi" &&
-            !titleHi &&
-            !messageHi
-        ) {
-
-            alert("कृपया हिंदी में सूचना भरें।");
-            return;
-
-        }
-
-
-        if (
-            noticeLanguage === "en" &&
-            !titleEn &&
-            !messageEn
-        ) {
-
-            alert("Please enter the notice in English.");
-            return;
-
-        }
-
-
-        await apiRequest(
-            "/api/admin/notices",
-            {
-                method: "POST",
-
-                body: JSON.stringify({
-
-                    titleHi: titleHi,
-
-                    titleEn: titleEn,
-
-                    messageHi: messageHi,
-
-                    messageEn: messageEn,
-
-                    date:
-                        value("noticeDate"),
-
-                    active: true
-
-                })
-
-            }
-        );
-
+            body: JSON.stringify({
+                titleHi,
+                titleEn,
+                messageHi,
+                messageEn,
+                date
+            })
+        });
 
         alert(
-            t("noticeAdded")
+            currentLanguage === "hi"
+                ? "सूचना सफलतापूर्वक जोड़ दी गई।"
+                : "Notice added successfully."
         );
 
+        document.getElementById("noticeTitleHi").value = "";
+        document.getElementById("noticeTitleEn").value = "";
+        document.getElementById("noticeMessageHi").value = "";
+        document.getElementById("noticeMessageEn").value = "";
+        document.getElementById("noticeDate").value = "";
 
         loadNotices();
-
         loadDashboard();
-
-
-        /*
-           Form clear
-        */
-
-        document.getElementById(
-            "noticeTitleHi"
-        ).value = "";
-
-        document.getElementById(
-            "noticeTitleEn"
-        ).value = "";
-
-        document.getElementById(
-            "noticeMessageHi"
-        ).value = "";
-
-        document.getElementById(
-            "noticeMessageEn"
-        ).value = "";
-
 
     } catch (error) {
 
+        console.error("Add Notice Error:", error);
+
         alert(
-            error.message
+            currentLanguage === "hi"
+                ? "सूचना जोड़ने में समस्या हुई।"
+                : "Failed to add notice."
         );
-
     }
-
 }
 async function deleteNotice(id) {
 
@@ -1492,70 +1444,140 @@ try {
 }
 
 }
-
 /* =========================================================
-GALLERY
+   LOAD GALLERY
+   ADMIN PANEL / DATABASE ONLY
 ========================================================= */
 
 async function loadGallery() {
 
-try {
-
-    const gallery =
-        await apiRequest(
-            "/api/gallery"
+    const container =
+        document.getElementById(
+            "galleryContainer"
         );
 
-    let html =
-        `<table>
-            <thead>
-                <tr>
-                    <th>${t("titleHindi")}</th>
-                    <th>${t("year")}</th>
-                    <th>${t("category")}</th>
-                    <th>${t("action")}</th>
-                </tr>
-            </thead>
-            <tbody>`;
+    if (!container) {
+        return;
+    }
 
-    gallery.forEach(item => {
+    try {
 
-        const title =
-            currentLanguage === "hi"
-                ? (item.titleHi || item.titleEn || "")
-                : (item.titleEn || item.titleHi || "");
+        container.innerHTML = `
 
-        html +=
-            `<tr>
-                <td>${escapeHtml(title)}</td>
-                <td>${item.year || ""}</td>
-                <td>${escapeHtml(item.category || "")}</td>
-                <td>
-                    <button
-                        class="btn btn-danger"
-                        onclick="deleteGallery('${item._id}')"
-                    >
-                        ${t("delete")}
-                    </button>
-                </td>
-            </tr>`;
+            <div class="gallery-placeholder">
 
-    });
+                📸
 
-    html += `</tbody></table>`;
+                <span>
 
-    document
-        .getElementById("galleryList")
-        .innerHTML = html;
+                    ${
+                        currentLanguage === "hi"
+                            ? "फोटो लोड हो रही हैं..."
+                            : "Loading photos..."
+                    }
 
-} catch(error) {
+                </span>
 
-    document
-        .getElementById("galleryList")
-        .textContent =
-        error.message;
+            </div>
 
-}
+        `;
+
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/gallery`,
+                {
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Gallery API Error: ${response.status}`
+            );
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        if (Array.isArray(result)) {
+
+            galleryData = result;
+
+        } else if (
+            result &&
+            Array.isArray(result.data)
+        ) {
+
+            galleryData = result.data;
+
+        } else {
+
+            galleryData = [];
+
+        }
+
+
+        /* ================================================
+           ONLY ACTIVE PHOTOS WITH IMAGE
+        ================================================= */
+
+        galleryData =
+            galleryData.filter(item =>
+                item &&
+                item.image &&
+                item.active !== false
+            );
+
+
+        console.log(
+            "✅ Gallery loaded from Admin Panel:",
+            galleryData
+        );
+
+
+        setupGalleryFilters();
+
+        filterGallery();
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ Gallery loading failed:",
+            error
+        );
+
+
+        galleryData = [];
+
+
+        container.innerHTML = `
+
+            <div class="gallery-placeholder">
+
+                📸
+
+                <span>
+
+                    ${
+                        currentLanguage === "hi"
+                            ? "अभी कोई फोटो उपलब्ध नहीं है।"
+                            : "No photos available yet."
+                    }
+
+                </span>
+
+            </div>
+
+        `;
+
+    }
 
 }
 
@@ -1639,9 +1661,176 @@ try {
 }
 
 }
+/* =========================================================
+DIRECT GALLERY PHOTO UPLOAD
+========================================================= */
+
+async function uploadGalleryPhoto() {
+
+try {
+
+    const fileInput =
+        document.getElementById(
+            "galleryPhotoFile"
+        );
+
+
+    if (
+        !fileInput ||
+        !fileInput.files.length
+    ) {
+
+        alert(
+            "Please select a photo file."
+        );
+
+        return;
+
+    }
+
+
+    const file =
+        fileInput.files[0];
+
+
+    const formData =
+        new FormData();
+
+
+    formData.append(
+        "photoFile",
+        file
+    );
+
+
+    formData.append(
+        "titleHi",
+        value(
+            "galleryTitleHi"
+        )
+    );
+
+
+    formData.append(
+        "titleEn",
+        value(
+            "galleryTitleEn"
+        )
+    );
+
+
+    formData.append(
+        "year",
+        value(
+            "galleryYear"
+        )
+    );
+
+
+    formData.append(
+        "category",
+        value(
+            "galleryCategory"
+        )
+    );
+
+
+    formData.append(
+        "date",
+        value(
+            "galleryDate"
+        )
+    );
+
+
+    const token =
+        localStorage.getItem(
+            "durgaAdminToken"
+        );
+
+
+    const response =
+        await fetch(
+            "/api/admin/gallery/upload",
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    Authorization:
+                        "Bearer " +
+                        token
+
+                },
+
+                body:
+                    formData
+
+            }
+        );
+
+
+    const result =
+        await response.json();
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            result.message ||
+            "Gallery photo upload failed."
+        );
+
+    }
+
+
+    alert(
+        result.message ||
+        "Gallery photo uploaded successfully."
+    );
+
+
+    document.getElementById(
+        "galleryTitleHi"
+    ).value = "";
+
+
+    document.getElementById(
+        "galleryTitleEn"
+    ).value = "";
+
+
+    document.getElementById(
+        "galleryPhotoFile"
+    ).value = "";
+
+
+    loadGallery();
+
+    loadDashboard();
+
+
+} catch (error) {
+
+    console.error(
+        "Gallery photo upload error:",
+        error
+    );
+
+
+    alert(
+        error.message ||
+        "Gallery photo upload failed."
+    );
+
+}
+
+}
+
 
 /* =========================================================
-VIDEOS
+   VIDEOS
 ========================================================= */
 
 async function loadVideos() {
@@ -1746,7 +1935,145 @@ try {
 
 
 }
+/* =========================================================
+   DIRECT VIDEO UPLOAD
+========================================================= */
 
+async function uploadVideoFile() {
+
+    try {
+
+        const fileInput =
+            document.getElementById(
+                "uploadVideoFile"
+            );
+
+
+        if (
+            !fileInput ||
+            !fileInput.files.length
+        ) {
+
+            alert(
+                "Please select a video file."
+            );
+
+            return;
+
+        }
+
+
+        const file =
+            fileInput.files[0];
+
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "videoFile",
+            file
+        );
+
+
+        formData.append(
+            "titleHi",
+            value(
+                "uploadVideoTitleHi"
+            )
+        );
+
+
+        formData.append(
+            "titleEn",
+            value(
+                "uploadVideoTitleEn"
+            )
+        );
+
+
+        const token =
+            localStorage.getItem(
+                "durgaAdminToken"
+            );
+
+
+        const response =
+            await fetch(
+                "/api/admin/videos/upload",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        Authorization:
+                            "Bearer " +
+                            token
+
+                    },
+
+                    body: formData
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.message ||
+                "Video upload failed."
+            );
+
+        }
+
+
+        alert(
+            result.message ||
+            "Video uploaded successfully."
+        );
+
+
+        document.getElementById(
+            "uploadVideoTitleHi"
+        ).value = "";
+
+
+        document.getElementById(
+            "uploadVideoTitleEn"
+        ).value = "";
+
+
+        document.getElementById(
+            "uploadVideoFile"
+        ).value = "";
+
+
+        loadVideos();
+
+
+    } catch (error) {
+
+        console.error(
+            "Video upload error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Video upload failed."
+        );
+
+    }
+
+}
 async function deleteVideo(id) {
 
 if (
@@ -3060,3 +3387,14 @@ START
 applyLanguage();
 
 checkLogin();
+
+/* =========================================================
+   PROGRAM YEAR CHANGE
+========================================================= */
+
+document
+    .getElementById("programYear")
+    ?.addEventListener(
+        "change",
+        loadProgramByYear
+    );
