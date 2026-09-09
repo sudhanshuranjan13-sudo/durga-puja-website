@@ -124,6 +124,7 @@ hi: {
     loading: "लोड हो रहा है...",
     action: "कार्यवाही",
     delete: "हटाएँ",
+    edit: "संपादित करें",
     read: "पढ़ा गया",
 
     noRecords: "कोई रिकॉर्ड नहीं मिला.",
@@ -260,6 +261,7 @@ en: {
     loading: "Loading...",
     action: "Action",
     delete: "Delete",
+    edit: "Edit",
     read: "Read",
 
     noRecords: "No records found.",
@@ -654,6 +656,7 @@ document
         "click",
         () => {
 
+             
             const section =
                 btn.dataset.section;
 
@@ -721,6 +724,7 @@ LOAD SECTION
 
 function loadSection(section) {
 
+      console.log("SECTION CLICKED:", section);
 if (section === "dashboard")
     loadDashboard();
 
@@ -839,19 +843,19 @@ try {
 
     }
 
-    data.recentDonations
-        .forEach(record => {
+   data.recentDonations 
+    .forEach((record, index) => { 
 
-            tbody.innerHTML +=
-                `<tr>
-                    <td>${escapeHtml(record.name)}</td>
-                    <td>${record.year || ""}</td>
-                    <td>₹${Number(record.amount || 0).toLocaleString("en-IN")}</td>
-                    <td>${escapeHtml(record.date || "")}</td>
-                </tr>`;
+        tbody.innerHTML += 
+            `<tr> 
+                <td>${index + 1}</td>
+                <td>${escapeHtml(record.name)}</td> 
+                <td>${record.year || ""}</td> 
+                <td>₹${Number(record.amount || 0).toLocaleString("en-IN")}</td> 
+                <td>${escapeHtml(record.date || "")}</td> 
+            </tr>`;
 
-        });
-
+    });
 } catch(error) {
 
     console.error(error);
@@ -1006,7 +1010,7 @@ async function addMember() {
     }
 
 }
-     loadMembers();
+     
 
 async function deleteMember(id) {
 
@@ -1319,15 +1323,23 @@ try {
                 <td>${escapeHtml(title)}</td>
                 <td>${escapeHtml(message)}</td>
                 <td>
-                    ${
-                        notice._id
-                        ? `<button
-                            class="btn btn-danger"
-                            onclick="deleteNotice('${notice._id}')">
-                            ${t("delete")}
-                           </button>`
-                        : ""
-                    }
+                   ${
+    notice._id
+        ? `
+            <button
+                class="btn btn-edit"
+                onclick="editNotice('${notice._id}')">
+                ✏️ ${t("edit")}
+            </button>
+
+            <button
+                class="btn btn-danger"
+                onclick="deleteNotice('${notice._id}')">
+                🗑️ ${t("delete")}
+            </button>
+          `
+        : ""
+}
                 </td>
             </tr>`;
 
@@ -1350,7 +1362,11 @@ try {
 
 }
 
-async function addNotice() {
+async function addNotice(event) {
+
+    if (event) {
+        event.preventDefault();
+    }
 
     const titleHi = value("noticeTitleHi");
     const titleEn = value("noticeTitleEn");
@@ -1376,44 +1392,123 @@ async function addNotice() {
         return;
     }
 
+    const form =
+        document.getElementById("noticeForm");
+
+    const editId =
+        form?.dataset.editId;
+
     try {
 
-        await apiRequest("/api/admin/notices", {
-            method: "POST",
+        /* ===============================
+           UPDATE EXISTING NOTICE
+        =============================== */
 
-            body: JSON.stringify({
-                titleHi,
-                titleEn,
-                messageHi,
-                messageEn,
-                date
-            })
-        });
+        if (editId) {
 
-        alert(
-            currentLanguage === "hi"
-                ? "सूचना सफलतापूर्वक जोड़ दी गई।"
-                : "Notice added successfully."
-        );
+            await apiRequest(
+                "/api/admin/notices/" + editId,
+                {
+                    method: "PUT",
 
-        document.getElementById("noticeTitleHi").value = "";
-        document.getElementById("noticeTitleEn").value = "";
-        document.getElementById("noticeMessageHi").value = "";
-        document.getElementById("noticeMessageEn").value = "";
-        document.getElementById("noticeDate").value = "";
+                    body: JSON.stringify({
+                        titleHi,
+                        titleEn,
+                        messageHi,
+                        messageEn,
+                        date
+                    })
+                }
+            );
 
-        loadNotices();
-        loadDashboard();
+            alert(
+                currentLanguage === "hi"
+                    ? "सूचना सफलतापूर्वक अपडेट कर दी गई।"
+                    : "Notice updated successfully."
+            );
+
+        }
+
+        /* ===============================
+           ADD NEW NOTICE
+        =============================== */
+
+        else {
+
+            await apiRequest(
+                "/api/admin/notices",
+                {
+                    method: "POST",
+
+                    body: JSON.stringify({
+                        titleHi,
+                        titleEn,
+                        messageHi,
+                        messageEn,
+                        date
+                    })
+                }
+            );
+
+            alert(
+                currentLanguage === "hi"
+                    ? "सूचना सफलतापूर्वक जोड़ दी गई।"
+                    : "Notice added successfully."
+            );
+        }
+
+        resetNoticeForm();
+
+        await loadNotices();
+        await loadDashboard();
 
     } catch (error) {
 
-        console.error("Add Notice Error:", error);
+        console.error(
+            "Notice Save/Update Error:",
+            error
+        );
 
         alert(
-            currentLanguage === "hi"
-                ? "सूचना जोड़ने में समस्या हुई।"
-                : "Failed to add notice."
+            error.message ||
+            "Failed to save notice."
         );
+    }
+}
+function resetNoticeForm() {
+
+    const form =
+        document.getElementById("noticeForm");
+
+    if (form) {
+
+        form.reset();
+
+        delete form.dataset.editId;
+    }
+
+    const submitButton =
+        document.querySelector(
+            "#noticeForm button[type='submit']"
+        );
+
+    if (submitButton) {
+
+        submitButton.textContent =
+            currentLanguage === "hi"
+                ? "➕ सूचना जोड़ें"
+                : "➕ Add Notice";
+    }
+
+    const cancelButton =
+        document.getElementById(
+            "cancelNoticeEdit"
+        );
+
+    if (cancelButton) {
+
+        cancelButton.style.display =
+            "none";
     }
 }
 async function deleteNotice(id) {
@@ -1445,107 +1540,317 @@ try {
 
 }
 /* =========================================================
+   EDIT NOTICE
+========================================================= */
+
+async function editNotice(id) {
+
+    try {
+
+        // Get all notices
+        const notices =
+            await apiRequest(
+                "/api/admin/notices"
+            );
+
+        // Find selected notice
+        const notice =
+            notices.find(
+                item =>
+                    String(item._id) ===
+                    String(id)
+            );
+
+        if (!notice) {
+
+            alert(
+                currentLanguage === "hi"
+                    ? "सूचना नहीं मिली।"
+                    : "Notice not found."
+            );
+
+            return;
+        }
+
+        // Fill form
+        const titleHi =
+            document.getElementById(
+                "noticeTitleHi"
+            );
+
+        const titleEn =
+            document.getElementById(
+                "noticeTitleEn"
+            );
+
+        const messageHi =
+            document.getElementById(
+                "noticeMessageHi"
+            );
+
+        const messageEn =
+            document.getElementById(
+                "noticeMessageEn"
+            );
+
+        const date =
+            document.getElementById(
+                "noticeDate"
+            );
+
+
+        if (titleHi)
+            titleHi.value =
+                notice.titleHi || "";
+
+        if (titleEn)
+            titleEn.value =
+                notice.titleEn || "";
+
+        if (messageHi)
+            messageHi.value =
+                notice.messageHi || "";
+
+        if (messageEn)
+            messageEn.value =
+                notice.messageEn || "";
+
+        if (date)
+            date.value =
+                notice.date || "";
+
+
+        // Store ID for update
+        const form =
+            document.getElementById(
+                "noticeForm"
+            );
+
+        if (form) {
+
+            form.dataset.editId =
+                notice._id;
+
+        }
+
+
+        // Change Add button to Update
+        const submitButton =
+            document.querySelector(
+                "#noticeForm button[type='submit']"
+            );
+
+        if (submitButton) {
+
+            submitButton.textContent =
+                currentLanguage === "hi"
+                    ? "✏️ अपडेट करें"
+                    : "✏️ Update";
+
+        }
+
+
+        // Show cancel button
+        const cancelButton =
+            document.getElementById(
+                "cancelNoticeEdit"
+            );
+
+        if (cancelButton) {
+
+            cancelButton.style.display =
+                "inline-block";
+
+        }
+
+
+        // Scroll to notice form
+        if (form) {
+
+            form.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Edit Notice Error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to edit notice."
+        );
+
+    }
+
+}
+
+/* =========================================================
    LOAD GALLERY
    ADMIN PANEL / DATABASE ONLY
 ========================================================= */
 
 async function loadGallery() {
 
+    console.log("🟢 GALLERY FUNCTION CALLED");
+
     const container =
-        document.getElementById(
-            "galleryContainer"
-        );
+        document.getElementById("galleryList");
 
     if (!container) {
+        console.error("❌ galleryList NOT FOUND");
         return;
     }
+
+    console.log("✅ galleryList FOUND");
 
     try {
 
         container.innerHTML = `
-
             <div class="gallery-placeholder">
-
                 📸
-
                 <span>
-
                     ${
                         currentLanguage === "hi"
                             ? "फोटो लोड हो रही हैं..."
                             : "Loading photos..."
                     }
-
                 </span>
-
             </div>
-
         `;
 
+        console.log("🟡 Calling GET /api/gallery");
 
         const response =
             await fetch(
-                `${API_BASE_URL}/gallery`,
+                "/api/gallery",
                 {
+                    method: "GET",
                     cache: "no-store"
                 }
             );
 
-
-        if (!response.ok) {
-
-            throw new Error(
-                `Gallery API Error: ${response.status}`
-            );
-
-        }
-
+        console.log(
+            "🔵 Gallery response:",
+            response.status
+        );
 
         const result =
             await response.json();
 
+        console.log(
+            "🟣 Gallery data:",
+            result
+        );
 
         if (Array.isArray(result)) {
-
             galleryData = result;
-
         } else if (
             result &&
             Array.isArray(result.data)
         ) {
-
             galleryData = result.data;
-
         } else {
-
             galleryData = [];
-
         }
 
+        console.log(
+            "🟢 Gallery items:",
+            galleryData.length
+        );
+
+        // नीचे आपका existing rendering code रहेगा
 
         /* ================================================
            ONLY ACTIVE PHOTOS WITH IMAGE
         ================================================= */
 
-        galleryData =
-            galleryData.filter(item =>
-                item &&
-                item.image &&
-                item.active !== false
-            );
+  /* ================================================
+   ADMIN GALLERY LIST
+================================================ */
 
 
-        console.log(
-            "✅ Gallery loaded from Admin Panel:",
-            galleryData
-        );
 
 
-        setupGalleryFilters();
+/* ================================================
+   RENDER SAVED PHOTOS
+================================================ */
 
-        filterGallery();
+if (!galleryData.length) {
+
+    container.innerHTML = `
+
+        <div class="gallery-placeholder">
+
+            📸
+
+            <span>
+
+                ${
+                    currentLanguage === "hi"
+                        ? "अभी कोई फोटो उपलब्ध नहीं है।"
+                        : "No photos available yet."
+                }
+
+            </span>
+
+        </div>
+
+    `;
+
+    return;
+
+}
 
 
+container.innerHTML = galleryData.map(item => `
+
+    <div class="admin-gallery-item">
+
+        <img
+            src="${item.image}"
+            alt="${
+                currentLanguage === "hi"
+                    ? (item.titleHi || "Gallery Photo")
+                    : (item.titleEn || "Gallery Photo")
+            }"
+            style="
+                width:120px;
+                height:90px;
+                object-fit:cover;
+                border-radius:8px;
+            "
+        >
+
+        <div>
+
+            <div>
+                ${item.year || ""}
+                ${item.category ? " • " + item.category : ""}
+            </div>
+
+        </div>
+
+        <button
+            type="button"
+            onclick="deleteGallery('${item._id || item.id}')"
+        >
+            🗑️ ${
+                currentLanguage === "hi"
+                    ? "डिलीट"
+                    : "Delete"
+            }
+        </button>
+
+    </div>
+
+`)
+       .join("");
     } catch (error) {
 
         console.error(
@@ -2269,7 +2574,7 @@ try {
 }
 
 /* =========================================================
-DONATIONS
+   DONATIONS
 ========================================================= */
 
 async function loadDonations() {
@@ -2281,37 +2586,78 @@ async function loadDonations() {
                 "/api/admin/donations"
             );
 
+    
         const records =
-            data.records || [];
+    (data.records || []).filter(record => {
+
+        const amount =
+            Number(record.amount || 0);
+
+        const name =
+            String(record.name || "").trim();
+
+        const source =
+            String(record.source || "").toLowerCase();
+
+        const paymentStatus =
+            String(record.paymentStatus || "").toLowerCase();
+
+        // Invalid / blank donation
+        if (!name || amount <= 0) {
+            return false;
+        }
+
+        // Online donation:
+        // केवल successfully paid donation दिखे
+        if (source === "online") {
+            return paymentStatus === "paid";
+        }
+
+        // Manual / Excel / old donation
+        return true;
+
+    });
+
 
         let html =
-            `<table>
+        `<table class="donation-table">
 
-                <thead>
+            <thead>
 
-                    <tr>
+                <tr>
+                     <th>S.No.</th>
+                    <th>${t("name")}</th>
+                    <th>Receipt No.</th>
+                    <th>Date</th>
 
-                        <th>${t("name")}</th>
+                    <th>Time</th>
 
-                        <th>${t("year")}</th>
+                    <th>${t("mobile")}</th>
 
-                        <th>${t("mobile")}</th>
+                    <th>${t("amount")}</th>
 
-                        <th>${t("amount")}</th>
+                    <th>${t("paymentMode")}</th>
 
-                        <th>${t("paymentMode")}</th>
+                    <th>Payment Status</th>
 
-                        <th>${t("approved")}</th>
+                    <th>Razorpay Order ID</th>
 
-                        <th>Public</th>
+                    <th>Razorpay Payment ID</th>
 
-                        <th>${t("action")}</th>
+                    <th>UPI Reference</th>
 
-                    </tr>
+                    <th>${t("approved")}</th>
 
-                </thead>
+                    <th>Public</th>
 
-                <tbody>`;
+                    <th>${t("action")}</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>`;
+
 
         /* =================================================
            NO RECORDS
@@ -2323,7 +2669,7 @@ async function loadDonations() {
                 `<tr>
 
                     <td
-                        colspan="8"
+                        colspan="15"
                         style="text-align:center;"
                     >
 
@@ -2338,14 +2684,108 @@ async function loadDonations() {
 
         }
 
+
         /* =================================================
            SHOW DONATION RECORDS
         ================================================= */
 
-        records.forEach(record => {
+        records.forEach((record, index) => {
+
+
+            /* =================================================
+               PAYMENT STATUS
+            ================================================= */
+
+            let paymentStatus =
+                record.paymentStatus || "";
+
+
+            let paymentStatusHtml = "";
+
+
+            if (
+                paymentStatus.toLowerCase() ===
+                "paid"
+            ) {
+
+                paymentStatusHtml =
+                    `<span class="status-approved">
+                        ✅ Paid
+                    </span>`;
+
+            }
+
+            else if (
+                paymentStatus.toLowerCase() ===
+                "pending"
+            ) {
+
+                paymentStatusHtml =
+                    `<span class="status-pending">
+                        ⏳ Pending
+                    </span>`;
+
+            }
+
+            else if (
+                paymentStatus.toLowerCase() ===
+                "failed"
+            ) {
+
+                paymentStatusHtml =
+                    `<span class="status-pending">
+                        ❌ Failed
+                    </span>`;
+
+            }
+
+            else {
+
+                paymentStatusHtml =
+                    `<span>
+                        —
+                    </span>`;
+
+            }
+
+
+            /* =================================================
+               RAZORPAY ORDER ID
+            ================================================= */
+
+            const razorpayOrderId =
+                record.razorpayOrderId || "";
+
+
+            /* =================================================
+               RAZORPAY PAYMENT ID
+            ================================================= */
+
+            const razorpayPaymentId =
+                record.razorpayPaymentId ||
+                record.paymentId ||
+                "";
+
+
+            /* =================================================
+               UPI REFERENCE
+            ================================================= */
+
+            const upiReference =
+                record.upiReferenceId ||
+                record.upiTransactionId ||
+                "";
+
 
             html +=
                 `<tr>
+                 <!-- S.NO -->
+
+                   <td>
+                    ${index + 1}
+                     </td>
+
+                    <!-- NAME -->
 
                     <td>
                         ${escapeHtml(
@@ -2353,11 +2793,68 @@ async function loadDonations() {
                         )}
                     </td>
 
+
+                <!-- RECEIPT NO -->
+
+<td>
+
+    ${
+        record.receiptNo
+            ? `<span
+                title="${escapeHtml(
+                    record.receiptNo
+                )}"
+              >
+                ${escapeHtml(
+                    record.receiptNo
+                )}
+              </span>`
+            : "—"
+    }
+
+</td>
+
+                    <!-- DATE -->
+
                     <td>
                         ${
-                            record.year || ""
+                            record.date
+                                ? new Date(
+                                    record.date
+                                ).toLocaleDateString(
+                                    "en-IN"
+                                )
+                                : ""
                         }
                     </td>
+
+
+                    <!-- TIME -->
+
+                    <td>
+                        ${
+                            record.createdAt
+                                ? new Date(
+                                    record.createdAt
+                                ).toLocaleTimeString(
+                                    "en-IN",
+                                    {
+                                        hour:
+                                            "2-digit",
+
+                                        minute:
+                                            "2-digit",
+
+                                        hour12:
+                                            true
+                                    }
+                                )
+                                : ""
+                        }
+                    </td>
+
+
+                    <!-- MOBILE -->
 
                     <td>
                         ${escapeHtml(
@@ -2365,17 +2862,92 @@ async function loadDonations() {
                         )}
                     </td>
 
+
+                    <!-- AMOUNT -->
+
                     <td>
                         ₹${Number(
                             record.amount || 0
-                        ).toLocaleString("en-IN")}
+                        ).toLocaleString(
+                            "en-IN"
+                        )}
                     </td>
+
+
+                    <!-- PAYMENT MODE -->
 
                     <td>
                         ${escapeHtml(
                             record.paymentMode || ""
                         )}
                     </td>
+
+
+                    <!-- PAYMENT STATUS -->
+
+                    <td>
+                        ${paymentStatusHtml}
+                    </td>
+
+
+                    <!-- RAZORPAY ORDER ID -->
+
+                    <td>
+
+                        ${
+                            razorpayOrderId
+                                ? `<span
+                                    title="${escapeHtml(
+                                        razorpayOrderId
+                                    )}"
+                                >
+                                    ${escapeHtml(
+                                        razorpayOrderId
+                                    )}
+                                </span>`
+                                : "—"
+                        }
+
+                    </td>
+
+
+                    <!-- RAZORPAY PAYMENT ID -->
+
+                    <td>
+
+                        ${
+                            razorpayPaymentId
+                                ? `<span
+                                    title="${escapeHtml(
+                                        razorpayPaymentId
+                                    )}"
+                                >
+                                    ${escapeHtml(
+                                        razorpayPaymentId
+                                    )}
+                                </span>`
+                                : "—"
+                        }
+
+                    </td>
+
+
+                    <!-- UPI REFERENCE -->
+
+                    <td>
+
+                        ${
+                            upiReference
+                                ? escapeHtml(
+                                    upiReference
+                                )
+                                : "—"
+                        }
+
+                    </td>
+
+
+                    <!-- APPROVED -->
 
                     <td>
 
@@ -2393,6 +2965,9 @@ async function loadDonations() {
 
                     </td>
 
+
+                    <!-- PUBLIC -->
+
                     <td>
 
                         ${
@@ -2409,7 +2984,11 @@ async function loadDonations() {
 
                     </td>
 
+
+                    <!-- ACTION -->
+
                     <td>
+
 
                         <!-- APPROVE / UNAPPROVE -->
 
@@ -2472,11 +3051,13 @@ async function loadDonations() {
 
                         </button>
 
+
                     </td>
 
                 </tr>`;
 
         });
+
 
         html +=
             `</tbody>
@@ -2492,12 +3073,14 @@ async function loadDonations() {
                 "donationsList"
             );
 
+
         if (donationsList) {
 
             donationsList.innerHTML =
                 html;
 
         }
+
 
     } catch (error) {
 
@@ -2506,10 +3089,12 @@ async function loadDonations() {
             error
         );
 
+
         const donationsList =
             document.getElementById(
                 "donationsList"
             );
+
 
         if (donationsList) {
 
@@ -2521,7 +3106,6 @@ async function loadDonations() {
     }
 
 }
-
 
 /* =========================================================
    ADD DONATION
@@ -3030,6 +3614,7 @@ try {
         `<table>
             <thead>
                 <tr>
+                     <th>S.No.</th>
                     <th>${t("name")}</th>
                     <th>${t("year")}</th>
                     <th>${t("amount")}</th>
@@ -3039,10 +3624,13 @@ try {
             </thead>
             <tbody>`;
 
-    contributors.forEach(item => {
+  contributors.forEach((item, index) => {
 
         html +=
             `<tr>
+             <td>
+                ${index + 1}
+            </td>
 
                 <td>
                     ${escapeHtml(item.name || "")}
