@@ -13,6 +13,16 @@ const XLSX = require("xlsx");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { MongoClient, ObjectId } = require("mongodb");
+const Razorpay = require("razorpay");
+
+
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET
+});
+
+const crypto = require("crypto");
+
 
 
 
@@ -276,6 +286,10 @@ const ADMIN_USERNAME =
 const ADMIN_PASSWORD =
     process.env.ADMIN_PASSWORD ||
     "Admin@2016";
+    // ============================================================
+// RAZORPAY CONFIGURATION
+// ============================================================
+
 
 
 // ============================================================
@@ -1115,6 +1129,10 @@ app.post(
                    safeString(
                     req.body.memberType
                        ),
+                       gender:
+    safeString(
+        req.body.gender
+    ),
 
                 image:
                     safeString(
@@ -1242,6 +1260,10 @@ app.put(
                     safeString(
                       req.body.memberType
                    ),
+                   gender:
+    safeString(
+        req.body.gender
+    ),
 
                 image:
                     safeString(
@@ -3021,7 +3043,6 @@ app.delete(
     }
 );
 
-
 // ============================================================
 // LIVE DARSHAN
 // ============================================================
@@ -3034,20 +3055,55 @@ app.get(
         try {
 
             const live =
-                await collections.live.findOne({
+                await collections.live.findOne({});
 
-                    active: true
+
+            if (!live) {
+
+                return res.json({
+
+                    active: false
 
                 });
 
+            }
 
-            res.json(
-                live || {
+
+            // Only send active live settings
+            if (live.active !== true) {
+
+                return res.json({
+
                     active: false
-                }
-            );
+
+                });
+
+            }
+
+
+            res.json({
+
+                success: true,
+
+                active: true,
+
+                source:
+                    live.source || "youtube",
+
+                youtubeUrl:
+                    live.youtubeUrl || "",
+
+                directCameraUrl:
+                    live.directCameraUrl || "",
+
+                updatedAt:
+                    live.updatedAt || null
+
+            });
 
         } catch (error) {
+
+            console.error(error);
 
             res.status(500).json({
 
@@ -3072,36 +3128,68 @@ app.put(
 
         try {
 
-            await collections.live.deleteMany({});
+            const source =
+                safeString(
+                    req.body.source
+                ) || "youtube";
+
+
+            // Validate source
+            if (
+                source !== "youtube" &&
+                source !== "camera"
+            ) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Invalid live source."
+
+                });
+
+            }
 
 
             const live = {
 
-                titleHi:
+                source:
+
+                    source,
+
+
+                youtubeUrl:
+
                     safeString(
-                        req.body.titleHi
+                        req.body.youtubeUrl
                     ),
 
-                titleEn:
+
+                directCameraUrl:
+
                     safeString(
-                        req.body.titleEn
+                        req.body.directCameraUrl
                     ),
 
-                streamUrl:
-                    safeString(
-                        req.body.streamUrl
-                    ),
 
                 active:
+
                     toBoolean(
                         req.body.active,
                         false
                     ),
 
+
                 updatedAt:
+
                     new Date()
 
             };
+
+
+            // Keep only one Live Darshan setting
+            await collections.live.deleteMany({});
 
 
             await collections.live.insertOne(
@@ -3599,6 +3687,73 @@ function convertDonationRecord(row) {
 // DONATIONS
 // ============================================================
 
+// ============================================================
+// DONATION RECEIPT NUMBER
+// ============================================================
+
+function generateDonationReceiptNo(year = new Date().getFullYear()) {
+
+    return (
+        "DPS-" +
+        year +
+        "-" +
+        Date.now()
+    );
+
+}
+/* =========================================================
+   VALID DONATION FILTER
+   Excludes:
+   - Blank donor name
+   - ₹0 / invalid amount
+   - Online Razorpay pending
+   - Online Razorpay failed
+   - Other invalid online records
+========================================================= */
+
+function getValidDonationFilter(extraFilter = {}) {
+
+    return {
+        $and: [
+
+            /* Basic valid donation */
+            {
+                name: {
+                    $exists: true,
+                    $nin: ["", null]
+                },
+
+                amount: {
+                    $exists: true,
+                    $gt: 0
+                }
+            },
+
+            /* Online donations must be PAID */
+            {
+                $or: [
+
+                    {
+                        source: "online",
+                        paymentStatus: "paid"
+                    },
+
+                    /* Manual / Excel / old records */
+                    {
+                        source: {
+                            $ne: "online"
+                        }
+                    }
+
+                ]
+            },
+
+            /* Additional filters */
+            extraFilter
+
+        ]
+    };
+}
 // ADMIN GET
 app.get(
     "/api/admin/donations",
@@ -3607,61 +3762,71 @@ app.get(
 
         try {
 
-            const filter = {};
+    const extraFilters = [];
 
 
-            if (req.query.year) {
+    if (req.query.year) {
 
-                filter.year =
-                    toNumber(
-                        req.query.year
-                    );
+        extraFilters.push({
 
-            }
+            year:
+                toNumber(
+                    req.query.year
+                )
 
+        });
 
-            if (req.query.search) {
-
-                const search =
-                    safeString(
-                        req.query.search
-                    );
+    }
 
 
-                filter.$or = [
+    if (req.query.search) {
 
-                    {
-                        name: {
-                            $regex:
-                                search,
-                            $options:
-                                "i"
-                        }
-                    },
+        const search =
+            safeString(
+                req.query.search
+            );
 
-                    {
-                        mobile: {
-                            $regex:
-                                search,
-                            $options:
-                                "i"
-                        }
-                    },
 
-                    {
-                        email: {
-                            $regex:
-                                search,
-                            $options:
-                                "i"
-                        }
+        extraFilters.push({
+
+            $or: [
+
+                {
+                    name: {
+                        $regex: search,
+                        $options: "i"
                     }
+                },
 
-                ];
+                {
+                    mobile: {
+                        $regex: search,
+                        $options: "i"
+                    }
+                },
 
-            }
+                {
+                    email: {
+                        $regex: search,
+                        $options: "i"
+                    }
+                }
+
+            ]
+
+        });
+
+    }
 
 
+    const filter =
+        getValidDonationFilter(
+            extraFilters.length
+                ? {
+                    $and: extraFilters
+                }
+                : {}
+        );
             const records =
                 await collections.donations
                     .find(filter)
@@ -3670,52 +3835,1103 @@ app.get(
                         _id: -1
                     })
                     .toArray();
+// ============================================================
+// ENSURE RECEIPT NUMBER FOR OLD DONATION RECORDS
+// ============================================================
 
+for (const record of records) {
 
-            const totalDonors =
-                records.length;
+    if (!record.receiptNo) {
 
+        const receiptNo =
+            generateDonationReceiptNo(
+                record.year ||
+                new Date().getFullYear()
+            );
 
-            const totalDonation =
-                records.reduce(
-                    (
-                        total,
-                        record
-                    ) =>
-                        total +
-                        Number(
-                            record.amount || 0
-                        ),
-                    0
-                );
-
-
-            res.json({
-
-                success: true,
-
-                records,
-
-                summary: {
-
-                    totalDonors,
-
-                    totalDonation
-
+        await collections.donations.updateOne(
+            {
+                _id: record._id
+            },
+            {
+                $set: {
+                    receiptNo: receiptNo,
+                    updatedAt: new Date()
                 }
+            }
+        );
+
+        record.receiptNo =
+            receiptNo;
+    }
+}
+
+
+// ============================================================
+// DONATION SUMMARY
+// ============================================================
+
+const totalDonors =
+    records.length;
+
+const totalDonation =
+    records.reduce(
+        (
+            total,
+            record
+        ) =>
+            total +
+            Number(
+                record.amount || 0
+            ),
+        0
+    );
+
+
+// ============================================================
+// RESPONSE
+// ============================================================
+
+return res.json({
+
+    success: true,
+
+    records,
+
+    summary: {
+
+        totalDonors,
+
+        totalDonation
+
+    }
+
+});
+
+} catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+
+        success: false,
+
+        message:
+            "Failed to fetch donations."
+
+    });
+
+}
+
+}
+);
+
+// ============================================================
+// CREATE ONLINE DONATION
+// ============================================================
+// ============================================================
+// RAZORPAY CREATE ORDER
+// ============================================================
+
+app.post(
+    "/api/donations/create-order",
+    async (req, res) => {
+
+        try {
+
+            const name =
+                safeString(req.body.name);
+
+            const mobile =
+                safeString(req.body.mobile);
+
+            const email =
+                safeString(req.body.email);
+
+            const address =
+                safeString(req.body.address);
+
+            const amount =
+                Number(req.body.amount);
+
+            // -----------------------------
+            // VALIDATION
+            // -----------------------------
+
+            if (!name) {
+
+                return res.status(400).json({
+                    success: false,
+                    message: "Donor name is required."
+                });
+
+            }
+
+            if (!/^[6-9]\d{9}$/.test(mobile)) {
+
+                return res.status(400).json({
+                    success: false,
+                    message: "Valid 10-digit mobile number is required."
+                });
+
+            }
+
+            if (
+                !Number.isFinite(amount) ||
+                amount <= 0
+            ) {
+
+                return res.status(400).json({
+                    success: false,
+                    message: "Valid donation amount is required."
+                });
+
+            }
+
+            // Razorpay amount = paise
+            const amountInPaise =
+                Math.round(amount * 100);
+
+            // -----------------------------
+            // CREATE RAZORPAY ORDER
+            // -----------------------------
+
+            const razorpayOrder =
+                await razorpay.orders.create({
+
+                    amount:
+                        amountInPaise,
+
+                    currency:
+                        "INR",
+
+                    receipt:
+                        "donation_" +
+                        Date.now(),
+
+                    notes: {
+
+                        donorName:
+                            name,
+
+                        mobile:
+                            mobile
+
+                    }
+
+                });
+
+            // -----------------------------
+            // SAVE DONATION IN MONGODB
+            // -----------------------------
+
+            const donation = {
+
+    year:
+        new Date()
+            .getFullYear(),
+
+    receiptNo:
+    generateDonationReceiptNo(
+        new Date().getFullYear()
+    ),
+    name,
+
+                mobile,
+
+                email,
+
+                address,
+
+                amount,
+
+                paymentMode:
+                    "Online",
+
+                paymentStatus:
+                    "pending",
+
+                razorpayOrderId:
+                    razorpayOrder.id,
+
+                razorpayPaymentId:
+                    "",
+
+                razorpaySignature:
+                    "",
+
+                approved:
+                    false,
+
+                publicVisible:
+                    false,
+
+                source:
+                    "online",
+
+                date:
+                    new Date()
+                        .toISOString()
+                        .slice(0, 10),
+
+                createdAt:
+                    new Date(),
+
+                updatedAt:
+                    new Date()
+
+            };
+
+            const result =
+                await collections.donations
+                    .insertOne(
+                        donation
+                    );
+
+            console.log(
+                "✅ Razorpay order created:",
+                razorpayOrder.id
+            );
+
+            console.log(
+                "✅ Donation record created:",
+                result.insertedId
+            );
+
+            // -----------------------------
+            // SEND ORDER TO FRONTEND
+            // -----------------------------
+
+            return res.status(201).json({
+
+                success:
+                    true,
+
+                keyId:
+                    process.env.RAZORPAY_KEY_ID,
+
+                orderId:
+                    razorpayOrder.id,
+
+                amount:
+                    razorpayOrder.amount,
+
+                currency:
+                    razorpayOrder.currency,
+
+                donationId:
+                    result.insertedId
 
             });
 
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                "❌ Razorpay order error:",
+                error
+            );
 
-            res.status(500).json({
+            return res.status(500).json({
+
+                success:
+                    false,
+
+                message:
+                    "Unable to create payment order."
+
+            });
+
+        }
+
+    }
+);
+
+// ============================================================
+// RAZORPAY PAYMENT VERIFICATION - SECURE
+// ============================================================
+
+app.post(
+    "/api/donations/verify-payment",
+    async (req, res) => {
+
+        try {
+
+            const razorpayPaymentId =
+                safeString(
+                    req.body.razorpay_payment_id
+                );
+
+            const razorpayOrderId =
+                safeString(
+                    req.body.razorpay_order_id
+                );
+
+            const razorpaySignature =
+                safeString(
+                    req.body.razorpay_signature
+                );
+
+
+            // ------------------------------------------------
+            // VALIDATION
+            // ------------------------------------------------
+
+            if (
+                !razorpayPaymentId ||
+                !razorpayOrderId ||
+                !razorpaySignature
+            ) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Payment verification details are missing."
+
+                });
+
+            }
+
+
+            // ------------------------------------------------
+            // FIND DONATION
+            // ------------------------------------------------
+
+            const donation =
+                await collections.donations.findOne({
+
+                    razorpayOrderId:
+                        razorpayOrderId
+
+                });
+
+
+            if (!donation) {
+
+                return res.status(404).json({
+
+                    success: false,
+
+                    message:
+                        "Donation record not found."
+
+                });
+
+            }
+
+
+            // ------------------------------------------------
+            // DUPLICATE PAYMENT PROTECTION
+            // ------------------------------------------------
+
+            if (
+                donation.paymentStatus === "paid" &&
+                donation.razorpayPaymentId ===
+                    razorpayPaymentId
+            ) {
+
+                return res.json({
+
+                    success: true,
+
+                    message:
+                        "Payment already verified.",
+
+                    paymentStatus:
+                        "paid",
+
+                    donationId:
+                        donation._id,
+
+                    razorpayOrderId:
+                        razorpayOrderId,
+
+                    razorpayPaymentId:
+                        razorpayPaymentId
+
+                });
+
+            }
+
+
+            // ------------------------------------------------
+            // VERIFY RAZORPAY SIGNATURE
+            // ------------------------------------------------
+
+            const generatedSignature =
+                crypto
+                    .createHmac(
+                        "sha256",
+                        process.env.RAZORPAY_KEY_SECRET
+                    )
+                    .update(
+                        razorpayOrderId +
+                        "|" +
+                        razorpayPaymentId
+                    )
+                    .digest("hex");
+
+
+            // Timing-safe signature comparison
+            const signaturesMatch =
+                generatedSignature.length ===
+                    razorpaySignature.length &&
+                crypto.timingSafeEqual(
+                    Buffer.from(
+                        generatedSignature,
+                        "utf8"
+                    ),
+                    Buffer.from(
+                        razorpaySignature,
+                        "utf8"
+                    )
+                );
+
+
+            if (!signaturesMatch) {
+
+                console.error(
+                    "❌ Invalid Razorpay signature:",
+                    razorpayOrderId
+                );
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Payment verification failed."
+
+                });
+
+            }
+
+
+            // ------------------------------------------------
+            // FETCH ACTUAL PAYMENT FROM RAZORPAY
+            // ------------------------------------------------
+
+            let razorpayPayment;
+
+            try {
+
+                razorpayPayment =
+                    await razorpay.payments.fetch(
+                        razorpayPaymentId
+                    );
+
+            } catch (razorpayError) {
+
+                console.error(
+                    "❌ Unable to fetch Razorpay payment:",
+                    razorpayError
+                );
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Unable to verify payment with Razorpay."
+
+                });
+
+            }
+
+
+            // ------------------------------------------------
+            // VERIFY PAYMENT ORDER ID
+            // ------------------------------------------------
+
+            if (
+                razorpayPayment.order_id !==
+                razorpayOrderId
+            ) {
+
+                console.error(
+                    "❌ Razorpay Order ID mismatch"
+                );
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Payment order verification failed."
+
+                });
+
+            }
+
+
+            // ------------------------------------------------
+            // VERIFY CURRENCY
+            // ------------------------------------------------
+
+            if (
+                String(
+                    razorpayPayment.currency
+                ).toUpperCase() !== "INR"
+            ) {
+
+                console.error(
+                    "❌ Invalid payment currency:",
+                    razorpayPayment.currency
+                );
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Invalid payment currency."
+
+                });
+
+            }
+
+
+            // ------------------------------------------------
+            // VERIFY PAYMENT AMOUNT
+            // ------------------------------------------------
+
+            const expectedAmountPaise =
+                Math.round(
+                    Number(donation.amount) * 100
+                );
+
+
+            const actualAmountPaise =
+                Number(
+                    razorpayPayment.amount
+                );
+
+
+            if (
+                !Number.isFinite(
+                    expectedAmountPaise
+                ) ||
+                !Number.isFinite(
+                    actualAmountPaise
+                ) ||
+                expectedAmountPaise !==
+                    actualAmountPaise
+            ) {
+
+                console.error(
+                    "❌ Payment amount mismatch",
+                    {
+                        donationAmount:
+                            donation.amount,
+
+                        expectedAmountPaise:
+                            expectedAmountPaise,
+
+                        actualAmountPaise:
+                            actualAmountPaise
+                    }
+                );
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Payment amount verification failed."
+
+                });
+
+            }
+
+
+            // ------------------------------------------------
+            // VERIFY PAYMENT STATUS
+            // ------------------------------------------------
+
+            const paymentStatus =
+                safeString(
+                    razorpayPayment.status
+                ).toLowerCase();
+
+
+            const paymentCaptured =
+                razorpayPayment.captured === true ||
+                paymentStatus === "captured";
+
+
+            if (!paymentCaptured) {
+
+                console.warn(
+                    "⚠️ Razorpay payment not captured:",
+                    {
+                        paymentId:
+                            razorpayPaymentId,
+
+                        status:
+                            razorpayPayment.status,
+
+                        captured:
+                            razorpayPayment.captured
+                    }
+                );
+
+
+                return res.status(202).json({
+
+                    success: false,
+
+                    paymentStatus:
+                        paymentStatus ||
+                        "pending",
+
+                    message:
+                        "Payment has not been captured yet."
+
+                });
+
+            }
+
+
+            // ------------------------------------------------
+            // PREVENT PAYMENT ID REUSE
+            // ------------------------------------------------
+
+            const existingPayment =
+                await collections.donations.findOne({
+
+                    razorpayPaymentId:
+                        razorpayPaymentId
+
+                });
+
+
+            if (
+                existingPayment &&
+                String(existingPayment._id) !==
+                    String(donation._id)
+            ) {
+
+                return res.status(409).json({
+
+                    success: false,
+
+                    message:
+                        "This payment has already been recorded."
+
+                });
+
+            }
+
+
+            // ------------------------------------------------
+            // UPDATE DONATION
+            // ------------------------------------------------
+
+            const updateResult =
+                await collections.donations.updateOne(
+
+                    {
+                        _id:
+                            donation._id,
+
+                        razorpayOrderId:
+                            razorpayOrderId,
+
+                        paymentStatus:
+                            {
+                                $ne: "paid"
+                            }
+
+                    },
+
+                    {
+                        $set: {
+
+                            razorpayPaymentId:
+                                razorpayPaymentId,
+
+                            razorpaySignature:
+                                razorpaySignature,
+
+                            paymentStatus:
+                                "paid",
+
+                            paymentMode:
+                                "Online",
+
+                            paymentVerifiedAt:
+                                new Date(),
+
+                            updatedAt:
+                                new Date()
+
+                        }
+
+                    }
+
+                );
+
+
+            // ------------------------------------------------
+            // HANDLE RACE CONDITION
+            // ------------------------------------------------
+
+            if (
+                updateResult.modifiedCount === 0
+            ) {
+
+                const latestDonation =
+                    await collections.donations.findOne({
+
+                        razorpayOrderId:
+                            razorpayOrderId
+
+                    });
+
+
+                if (
+                    latestDonation &&
+                    latestDonation.paymentStatus ===
+                        "paid" &&
+                    latestDonation.razorpayPaymentId ===
+                        razorpayPaymentId
+                ) {
+
+                    return res.json({
+
+                        success: true,
+
+                        message:
+                            "Payment already verified.",
+
+                        paymentStatus:
+                            "paid",
+
+                        donationId:
+                            latestDonation._id,
+
+                        razorpayOrderId:
+                            razorpayOrderId,
+
+                        razorpayPaymentId:
+                            razorpayPaymentId
+
+                    });
+
+                }
+
+
+                return res.status(409).json({
+
+                    success: false,
+
+                    message:
+                        "Payment has already been processed."
+
+                });
+
+            }
+
+
+            // ------------------------------------------------
+            // SUCCESS LOG
+            // ------------------------------------------------
+
+            console.log(
+                "=========================================="
+            );
+
+            console.log(
+                "✅ RAZORPAY PAYMENT VERIFIED"
+            );
+
+            console.log(
+                "Order ID:",
+                razorpayOrderId
+            );
+
+            console.log(
+                "Payment ID:",
+                razorpayPaymentId
+            );
+
+            console.log(
+                "Amount:",
+                donation.amount
+            );
+
+            console.log(
+                "Donation ID:",
+                donation._id
+            );
+
+            console.log(
+                "=========================================="
+            );
+
+
+            // ------------------------------------------------
+            // SUCCESS RESPONSE
+            // ------------------------------------------------
+return res.json({
+
+    success: true,
+
+    message:
+        "Payment verified successfully.",
+
+    paymentStatus:
+        "paid",
+
+    donationId:
+        donation._id,
+
+    receiptNo:
+        donation.receiptNo,
+
+    donorName:
+        donation.name,
+
+    amount:
+        donation.amount,
+
+    date:
+        donation.date,
+
+    paymentMode:
+        donation.paymentMode,
+
+    razorpayOrderId:
+        razorpayOrderId,
+
+    razorpayPaymentId:
+        razorpayPaymentId
+
+});
+
+        } catch (error) {
+
+            console.error(
+                "❌ Razorpay payment verification error:",
+                error
+            );
+
+
+            return res.status(500).json({
 
                 success: false,
 
                 message:
-                    "Failed to fetch donations."
+                    "Unable to verify payment."
+
+            });
+
+        }
+
+    }
+);
+
+app.post(
+    "/api/donations/create",
+    async (req, res) => {
+
+        try {
+
+            // -------------------------------
+            // DONOR DETAILS
+            // -------------------------------
+
+            const name =
+                safeString(
+                    req.body.name
+                );
+
+            const mobile =
+                safeString(
+                    req.body.mobile
+                );
+
+            const email =
+                safeString(
+                    req.body.email
+                );
+
+            const address =
+                safeString(
+                    req.body.address
+                );
+
+
+            // -------------------------------
+            // AMOUNT
+            // -------------------------------
+
+            const amount =
+                Number(
+                    req.body.amount
+                );
+
+
+            // -------------------------------
+            // VALIDATION
+            // -------------------------------
+
+            if (!name) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Donor name is required."
+
+                });
+
+            }
+
+
+            if (
+                !/^[6-9]\d{9}$/.test(
+                    mobile
+                )
+            ) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Valid 10-digit mobile number is required."
+
+                });
+
+            }
+
+
+            if (
+                !Number.isFinite(amount) ||
+                amount <= 0
+            ) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Valid donation amount is required."
+
+                });
+
+            }
+
+
+            // -------------------------------
+            // CREATE ONLINE DONATION
+            // -------------------------------
+
+            const donation = {
+
+                year:
+                    new Date()
+                        .getFullYear(),
+
+                name,
+
+                mobile,
+
+                email,
+
+                address,
+
+                amount,
+
+                paymentMode:
+                    "Online",
+
+                paymentStatus:
+                    "pending",
+
+                transactionId:
+                    "",
+
+                orderId:
+                    "",
+
+                approved:
+                    false,
+
+                publicVisible:
+                    false,
+
+                source:
+                    "online",
+
+                date:
+                    new Date()
+                        .toISOString()
+                        .slice(0, 10),
+
+                createdAt:
+                    new Date(),
+
+                updatedAt:
+                    new Date()
+
+            };
+
+
+            // -------------------------------
+            // SAVE TO MONGODB
+            // -------------------------------
+
+            const result =
+                await collections.donations
+                    .insertOne(
+                        donation
+                    );
+
+
+            console.log(
+                "✅ Online donation created:",
+                result.insertedId
+            );
+
+
+            // -------------------------------
+            // RESPONSE
+            // -------------------------------
+
+            return res.status(201).json({
+
+                success: true,
+
+                message:
+                    "Donation information saved successfully.",
+
+                donationId:
+                    result.insertedId,
+
+                paymentStatus:
+                    "pending"
+
+            });
+
+
+        } catch (error) {
+
+            console.error(
+                "❌ Online donation error:",
+                error
+            );
+
+
+            return res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Failed to create donation."
 
             });
 
@@ -3732,15 +4948,34 @@ app.get(
 
         try {
 
-            const filter = {
+           const filter = {
 
-                approved:
-                    true,
+    approved:
+        true,
 
-                publicVisible:
-                    true
+    publicVisible:
+        true,
 
-            };
+    $or: [
+
+        // ONLINE DONATION
+        // Only successfully paid donations
+        {
+            source: "online",
+            paymentStatus: "paid"
+        },
+
+        // MANUAL / OLD DONATION
+        // Manual donations are already received
+        {
+            source: {
+                $ne: "online"
+            }
+        }
+
+    ]
+
+};
 
 
             if (
@@ -3795,6 +5030,57 @@ app.get(
 
                 message:
                     "Failed to fetch public donation records."
+
+            });
+
+        }
+
+    }
+);
+/* ============================================================
+   ADMIN - GET ALL DONATIONS
+============================================================ */
+
+app.get(
+    "/api/admin/donations",
+    requireAdmin,
+    async (req, res) => {
+
+        try {
+
+            const records =
+                await collections.donations
+                    .find({})
+                    .sort({
+                        year: -1,
+                        _id: -1
+                    })
+                    .toArray();
+
+
+            return res.json({
+
+                success: true,
+
+                records
+
+            });
+
+
+        } catch (error) {
+
+            console.error(
+                "❌ Load donations error:",
+                error
+            );
+
+
+            return res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Failed to fetch donation records."
 
             });
 
@@ -3889,20 +5175,28 @@ app.post(
             // CREATE DONATION RECORD
             // -------------------------------
 
-            const record = {
+           const record = {
 
-                serialNo:
-                    safeString(
-                        req.body.serialNo
-                    ),
+    serialNo:
+        safeString(
+            req.body.serialNo
+        ),
 
-                year:
-                    toNumber(
-                        req.body.year,
-                        new Date().getFullYear()
-                    ),
+    receiptNo:
+        generateDonationReceiptNo(
+            toNumber(
+                req.body.year,
+                new Date().getFullYear()
+            )
+        ),
 
-                name,
+    year:
+        toNumber(
+            req.body.year,
+            new Date().getFullYear()
+        ),
+
+    name,
 
                 fatherName:
                     safeString(
@@ -3973,6 +5267,8 @@ app.post(
 
                 source:
                     "manual",
+                    
+                    paymentStatus: "paid",
 
                 createdAt:
                     new Date(),
@@ -4865,6 +6161,41 @@ app.get(
                     })
                     .toArray();
 
+ // ============================================================
+// ENSURE RECEIPT NUMBER FOR OLD RECORDS
+// ============================================================
+
+for (const record of records) {
+
+    if (!record.receiptNo) {
+
+        const receiptNo =
+            generateDonationReceiptNo(
+                record.year ||
+                new Date().getFullYear()
+            );
+
+        await collections.donations.updateOne(
+
+            {
+                _id: record._id
+            },
+
+            {
+                $set: {
+                    receiptNo: receiptNo,
+                    updatedAt: new Date()
+                }
+            }
+
+        );
+
+        record.receiptNo =
+            receiptNo;
+
+    }
+
+}
 
             const excelData =
                 records.map(
@@ -5005,10 +6336,10 @@ app.get(
                         approved: true,
                         active: true
                     })
-                    .sort({
-                        year: -1,
-                        amount: -1
-                    })
+                   .sort({
+    date: -1,
+    createdAt: -1
+})
                     .toArray();
 
 
@@ -5040,56 +6371,111 @@ app.post(
     async (req, res) => {
 
         try {
+            const name = safeString(req.body.name);
+const mobile = safeString(req.body.mobile);
+const organization = safeString(req.body.organization);
+const contributionDetails = safeString(req.body.contributionDetails);
+const date = safeString(req.body.date);
 
-            const contributor = {
+if (!name) {
+    return res.status(400).json({
+        success: false,
+        message: "Contributor name is required."
+    });
+}
 
-                name:
-                    safeString(
-                        req.body.name
-                    ),
+if (!mobile) {
+    return res.status(400).json({
+        success: false,
+        message: "Mobile number is required."
+    });
+}
 
-                year:
-                    toNumber(
-                        req.body.year,
-                        new Date().getFullYear()
-                    ),
+if (!/^[6-9]\d{9}$/.test(mobile)) {
+    return res.status(400).json({
+        success: false,
+        message: "Please enter a valid 10-digit mobile number."
+    });
+}
 
-                amount:
-                    toNumber(
-                        req.body.amount
-                    ),
+if (!organization) {
+    return res.status(400).json({
+        success: false,
+        message: "Organization is required."
+    });
+}
 
-                message:
-                    safeString(
-                        req.body.message
-                    ),
+if (!contributionDetails) {
+    return res.status(400).json({
+        success: false,
+        message: "Contribution details are required."
+    });
+}
 
-                approved:
-                    toBoolean(
-                        req.body.approved,
-                        false
-                    ),
+if (!date) {
+    return res.status(400).json({
+        success: false,
+        message: "Date is required."
+    });
+}
 
-                active:
-                    toBoolean(
-                        req.body.active,
-                        true
-                    ),
+const today = new Date().toISOString().split("T")[0];
 
-                createdAt:
-                    new Date(),
+if (date > today) {
+    return res.status(400).json({
+        success: false,
+        message: "Future date is not allowed."
+    });
+}
+const contributor = {
 
-                updatedAt:
-                    new Date()
+    name:
+        safeString(
+            req.body.name
+        ),
 
-            };
+    mobile:
+        safeString(
+            req.body.mobile
+        ),
 
+    organization:
+        safeString(
+            req.body.organization
+        ),
+
+    contributionDetails:
+        safeString(
+            req.body.contributionDetails
+        ),
+
+    date:
+        safeString(
+            req.body.date
+        ),
+
+    active:
+        toBoolean(
+            req.body.active,
+            true
+        ),
+        approved:
+    true,
+
+    createdAt:
+        new Date(),
+
+    updatedAt:
+        new Date()
+
+};
 
             const result =
                 await collections.contributors
                     .insertOne(
                         contributor
                     );
+                    
 
 
             res.status(201).json({
@@ -5149,6 +6535,62 @@ app.put(
                 });
 
             }
+            const name = safeString(req.body.name);
+const mobile = safeString(req.body.mobile);
+const organization = safeString(req.body.organization);
+const contributionDetails = safeString(req.body.contributionDetails);
+const date = safeString(req.body.date);
+
+if (!name) {
+    return res.status(400).json({
+        success: false,
+        message: "Contributor name is required."
+    });
+}
+
+if (!mobile) {
+    return res.status(400).json({
+        success: false,
+        message: "Mobile number is required."
+    });
+}
+
+if (!/^[6-9]\d{9}$/.test(mobile)) {
+    return res.status(400).json({
+        success: false,
+        message: "Please enter a valid 10-digit mobile number."
+    });
+}
+
+if (!organization) {
+    return res.status(400).json({
+        success: false,
+        message: "Organization is required."
+    });
+}
+
+if (!contributionDetails) {
+    return res.status(400).json({
+        success: false,
+        message: "Contribution details are required."
+    });
+}
+
+if (!date) {
+    return res.status(400).json({
+        success: false,
+        message: "Date is required."
+    });
+}
+
+const today = new Date().toISOString().split("T")[0];
+
+if (date > today) {
+    return res.status(400).json({
+        success: false,
+        message: "Future date is not allowed."
+    });
+}
 
 
             const result =
@@ -5161,44 +6603,43 @@ app.put(
                     {
                         $set: {
 
-                            name:
-                                safeString(
-                                    req.body.name
-                                ),
+    name:
+        safeString(
+            req.body.name
+        ),
 
-                            year:
-                                toNumber(
-                                    req.body.year,
-                                    new Date().getFullYear()
-                                ),
+    mobile:
+        safeString(
+            req.body.mobile
+        ),
 
-                            amount:
-                                toNumber(
-                                    req.body.amount
-                                ),
+    organization:
+        safeString(
+            req.body.organization
+        ),
 
-                            message:
-                                safeString(
-                                    req.body.message
-                                ),
+    contributionDetails:
+        safeString(
+            req.body.contributionDetails
+        ),
 
-                            approved:
-                                toBoolean(
-                                    req.body.approved,
-                                    false
-                                ),
+    date:
+        safeString(
+            req.body.date
+        ),
 
-                            active:
-                                toBoolean(
-                                    req.body.active,
-                                    true
-                                ),
+    active:
+        toBoolean(
+            req.body.active,
+            true
+        ),
+        approved:
+    true,
 
-                            updatedAt:
-                                new Date()
+    updatedAt:
+        new Date()
 
-                        }
-
+}
                     }
 
                 );
@@ -5637,10 +7078,17 @@ app.get(
 
                 collections.members.countDocuments(),
 
-                collections.donations.countDocuments(),
-
+               collections.donations.countDocuments(
+                 getValidDonationFilter()
+                ),
+                // ONLY PAID DONATION AMOUNT
                 collections.donations
                     .aggregate([
+
+                       {
+    $match:
+        getValidDonationFilter()
+},
 
                         {
                             $group: {
@@ -5685,14 +7133,18 @@ app.get(
                     : 0;
 
 
+            // RECENT DONATIONS
+            // Show latest donation records
             const recentDonations =
-                await collections.donations
-                    .find({})
-                    .sort({
-                        _id: -1
-                    })
-                    .limit(10)
-                    .toArray();
+    await collections.donations
+        .find(
+            getValidDonationFilter()
+        )
+        .sort({
+            _id: -1
+        })
+        .limit(10)
+        .toArray();
 
 
             res.json({
@@ -5743,7 +7195,6 @@ app.get(
 
     }
 );
-
 
 // ============================================================
 // API 404 HANDLER

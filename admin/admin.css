@@ -1435,3 +1435,1132 @@ td .btn {
     }
 
 }
+/* =========================================================
+   ADMIN GALLERY LIST - PREMIUM GRID
+========================================================= */
+
+#galleryList {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 10px;
+    padding: 10px 0;
+}
+
+
+/* Gallery Card */
+
+.admin-gallery-item {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+/* Hover */
+
+.admin-gallery-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+}
+
+
+/* Photo */
+
+.admin-gallery-item img {
+    width: 100% !important;
+    height: 110px !important;
+    object-fit: cover;
+    display: block;
+    border-radius: 0 !important;
+    background: #f3f4f6;
+}
+
+
+/* Details */
+
+.admin-gallery-item > div {
+    padding: 14px 16px;
+}
+
+
+/* Title */
+
+.admin-gallery-item strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 7px;
+}
+
+
+/* Year + Category */
+
+.admin-gallery-item > div > div {
+    font-size: 13px;
+    color: #777;
+}
+
+
+/* Delete Button */
+
+.admin-gallery-item button {
+    margin: 0 16px 12px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 8px;
+    background: #dc2626;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+
+.admin-gallery-item button:hover {
+    background: #b91c1c;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    #galleryList {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    #galleryList {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+
+    .admin-gallery-item img {
+        height: 210px !important;
+    }
+
+}
+/* =========================================================
+   DONATION TABLE - EXCEL STYLE
+========================================================= */
+
+#donationsList {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Table */
+
+#donationsList .donation-table {
+    width: max-content;
+    min-width: 1200px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    background: #fff;
+}
+
+/* Header */
+
+#donationsList .donation-table th {
+    background: #f3f4f6;
+    color: #222;
+    font-weight: 600;
+    padding: 12px 14px;
+    border: 1px solid #dcdcdc;
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* Cells */
+
+#donationsList .donation-table td {
+    padding: 11px 14px;
+    border: 1px solid #e1e1e1;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/* Alternate rows */
+
+#donationsList .donation-table tbody tr:nth-child(even) {
+    background: #fafafa;
+}
+
+/* Hover */
+
+#donationsList .donation-table tbody tr:hover {
+    background: #f5f7fa;
+}
+
+/* =========================================================
+   COLUMN WIDTHS
+========================================================= */
+
+#donationsList .donation-table th:nth-child(1),
+#donationsList .donation-table td:nth-child(1) {
+    width: 180px;
+    min-width: 180px;
+}
+
+#donationsList .donation-table th:nth-child(2),
+#donationsList .donation-table td:nth-child(2) {
+    width: 110px;
+    min-width: 110px;
+}
+
+#donationsList .donation-table th:nth-child(3),
+#donationsList .donation-table td:nth-child(3) {
+    width: 95px;
+    min-width: 95px;
+}
+
+#donationsList .donation-table th:nth-child(4),
+#donationsList .donation-table td:nth-child(4) {
+    width: 125px;
+    min-width: 125px;
+}
+
+#donationsList .donation-table th:nth-child(5),
+#donationsList .donation-table td:nth-child(5) {
+    width: 100px;
+    min-width: 100px;
+}
+
+#donationsList .donation-table th:nth-child(6),
+#donationsList .donation-table td:nth-child(6) {
+    width: 130px;
+    min-width: 130px;
+}
+
+#donationsList .donation-table th:nth-child(7),
+#donationsList .donation-table td:nth-child(7) {
+    width: 180px;
+    min-width: 180px;
+}
+
+#donationsList .donation-table th:nth-child(8),
+#donationsList .donation-table td:nth-child(8) {
+    width: 180px;
+    min-width: 180px;
+}
+
+#donationsList .donation-table th:nth-child(9),
+#donationsList .donation-table td:nth-child(9) {
+    width: 100px;
+    min-width: 100px;
+    text-align: center;
+}
+
+#donationsList .donation-table th:nth-child(10),
+#donationsList .donation-table td:nth-child(10) {
+    width: 100px;
+    min-width: 100px;
+    text-align: center;
+}
+
+#donationsList .donation-table th:nth-child(11),
+#donationsList .donation-table td:nth-child(11) {
+    width: 260px;
+    min-width: 260px;
+}
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+#donationsList .donation-table td:nth-child(11) {
+    white-space: nowrap;
+}
+
+#donationsList .donation-table td:nth-child(11) .btn {
+    margin: 2px;
+    padding: 7px 11px;
+    white-space: nowrap;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+    #donationsList .donation-table {
+        min-width: 1100px;
+    }
+
+    #donationsList .donation-table th,
+    #donationsList .donation-table td {
+        padding: 9px 10px;
+        font-size: 13px;
+    }
+}
+/* ============================================================
+   DONATION TABLE - COMPACT + EXCEL STYLE
+============================================================ */
+
+#donationsList {
+    width: 100%;
+    max-width: 100%;
+    max-height: 330px;
+    overflow-x: auto;
+    overflow-y: auto;
+    border: 1px solid #d6d6d6;
+    border-radius: 6px;
+}
+
+
+/* Main donation table */
+
+#donationsList .donation-table {
+    width: max-content;
+    min-width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+    background: #fff;
+}
+
+
+/* Excel-style cells */
+
+#donationsList .donation-table th,
+#donationsList .donation-table td {
+    border: 1px solid #d0d0d0 !important;
+    padding: 5px 8px !important;
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    height: 30px !important;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+
+/* Header */
+
+#donationsList .donation-table th {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+}
+
+
+/* Rows */
+
+#donationsList .donation-table tbody tr {
+    height: 30px !important;
+}
+
+
+/* Buttons */
+
+#donationsList .donation-table .btn {
+    padding: 4px 5px !important;
+    font-size: 11px !important;
+    margin: 1px;
+}
+
+
+/* ============================================================
+   RECENT DONATIONS - EXCEL STYLE
+============================================================ */
+
+#recentDonations {
+    width: 100%;
+    overflow-x: auto;
+}
+
+
+/* Recent donations table */
+
+#recentDonations table {
+    width: 85%;
+    border-collapse: collapse !important;
+    table-layout: fixed;
+    background: #fff;
+}
+
+
+/* Excel cells */
+
+#recentDonations table th,
+#recentDonations table td {
+    border: 1px solid #d0d0d0 !important;
+    padding: 5px 8px !important;
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    height: 15px !important;
+    white-space: nowrap;
+    vertical-align: middle !important;
+}
+
+
+/* Header */
+
+#recentDonations table th {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+}
+
+
+/* ============================================================
+   RECENT DONATIONS - EXCEL COLUMN SIZE
+============================================================ */
+
+/* Name */
+
+#recentDonations table th:nth-child(1),
+#recentDonations table td:nth-child(1) {
+    width: 40%;
+    text-align: left;
+}
+
+
+/* Year */
+
+#recentDonations table th:nth-child(2),
+#recentDonations table td:nth-child(2) {
+    width: 15%;
+    text-align: center;
+}
+
+
+/* Amount */
+
+#recentDonations table th:nth-child(3),
+#recentDonations table td:nth-child(3) {
+    width: 20%;
+    text-align: right;
+}
+
+
+/* Date */
+
+#recentDonations table th:nth-child(4),
+#recentDonations table td:nth-child(4) {
+    width: 25%;
+    text-align: center;
+}
+
+
+/* ============================================================
+   DASHBOARD STAT CARDS - COMPACT
+============================================================ */
+
+.dashboard-stats,
+.stats-grid,
+.dashboard-cards {
+    gap: 14px !important;
+}
+
+
+/* Cards */
+
+.stat-card,
+.dashboard-card,
+.stats-card {
+    min-height: 105px !important;
+    height: 105px !important;
+    padding: 15px 18px !important;
+    border-radius: 12px !important;
+}
+
+
+/* Card title */
+
+.stat-card h3,
+.dashboard-card h3,
+.stats-card h3 {
+    font-size: 13px !important;
+    margin-bottom: 7px !important;
+}
+
+
+/* Card number */
+
+.stat-card .value,
+.dashboard-card .value,
+.stats-card .value {
+    font-size: 27px !important;
+    line-height: 1 !important;
+}
+
+
+/* ============================================================
+   RECENT DONATIONS CARD
+============================================================ */
+
+#recentDonations {
+    padding: 0 !important;
+}
+
+
+/* Recent donations heading */
+
+#recentDonations h2,
+#recentDonations h3 {
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
+}
+
+/* ============================================================
+   DASHBOARD STAT CARDS - COMPACT
+============================================================ */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px !important;
+}
+
+
+/* Individual Cards */
+.stats .stat-card {
+    min-height: 55px !important;
+    height: 55px !important;
+    padding: 6px 8px !important;
+    border-radius: 3px !important;
+}
+
+
+/* Card Heading */
+
+.stats .stat-card h3 {
+    font-size: 14px !important;
+    line-height: 1.0 !important;
+    margin: 0 0 5px 0 !important;
+}
+
+
+/* Card Number */
+
+.stats .stat-card strong {
+    font-size: 22px !important;
+    line-height: 1 !important;
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 768px) {
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 7px !important;
+    }
+
+    .stats .stat-card {
+        min-height: 68px !important;
+        height: 67px !important;
+        padding: 8px 10px !important;
+    }
+
+    .stats .stat-card h3 {
+        font-size: 10px !important;
+        margin-bottom: 4px !important;
+    }
+
+    .stats .stat-card strong {
+        font-size: 20px !important;
+    }
+
+}
+/* =========================================================
+   RECENT DONATIONS - 10 ROWS + SCROLL
+========================================================= */
+
+#recentDonations {
+    max-height: 50px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+.btn-edit {
+    background: #198754;
+    color: #fff;
+    border: none;
+    padding: 5px 9px;
+    font-size: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-edit:hover {
+    background: #157347;
+}
+/* =========================================================
+   DONATION MANAGEMENT - COMPACT FORM
+========================================================= */
+
+#donations .form-group {
+    margin-bottom: 10px;
+}
+
+#donations .form-group label {
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+#donations .form-group input,
+#donations .form-group select,
+#donations .form-group textarea {
+    padding: 7px 9px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+#donations .form-group input,
+#donations .form-group select {
+    height: 34px;
+    min-height: 34px;
+}
+
+#donations .form-group textarea {
+    height: 65px;
+    min-height: 65px;
+}
+
+#donations .action-row {
+    margin-top: 4px;
+}
+
+#donations .action-row .btn {
+    min-height: 34px;
+    padding: 7px 12px;
+    font-size: 12px;
+}
+/* =========================================================
+   COMMITTEE MEMBERS - COMPACT FORM
+========================================================= */
+
+#members .form-group {
+    margin-bottom: 10px;
+}
+
+#members .form-group label {
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+#members .form-group input,
+#members .form-group select,
+#members .form-group textarea {
+    padding: 7px 9px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+#members .form-group input,
+#members .form-group select {
+    height: 34px;
+    min-height: 34px;
+}
+
+#members .form-group textarea {
+    height: 65px;
+    min-height: 65px;
+}
+
+#members .action-row {
+    margin-top: 4px;
+}
+
+#members .action-row .btn {
+    min-height: 34px;
+    padding: 7px 12px;
+    font-size: 12px;
+}
+/* =========================================================
+   PUJA PROGRAM - COMPACT FORM
+========================================================= */
+
+#programs .form-group {
+    margin-bottom: 10px;
+}
+
+#programs .form-group label {
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+#programs .form-group input,
+#programs .form-group select,
+#programs .form-group textarea {
+    padding: 7px 9px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+#programs .form-group input,
+#programs .form-group select {
+    height: 34px;
+    min-height: 34px;
+}
+
+#programs .form-group textarea {
+    height: 45px;
+    min-height: 45px;
+}
+
+#programs .action-row {
+    margin-top: 4px;
+}
+
+#programs .action-row .btn {
+    min-height: 34px;
+    padding: 7px 12px;
+    font-size: 12px;
+}
+/* =========================================================
+   NOTICE MANAGEMENT - COMPACT FORM
+========================================================= */
+
+#notices .form-group {
+    margin-bottom: 10px;
+}
+
+#notices .form-group label {
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+#notices .form-group input,
+#notices .form-group select,
+#notices .form-group textarea {
+    padding: 7px 9px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+#notices .form-group input,
+#notices .form-group select {
+    height: 34px;
+    min-height: 34px;
+}
+
+#notices .form-group textarea {
+    height: 45px;
+    min-height: 45px;
+}
+
+#notices .action-row {
+    margin-top: 4px;
+}
+
+#notices .action-row .btn {
+    min-height: 24px;
+    padding: 7px 10px;
+    font-size: 12px;
+
+}
+/* =========================================
+   NOTICE EDIT / DELETE BUTTON SIZE
+========================================= */
+
+#noticesList .btn-edit,
+#noticesList .btn-danger {
+    width: 90px;
+    min-width: 90px;
+    padding: 7px 10px;
+    font-size: 13px;
+    line-height: 1.2;
+    margin: 2px;
+}
+/* =========================================
+   NOTICE FIELD ERROR
+========================================= */
+
+#notices .field-error {
+    display: block;
+    color: #dc2626;
+    font-size: 12px;
+    margin-top: 4px;
+    min-height: 16px;
+}
+
+#notices .field-error:empty {
+    display: none;
+}
+/* =========================================================
+   GALLERY - COMPACT FORM
+========================================================= */
+
+#gallery .form-group {
+    margin-bottom: 10px;
+}
+
+#gallery .form-group label {
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+#gallery .form-group input,
+#gallery .form-group select,
+#gallery .form-group textarea {
+    padding: 7px 9px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+#gallery .form-group input,
+#gallery .form-group select {
+    height: 34px;
+    min-height: 34px;
+}
+
+#gallery .form-group textarea {
+    height: 65px;
+    min-height: 65px;
+}
+
+/* Year + Category + Date in one row */
+#gallery .gallery-meta-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+#gallery .action-row {
+    margin-top: 4px;
+}
+
+#gallery .action-row .btn {
+    min-height: 34px;
+    padding: 7px 12px;
+    font-size: 12px;
+}
+.btn-edit {
+    background: #16a34a !important;
+    color: white !important;
+    border: none;
+}
+
+.btn-edit:hover {
+    background: #15803d !important;
+}
+/* =========================================================
+   VIDEO MANAGEMENT - COMPACT FORM
+========================================================= */
+
+#videos .card {
+    padding: 14px;
+}
+
+#videos .form-group {
+    margin-bottom: 10px;
+}
+
+#videos .form-group label {
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+#videos .form-group input,
+#videos .form-group select,
+#videos .form-group textarea {
+    padding: 7px 9px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+#videos .form-group input,
+#videos .form-group select {
+    height: 34px;
+    min-height: 34px;
+}
+
+#videos .form-group textarea {
+    height: 60px;
+    min-height: 60px;
+}
+
+#videos input[type="file"] {
+    height: 34px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+
+#videos .action-row {
+    margin-top: 4px;
+}
+
+#videos .action-row .btn {
+    min-height: 34px;
+    padding: 7px 12px;
+    font-size: 12px;
+}
+#videos .field-error {
+    display: block;
+    color: #dc2626;
+    font-size: 12px;
+    margin-top: 4px;
+    min-height: 16px;
+}
+
+#videos .field-error:empty {
+    display: none;
+}
+
+#videos .btn-edit {
+    background: #16a34a !important;
+    color: white !important;
+    border: none;
+}
+
+#videos .btn-edit:hover {
+    background: #15803d !important;
+}
+/* =========================================================
+   LIVE DARSHAN - COMPACT FORM
+========================================================= */
+
+#live .card {
+    padding: 14px;
+}
+
+#live .form-group {
+    margin-bottom: 10px;
+}
+
+#live .form-group label {
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+#live .form-group input,
+#live .form-group select,
+#live .form-group textarea {
+    padding: 7px 9px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+#live .form-group input,
+#live .form-group select {
+    height: 34px;
+    min-height: 34px;
+}
+
+#live .form-group textarea {
+    height: 60px;
+    min-height: 60px;
+}
+
+#live input[type="file"] {
+    height: 34px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+
+#live .action-row {
+    margin-top: 4px;
+}
+
+#live .action-row .btn {
+    min-height: 34px;
+    padding: 7px 12px;
+    font-size: 12px;
+}
+/* =========================================================
+   SPECIAL DARSHAN - COMPACT FORM
+========================================================= */
+
+#darshan .card {
+    padding: 14px;
+}
+
+#darshan .form-group {
+    margin-bottom: 10px;
+}
+
+#darshan .form-group label {
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+#darshan .form-group input,
+#darshan .form-group select,
+#darshan .form-group textarea {
+    padding: 7px 9px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+#darshan .form-group input,
+#darshan .form-group select {
+    height: 34px;
+    min-height: 34px;
+}
+
+#darshan .form-group textarea {
+    height: 60px;
+    min-height: 60px;
+}
+
+#darshan input[type="file"] {
+    height: 34px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+
+#darshan .action-row {
+    margin-top: 4px;
+}
+
+#darshan .action-row .btn {
+    min-height: 34px;
+    padding: 7px 12px;
+    font-size: 12px;
+}
+/* =========================================================
+   CONTRIBUTORS - COMPACT FORM
+========================================================= */
+
+#contributors .card {
+    padding: 14px;
+}
+
+#contributors .form-group {
+    margin-bottom: 10px;
+}
+
+#contributors .form-group label {
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+#contributors .form-group input,
+#contributors .form-group select,
+#contributors .form-group textarea {
+    padding: 7px 9px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+#contributors .form-group input,
+#contributors .form-group select {
+    height: 34px;
+    min-height: 34px;
+}
+
+#contributors .form-group textarea {
+    height: 60px;
+    min-height: 60px;
+}
+
+#contributors input[type="file"] {
+    height: 34px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+
+#contributors .action-row {
+    margin-top: 4px;
+}
+
+#contributors .action-row .btn {
+    min-height: 34px;
+    padding: 7px 12px;
+    font-size: 12px;
+}
+/* =========================================================
+   CONTACT MESSAGES - COMPACT EXCEL STYLE
+========================================================= */
+
+#contacts .card {
+    padding: 14px;
+}
+
+#contacts .table-wrap {
+    width: 100%;
+    max-width: 100%;
+    max-height: 330px;
+    overflow-x: auto;
+    overflow-y: auto;
+    border: 1px solid #d6d6d6;
+    border-radius: 6px;
+}
+
+#contacts table {
+    width: max-content;
+    min-width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+    background: #fff;
+}
+
+#contacts table th,
+#contacts table td {
+    border: 1px solid #d0d0d0 !important;
+    padding: 5px 8px !important;
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    height: 30px !important;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+#contacts table th {
+    font-weight: 700;
+}
+
+#contacts table .btn {
+    padding: 4px 7px !important;
+    font-size: 11px !important;
+    min-height: 28px;
+    margin: 1px;
+}
+/* =========================================================
+   DONATION TABLE - S.NO COMPACT
+========================================================= */
+
+#donations .donation-table th:first-child,
+#donations .donation-table td:first-child {
+    width: 45px;
+    min-width: 45px;
+    max-width: 45px;
+    padding: 6px 4px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   CONTIBUTOR LIST - S.NO COMPACT
+========================================================= */
+
+#contributors table th:first-child,
+#contributors table td:first-child {
+    width: 45px;
+    min-width: 45px;
+    max-width: 45px;
+    padding: 6px 4px;
+    text-align: center;
+    white-space: nowrap;
+}
+/*----------------Gender-----------------*/
+#memberForm input[name="memberGender"] {
+    width: 16px;
+    height: 16px;
+}
+
+#memberForm label {
+    font-size: 16px;
+}

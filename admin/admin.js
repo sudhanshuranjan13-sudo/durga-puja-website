@@ -442,7 +442,10 @@ if (token) {
 }
 
 const response =
-    await fetch(API + url, options);
+    await fetch(API + url, {
+        ...options,
+        cache: "no-store"
+    });
 
 const data =
     await response.json()
@@ -773,6 +776,8 @@ try {
             "/api/admin/dashboard"
         );
 
+
+
     const stats =
         data.stats || {};
 
@@ -861,13 +866,15 @@ try {
     console.error(error);
 
 }
-/*===========load member==========*/
 }
+/*===========load member==========*/
+
 async function loadMembers() {
 
     try {
 
         const members =
+
             await apiRequest(
                 "/api/members"
             );
@@ -878,6 +885,7 @@ async function loadMembers() {
                     <tr>
                         <th>${t("positionHindi")}</th>
                         <th>${t("name")}</th>
+                        <th>Gender</th>
                         <th>${t("order")}</th>
                         <th>${t("action")}</th>
                     </tr>
@@ -885,32 +893,70 @@ async function loadMembers() {
                 <tbody>`;
 
         members.forEach(member => {
+const position =
+    currentLanguage === "hi"
+        ? (
+            member.positionHi ||
+            member.positionEn ||
+            member.position ||
+            ""
+        )
+        : (
+            member.positionEn ||
+            member.positionHi ||
+            member.position ||
+            ""
+        );
 
-            const position =
-                currentLanguage === "hi"
-                    ? (member.positionHi || member.positionEn || "")
-                    : (member.positionEn || member.positionHi || "");
+const name =
+    currentLanguage === "hi"
+        ? (
+            member.nameHi ||
+            member.nameEn ||
+            member.name ||
+            ""
+        )
+        : (
+            member.nameEn ||
+            member.nameHi ||
+            member.name ||
+            ""
+        );
+           
+        html += `
+    <tr>
+        <td>
+            ${escapeHtml(position)}
+        </td>
 
-            const name =
-                currentLanguage === "hi"
-                    ? (member.nameHi || member.nameEn || "")
-                    : (member.nameEn || member.nameHi || "");
+        <td>
+            ${escapeHtml(name)}
+        </td>
+         <td>${escapeHtml(member.gender || "")}</td>
+        <td>
+            ${member.order ?? 0}
+        </td>
 
-            html += `
-                <tr>
-                    <td>${escapeHtml(position)}</td>
-                    <td>${escapeHtml(name)}</td>
-                    <td>${member.order || 0}</td>
-                    <td>
-                        <button
-                            class="btn btn-danger"
-                            onclick="deleteMember('${member._id}')"
-                        >
-                            ${t("delete")}
-                        </button>
-                    </td>
-                </tr>
-            `;
+        <td>
+            <button
+                type="button"
+                class="btn btn-edit"
+                onclick="editMember('${member._id}')"
+            >
+                ✏️ ${t("edit")}
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-danger"
+                onclick="deleteMember('${member._id}')"
+            >
+                🗑️ ${t("delete")}
+            </button>
+        </td>
+    </tr>
+`;
+            
 
         });
 
@@ -939,79 +985,487 @@ async function loadMembers() {
 
     }
 
+
 }
 
 /* =========================================================
 MEMBERS
 ========================================================= */
     
-async function addMember() {
+/* =========================================================
+   EDIT MEMBER
+========================================================= */
+
+async function editMember(id) {
 
     try {
 
-        await apiRequest(
-            "/api/admin/members",
-            {
-                method: "POST",
+        const members =
+            await apiRequest(
+                "/api/members"
+            );
 
-                body: JSON.stringify({
+        const member =
+            members.find(
+                item =>
+                    String(item._id) ===
+                    String(id)
+            );
 
-                    positionHi:
-                        value("memberPositionHi"),
+        if (!member) {
 
-                    positionEn:
-                        value("memberPositionEn"),
+            alert(
+                currentLanguage === "hi"
+                    ? "सदस्य नहीं मिला।"
+                    : "Member not found."
+            );
 
-                    nameHi:
-                        value("memberNameHi"),
+            return;
+        }
 
-                    nameEn:
-                        value("memberNameEn"),
 
-                    memberType:
-                        value("memberType"),
+        /* ===============================
+           FILL MEMBER FORM
+        =============================== */
 
-                    image:
-                        value("memberImage"),
+        document.getElementById(
+            "memberPositionHi"
+        ).value =
+            member.positionHi || "";
 
-                    order:
-                        Number(
-                            value("memberOrder")
-                        ) || 0,
+        document.getElementById(
+            "memberPositionEn"
+        ).value =
+            member.positionEn || "";
 
-                    active: true
+        document.getElementById(
+            "memberNameHi"
+        ).value =
+            member.nameHi || "";
 
-                })
-            }
-        );
+        document.getElementById(
+            "memberNameEn"
+        ).value =
+            member.nameEn || "";
 
-        alert(t("memberAdded"));
+        document.getElementById(
+            "memberType"
+        ).value =
+            member.memberType || "officeBearer";
+            document.querySelectorAll(
+    'input[name="memberGender"]'
+).forEach(radio => {
 
-        // Form clear
-        document.getElementById("memberPositionHi").value = "";
-        document.getElementById("memberPositionEn").value = "";
-        document.getElementById("memberNameHi").value = "";
-        document.getElementById("memberNameEn").value = "";
-        document.getElementById("memberImage").value = "";
-        document.getElementById("memberOrder").value = "";
+    radio.checked =
+        radio.value === member.gender;
 
-        // Members list reload
-        await loadMembers();
+});
+
+        document.getElementById(
+            "memberImage"
+        ).value =
+            member.image || "";
+
+        document.getElementById(
+            "memberOrder"
+        ).value =
+            member.order || 0;
+
+
+        /* ===============================
+           STORE EDIT ID
+        =============================== */
+
+        const form =
+            document.getElementById(
+                "memberForm"
+            );
+
+        if (form) {
+
+            form.dataset.editId =
+                member._id;
+
+        }
+
+
+        /* ===============================
+           CHANGE BUTTON
+        =============================== */
+
+        const addButton =
+            document.querySelector(
+                "#memberForm .btn-add"
+            );
+
+        if (addButton) {
+
+            addButton.textContent =
+                currentLanguage === "hi"
+                    ? "✏️ अपडेट करें"
+                    : "✏️ Update Member";
+
+        }
+
+
+        /* ===============================
+           SHOW CANCEL BUTTON
+        =============================== */
+
+        const cancelButton =
+            document.getElementById(
+                "cancelMemberEdit"
+            );
+
+        if (cancelButton) {
+
+            cancelButton.style.display =
+                "inline-block";
+
+        }
+
+
+        /* ===============================
+           SCROLL TO FORM
+        =============================== */
+
+        if (form) {
+
+            form.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
 
     } catch (error) {
 
         console.error(
-            "Add member error:",
+            "Edit Member Error:",
             error
         );
 
-        alert(error.message);
+        alert(
+            error.message ||
+            "Unable to edit member."
+        );
 
     }
 
 }
-     
 
+/* =========================================================
+   ADD / UPDATE MEMBER
+========================================================= */
+
+async function addMember() {
+
+    const form =
+        document.getElementById("memberForm");
+
+    const editId =
+        form?.dataset.editId;
+
+    try {
+            /* ===============================
+       MEMBER VALIDATION
+    =============================== */
+
+    const positionHi =
+        value("memberPositionHi").trim();
+
+    const positionEn =
+        value("memberPositionEn").trim();
+
+    const nameHi =
+        value("memberNameHi").trim();
+
+    const nameEn =
+        value("memberNameEn").trim();
+
+    const memberType =
+        value("memberType").trim();
+        const memberGender =
+    document.querySelector(
+        'input[name="memberGender"]:checked'
+    )?.value || "";
+    
+
+    const image =
+        value("memberImage").trim();
+
+    const orderValue =
+        value("memberOrder").trim();
+
+
+    /* ===============================
+       BLANK FIELD VALIDATION
+    =============================== */
+
+    if (!positionHi) {
+        alert("हिंदी पद खाली नहीं हो सकता।");
+        return;
+    }
+
+    if (!positionEn) {
+        alert("English पद खाली नहीं हो सकता।");
+        return;
+    }
+
+    if (!nameHi) {
+        alert("हिंदी नाम खाली नहीं हो सकता।");
+        return;
+    }
+
+    if (!nameEn) {
+        alert("English नाम खाली नहीं हो सकता।");
+        return;
+    }
+
+   if (!memberType) {
+    alert("सदस्य प्रकार चुनें।");
+    return;
+}
+
+if (!memberGender) {
+    alert(
+        currentLanguage === "hi"
+            ? "कृपया Gender चुनें।"
+            : "Please select Gender."
+    );
+    return;
+}
+
+    if (!image) {
+        alert("Image URL खाली नहीं हो सकता।");
+        return;
+    }
+
+    if (!orderValue) {
+        alert("क्रम खाली नहीं हो सकता।");
+        return;
+    }
+
+
+    /* ===============================
+       NAME VALIDATION
+    =============================== */
+
+    const englishNamePattern =
+        /^[A-Za-z ]+$/;
+
+    const hindiNamePattern =
+        /^[A-Za-z\u0900-\u097F ]+$/;
+
+
+    if (!englishNamePattern.test(nameEn)) {
+
+        alert(
+            "English नाम में केवल English letters और space मान्य हैं।"
+        );
+
+        return;
+    }
+
+
+    if (!hindiNamePattern.test(nameHi)) {
+
+        alert(
+            "नाम में केवल English या Hindi letters और space मान्य हैं।"
+        );
+
+        return;
+    }
+
+
+    /* ===============================
+       ORDER VALIDATION
+    =============================== */
+
+    if (!/^[1-9]\d*$/.test(orderValue)) {
+
+        alert(
+            "क्रम केवल positive whole number होना चाहिए।"
+        );
+
+        return;
+    }
+
+
+    const memberOrder =
+        Number(orderValue);
+
+
+        const memberData = {
+
+            positionHi:
+                value("memberPositionHi"),
+
+            positionEn:
+                value("memberPositionEn"),
+
+            nameHi:
+                value("memberNameHi"),
+
+            nameEn:
+                value("memberNameEn"),
+
+            memberType:
+                value("memberType"),
+
+
+gender:
+    memberGender,
+
+            image:
+                value("memberImage"),
+
+            order: memberOrder,
+            active: true
+        };
+
+
+        /* ===============================
+           UPDATE EXISTING MEMBER
+        =============================== */
+
+        if (editId) {
+
+            await apiRequest(
+                "/api/admin/members/" + editId,
+                {
+                    method: "PUT",
+
+                    body:
+                        JSON.stringify(
+                            memberData
+                        )
+                }
+            );
+
+            alert(
+                currentLanguage === "hi"
+                    ? "सदस्य सफलतापूर्वक अपडेट कर दिया गया।"
+                    : "Member updated successfully."
+            );
+
+        }
+
+        /* ===============================
+           ADD NEW MEMBER
+        =============================== */
+
+        else {
+
+            await apiRequest(
+                "/api/admin/members",
+                {
+                    method: "POST",
+
+                    body:
+                        JSON.stringify(
+                            memberData
+                        )
+                }
+            );
+
+            alert(
+                currentLanguage === "hi"
+                    ? "सदस्य सफलतापूर्वक जोड़ दिया गया।"
+                    : "Member added successfully."
+            );
+
+        }
+
+
+        /* ===============================
+           RESET + RELOAD
+        =============================== */
+
+        resetMemberForm();
+
+        await loadMembers();
+
+        await loadDashboard();
+
+
+    } catch (error) {
+
+        console.error(
+            "Member Save/Update Error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Failed to save member."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   RESET MEMBER FORM
+========================================================= */
+
+function resetMemberForm() {
+
+    const form =
+        document.getElementById(
+            "memberForm"
+        );
+
+    if (form) {
+
+        form.reset();
+
+        delete form.dataset.editId;
+
+    }
+
+
+    const order =
+        document.getElementById(
+            "memberOrder"
+        );
+
+    if (order) {
+
+        order.value = "0";
+
+    }
+
+
+    const addButton =
+        document.querySelector(
+            "#memberForm .btn-add"
+        );
+
+    if (addButton) {
+
+        addButton.textContent =
+            currentLanguage === "hi"
+                ? "➕ सदस्य जोड़ें"
+                : "➕ Add Member";
+
+    }
+
+
+    const cancelButton =
+        document.getElementById(
+            "cancelMemberEdit"
+        );
+
+    if (cancelButton) {
+
+        cancelButton.style.display =
+            "none";
+
+    }
+
+}
 async function deleteMember(id) {
 
 if (
@@ -1154,13 +1608,22 @@ try {
                 <td>${escapeHtml(title)}</td>
                 <td>${escapeHtml(program.time || "")}</td>
                 <td>
-                    <button
-                        class="btn btn-danger"
-                        onclick="deleteProgram('${program._id}')"
-                    >
-                        ${t("delete")}
-                    </button>
-                </td>
+
+    <button
+        class="btn btn-edit"
+        onclick="editProgram('${program._id}')"
+    >
+        ✏️ ${t("edit")}
+    </button>
+
+    <button
+        class="btn btn-danger"
+        onclick="deleteProgram('${program._id}')"
+    >
+        🗑️ ${t("delete")}
+    </button>
+
+</td>
             </tr>`;
 
     });
@@ -1181,71 +1644,343 @@ try {
 }
 
 }
-
 async function addProgram() {
 
+    /* =================================================
+       PROGRAM VALIDATION
+    ================================================= */
 
-try {
+    const year = value("programYear").trim();
+    const date = value("programDate").trim();
 
-    await apiRequest(
-        "/api/admin/programs",
-        {
-            method: "POST",
+    const dayHi = value("programDayHi").trim();
+    const dayEn = value("programDayEn").trim();
 
-            body: JSON.stringify({
+    const titleHi = value("programTitleHi").trim();
+    const titleEn = value("programTitleEn").trim();
 
-                year:
-                    Number(
-                        value("programYear")
-                    ),
+    const descriptionHi =
+        value("programDescriptionHi").trim();
 
-                dayHi:
-                    value("programDayHi"),
+    const descriptionEn =
+        value("programDescriptionEn").trim();
 
-                dayEn:
-                    value("programDayEn"),
+    const time = value("programTime").trim();
 
-                titleHi:
-                    value("programTitleHi"),
+    const orderValue =
+        value("programOrder").trim();
 
-                titleEn:
-                    value("programTitleEn"),
 
-                descriptionHi:
-                    value("programDescriptionHi"),
+    /* ===============================
+       REQUIRED FIELD VALIDATION
+    =============================== */
 
-                descriptionEn:
-                    value("programDescriptionEn"),
+    if (!year) {
+        alert(
+            currentLanguage === "hi"
+                ? "कृपया वर्ष चुनें।"
+                : "Please select a year."
+        );
+        return;
+    }
 
-                date:
-                    value("programDate"),
+    if (!date) {
+        alert(
+            currentLanguage === "hi"
+                ? "कृपया दिनांक दर्ज करें।"
+                : "Please enter the date."
+        );
+        return;
+    }
 
-                time:
-                    value("programTime"),
+    if (!dayHi) {
+        alert(
+            currentLanguage === "hi"
+                ? "कृपया दिन - हिंदी दर्ज करें।"
+                : "Please enter Day - Hindi."
+        );
+        return;
+    }
 
-                order:
-                    Number(
-                        value("programOrder")
-                    ) || 0,
+    if (!dayEn) {
+        alert(
+            currentLanguage === "hi"
+                ? "कृपया Day - English दर्ज करें।"
+                : "Please enter Day - English."
+        );
+        return;
+    }
 
-                active: true
+    if (!titleHi) {
+        alert(
+            currentLanguage === "hi"
+                ? "कृपया शीर्षक - हिंदी दर्ज करें।"
+                : "Please enter Hindi title."
+        );
+        return;
+    }
 
-            })
+    if (!titleEn) {
+        alert(
+            currentLanguage === "hi"
+                ? "कृपया Title - English दर्ज करें।"
+                : "Please enter English title."
+        );
+        return;
+    }
 
-        }
-    );
+    if (!descriptionHi) {
+        alert(
+            currentLanguage === "hi"
+                ? "कृपया विवरण - हिंदी दर्ज करें।"
+                : "Please enter Hindi description."
+        );
+        return;
+    }
 
-    alert(t("programAdded"));
+    if (!descriptionEn) {
+        alert(
+            currentLanguage === "hi"
+                ? "कृपया Description - English दर्ज करें।"
+                : "Please enter English description."
+        );
+        return;
+    }
 
-    loadPrograms();
+    if (!time) {
+        alert(
+            currentLanguage === "hi"
+                ? "कृपया समय दर्ज करें।"
+                : "Please enter the time."
+        );
+        return;
+    }
 
-    loadDashboard();
+    if (!orderValue) {
+        alert(
+            currentLanguage === "hi"
+                ? "कृपया क्रम दर्ज करें।"
+                : "Please enter the order."
+        );
+        return;
+    }
 
-} catch(error) {
 
-    alert(error.message);
+    /* =================================================
+       DAY VALIDATION
+       Hindi + English letters allowed in Hindi field
+    ================================================= */
+
+    const dayHiPattern =
+        /^[A-Za-z\u0900-\u097F ]+$/;
+
+    const dayEnPattern =
+        /^[A-Za-z ]+$/;
+
+
+    if (!dayHiPattern.test(dayHi)) {
+
+        alert(
+            currentLanguage === "hi"
+                ? "दिन - हिंदी में केवल हिंदी या English अक्षर दर्ज करें।"
+                : "Day - Hindi can contain only Hindi or English letters."
+        );
+
+        return;
+    }
+
+
+    if (!dayEnPattern.test(dayEn)) {
+
+        alert(
+            currentLanguage === "hi"
+                ? "Day - English में केवल English अक्षर दर्ज करें।"
+                : "Day - English can contain only English letters."
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       ORDER VALIDATION
+       Only positive whole numbers: 1, 2, 3...
+    ================================================= */
+
+    if (!/^[1-9]\d*$/.test(orderValue)) {
+
+        alert(
+            currentLanguage === "hi"
+                ? "क्रम केवल 1, 2, 3... जैसे positive whole number होना चाहिए।"
+                : "Order must be a positive whole number like 1, 2, 3..."
+        );
+
+        return;
+    }
+
+
+    const programOrder =
+        Number(orderValue);
+
+
+    try {
+
+        await apiRequest(
+            "/api/admin/programs",
+            {
+                method: "POST",
+
+                body: JSON.stringify({
+
+                    year:
+                        Number(year),
+
+                    dayHi:
+                        dayHi,
+
+                    dayEn:
+                        dayEn,
+
+                    titleHi:
+                        titleHi,
+
+                    titleEn:
+                        titleEn,
+
+                    descriptionHi:
+                        descriptionHi,
+
+                    descriptionEn:
+                        descriptionEn,
+
+                    date:
+                        date,
+
+                    time:
+                        time,
+
+                    order:
+                        programOrder,
+
+                    active: true
+
+                })
+
+            }
+        );
+
+
+        alert(t("programAdded"));
+
+        loadPrograms();
+
+        loadDashboard();
+
+
+    } catch(error) {
+
+        alert(error.message);
+
+    }
 
 }
+async function editProgram(id) {
+
+    try {
+
+        const programs =
+            await apiRequest("/api/programs");
+
+        const program =
+            programs.find(
+                item =>
+                    String(item._id) ===
+                    String(id)
+            );
+
+        if (!program) {
+
+            alert(
+                currentLanguage === "hi"
+                    ? "कार्यक्रम नहीं मिला।"
+                    : "Program not found."
+            );
+
+            return;
+        }
+
+        document.getElementById("programYear").value =
+            program.year || "";
+
+        document.getElementById("programDate").value =
+            program.date || "";
+
+        document.getElementById("programDayHi").value =
+            program.dayHi || "";
+
+        document.getElementById("programDayEn").value =
+            program.dayEn || "";
+
+        document.getElementById("programTitleHi").value =
+            program.titleHi || "";
+
+        document.getElementById("programTitleEn").value =
+            program.titleEn || "";
+
+        document.getElementById("programDescriptionHi").value =
+            program.descriptionHi || "";
+
+        document.getElementById("programDescriptionEn").value =
+            program.descriptionEn || "";
+
+        document.getElementById("programTime").value =
+            program.time || "";
+
+        document.getElementById("programOrder").value =
+            program.order || "";
+
+        const form =
+            document.getElementById("programForm");
+
+        if (form) {
+            form.dataset.editId = program._id;
+        }
+
+        const button =
+            document.querySelector(
+                "#programForm button[type='submit']"
+            );
+
+        if (button) {
+
+            button.textContent =
+                currentLanguage === "hi"
+                    ? "✏️ अपडेट करें"
+                    : "✏️ Update Program";
+        }
+
+        if (form) {
+
+            form.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Edit Program Error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to edit program."
+        );
+
+    }
 
 }
 
@@ -1368,29 +2103,182 @@ async function addNotice(event) {
         event.preventDefault();
     }
 
-    const titleHi = value("noticeTitleHi");
-    const titleEn = value("noticeTitleEn");
-    const messageHi = value("noticeMessageHi");
-    const messageEn = value("noticeMessageEn");
-    const date = value("noticeDate");
+    /* =========================================
+       CLEAR OLD ERRORS
+    ========================================= */
 
-    if (!titleHi && !titleEn) {
-        alert(
+    const errorFields = [
+        "noticeTitleHiError",
+        "noticeTitleEnError",
+        "noticeMessageHiError",
+        "noticeMessageEnError",
+        "noticeDateError"
+    ];
+
+    errorFields.forEach(id => {
+
+        const element =
+            document.getElementById(id);
+
+        if (element) {
+            element.textContent = "";
+        }
+
+    });
+
+
+    /* =========================================
+       GET VALUES
+    ========================================= */
+
+    const titleHi =
+        value("noticeTitleHi").trim();
+
+    const titleEn =
+        value("noticeTitleEn").trim();
+
+    const messageHi =
+        value("noticeMessageHi").trim();
+
+    const messageEn =
+        value("noticeMessageEn").trim();
+
+    const date =
+        value("noticeDate").trim();
+
+
+    let hasError = false;
+
+
+    /* =========================================
+       HINDI TITLE
+       Hindi + English + 0-9 + space
+    ========================================= */
+
+    const titleHiPattern =
+        /^[A-Za-z0-9\u0900-\u097F ]+$/;
+
+    if (!titleHi) {
+
+        document.getElementById(
+            "noticeTitleHiError"
+        ).textContent =
             currentLanguage === "hi"
-                ? "कृपया कम से कम एक शीर्षक दर्ज करें।"
-                : "Please enter at least one notice title."
-        );
+                ? "कृपया हिंदी शीर्षक दर्ज करें।"
+                : "Please enter Hindi title.";
+
+        hasError = true;
+
+    } else if (!titleHiPattern.test(titleHi)) {
+
+        document.getElementById(
+            "noticeTitleHiError"
+        ).textContent =
+            currentLanguage === "hi"
+                ? "केवल हिंदी/अंग्रेजी अक्षर, 0-9 और स्पेस स्वीकार हैं।"
+                : "Only Hindi/English letters, 0-9 and spaces are allowed.";
+
+        hasError = true;
+    }
+
+
+    /* =========================================
+       ENGLISH TITLE
+       English + 0-9 + space
+    ========================================= */
+
+    const titleEnPattern =
+        /^[A-Za-z0-9 ]+$/;
+
+    if (!titleEn) {
+
+        document.getElementById(
+            "noticeTitleEnError"
+        ).textContent =
+            currentLanguage === "hi"
+                ? "कृपया अंग्रेजी शीर्षक दर्ज करें।"
+                : "Please enter English title.";
+
+        hasError = true;
+
+    } else if (!titleEnPattern.test(titleEn)) {
+
+        document.getElementById(
+            "noticeTitleEnError"
+        ).textContent =
+            currentLanguage === "hi"
+                ? "केवल अंग्रेजी अक्षर, 0-9 और स्पेस स्वीकार हैं।"
+                : "Only English letters, 0-9 and spaces are allowed.";
+
+        hasError = true;
+    }
+
+
+    /* =========================================
+       HINDI MESSAGE
+       Any type of data allowed
+    ========================================= */
+
+    if (!messageHi) {
+
+        document.getElementById(
+            "noticeMessageHiError"
+        ).textContent =
+            currentLanguage === "hi"
+                ? "कृपया हिंदी संदेश दर्ज करें।"
+                : "Please enter Hindi message.";
+
+        hasError = true;
+    }
+
+
+    /* =========================================
+       ENGLISH MESSAGE
+       Any type of data allowed
+    ========================================= */
+
+    if (!messageEn) {
+
+        document.getElementById(
+            "noticeMessageEnError"
+        ).textContent =
+            currentLanguage === "hi"
+                ? "कृपया अंग्रेजी संदेश दर्ज करें।"
+                : "Please enter English message.";
+
+        hasError = true;
+    }
+
+
+    /* =========================================
+       DATE
+    ========================================= */
+
+    if (!date) {
+
+        document.getElementById(
+            "noticeDateError"
+        ).textContent =
+            currentLanguage === "hi"
+                ? "कृपया दिनांक चुनें।"
+                : "Please select date.";
+
+        hasError = true;
+    }
+
+
+    /* =========================================
+       STOP IF ANY ERROR
+    ========================================= */
+
+    if (hasError) {
         return;
     }
 
-    if (!messageHi && !messageEn) {
-        alert(
-            currentLanguage === "hi"
-                ? "कृपया कम से कम एक संदेश दर्ज करें।"
-                : "Please enter at least one notice message."
-        );
-        return;
-    }
+
+    /* =========================================
+       EDIT / UPDATE ID
+    ========================================= */
 
     const form =
         document.getElementById("noticeForm");
@@ -1398,11 +2286,12 @@ async function addNotice(event) {
     const editId =
         form?.dataset.editId;
 
+
     try {
 
-        /* ===============================
+        /* =====================================
            UPDATE EXISTING NOTICE
-        =============================== */
+        ===================================== */
 
         if (editId) {
 
@@ -1429,9 +2318,9 @@ async function addNotice(event) {
 
         }
 
-        /* ===============================
+        /* =====================================
            ADD NEW NOTICE
-        =============================== */
+        ===================================== */
 
         else {
 
@@ -1457,10 +2346,13 @@ async function addNotice(event) {
             );
         }
 
+
         resetNoticeForm();
 
         await loadNotices();
+
         await loadDashboard();
+
 
     } catch (error) {
 
@@ -1691,8 +2583,13 @@ async function editNotice(id) {
 }
 
 /* =========================================================
-   LOAD GALLERY
+   GALLERY
    ADMIN PANEL / DATABASE ONLY
+========================================================= */
+
+
+/* =========================================================
+   LOAD GALLERY
 ========================================================= */
 
 async function loadGallery() {
@@ -1706,8 +2603,6 @@ async function loadGallery() {
         console.error("❌ galleryList NOT FOUND");
         return;
     }
-
-    console.log("✅ galleryList FOUND");
 
     try {
 
@@ -1724,7 +2619,6 @@ async function loadGallery() {
             </div>
         `;
 
-        console.log("🟡 Calling GET /api/gallery");
 
         const response =
             await fetch(
@@ -1735,122 +2629,167 @@ async function loadGallery() {
                 }
             );
 
-        console.log(
-            "🔵 Gallery response:",
-            response.status
-        );
 
         const result =
             await response.json();
 
-        console.log(
-            "🟣 Gallery data:",
-            result
-        );
 
         if (Array.isArray(result)) {
+
             galleryData = result;
+
         } else if (
             result &&
             Array.isArray(result.data)
         ) {
+
             galleryData = result.data;
+
         } else {
+
             galleryData = [];
+
         }
 
-        console.log(
-            "🟢 Gallery items:",
-            galleryData.length
-        );
 
-        // नीचे आपका existing rendering code रहेगा
+        if (!galleryData.length) {
 
-        /* ================================================
-           ONLY ACTIVE PHOTOS WITH IMAGE
-        ================================================= */
+            container.innerHTML = `
 
-  /* ================================================
-   ADMIN GALLERY LIST
-================================================ */
+                <div class="gallery-placeholder">
 
+                    📸
 
+                    <span>
 
+                        ${
+                            currentLanguage === "hi"
+                                ? "अभी कोई फोटो उपलब्ध नहीं है।"
+                                : "No photos available yet."
+                        }
 
-/* ================================================
-   RENDER SAVED PHOTOS
-================================================ */
+                    </span>
 
-if (!galleryData.length) {
+                </div>
 
-    container.innerHTML = `
+            `;
 
-        <div class="gallery-placeholder">
-
-            📸
-
-            <span>
-
-                ${
-                    currentLanguage === "hi"
-                        ? "अभी कोई फोटो उपलब्ध नहीं है।"
-                        : "No photos available yet."
-                }
-
-            </span>
-
-        </div>
-
-    `;
-
-    return;
-
-}
+            return;
+        }
 
 
-container.innerHTML = galleryData.map(item => `
+        /* =========================================
+           RENDER GALLERY LIST
+        ========================================= */
 
-    <div class="admin-gallery-item">
+        container.innerHTML =
+            galleryData.map(item => `
 
-        <img
-            src="${item.image}"
-            alt="${
-                currentLanguage === "hi"
-                    ? (item.titleHi || "Gallery Photo")
-                    : (item.titleEn || "Gallery Photo")
-            }"
-            style="
-                width:120px;
-                height:90px;
-                object-fit:cover;
-                border-radius:8px;
-            "
-        >
+                <div class="admin-gallery-item">
 
-        <div>
+                    <img
+                        src="${escapeHtml(item.image || "")}"
+                        alt="${
+                            currentLanguage === "hi"
+                                ? escapeHtml(
+                                    item.titleHi ||
+                                    "Gallery Photo"
+                                )
+                                : escapeHtml(
+                                    item.titleEn ||
+                                    "Gallery Photo"
+                                )
+                        }"
+                        style="
+                            width:120px;
+                            height:90px;
+                            object-fit:cover;
+                            border-radius:8px;
+                        "
+                    >
 
-            <div>
-                ${item.year || ""}
-                ${item.category ? " • " + item.category : ""}
-            </div>
 
-        </div>
+                    <div class="gallery-info">
 
-        <button
-            type="button"
-            onclick="deleteGallery('${item._id || item.id}')"
-        >
-            🗑️ ${
-                currentLanguage === "hi"
-                    ? "डिलीट"
-                    : "Delete"
-            }
-        </button>
+                        <div>
+                            <strong>
+                                ${
+                                    currentLanguage === "hi"
+                                        ? escapeHtml(
+                                            item.titleHi || ""
+                                        )
+                                        : escapeHtml(
+                                            item.titleEn || ""
+                                        )
+                                }
+                            </strong>
+                        </div>
 
-    </div>
 
-`)
-       .join("");
+                        <div>
+
+                            ${escapeHtml(
+                                String(item.year || "")
+                            )}
+
+                            ${
+                                item.category
+                                    ? " • " +
+                                      escapeHtml(
+                                          item.category
+                                      )
+                                    : ""
+                            }
+
+                        </div>
+
+
+                        <div>
+                            ${escapeHtml(
+                                item.date || ""
+                            )}
+                        </div>
+
+                    </div>
+
+
+                    <div class="gallery-actions">
+
+                        <button
+                            type="button"
+                            class="btn btn-edit"
+                            onclick="editGallery(
+                                '${item._id || item.id}'
+                            )"
+                        >
+                            ✏️ ${
+                                currentLanguage === "hi"
+                                    ? "एडिट"
+                                    : "Edit"
+                            }
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="btn btn-danger"
+                            onclick="deleteGallery(
+                                '${item._id || item.id}'
+                            )"
+                        >
+                            🗑️ ${
+                                currentLanguage === "hi"
+                                    ? "डिलीट"
+                                    : "Delete"
+                            }
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `).join("");
+
     } catch (error) {
 
         console.error(
@@ -1858,9 +2797,7 @@ container.innerHTML = galleryData.map(item => `
             error
         );
 
-
         galleryData = [];
-
 
         container.innerHTML = `
 
@@ -1886,93 +2823,87 @@ container.innerHTML = galleryData.map(item => `
 
 }
 
-async function addGallery() {
 
-try {
-
-    await apiRequest(
-        "/api/admin/gallery",
-        {
-            method: "POST",
-
-            body: JSON.stringify({
-
-                titleHi:
-                    value("galleryTitleHi"),
-
-                titleEn:
-                    value("galleryTitleEn"),
-
-                image:
-                    value("galleryImage"),
-
-                year:
-                    Number(
-                        value("galleryYear")
-                    ),
-
-                category:
-                    value("galleryCategory"),
-
-                date:
-                    value("galleryDate"),
-
-                active: true
-
-            })
-
-        }
-    );
-
-    alert(t("galleryAdded"));
-
-    loadGallery();
-
-    loadDashboard();
-
-} catch(error) {
-
-    alert(error.message);
-
-}
-
-}
-
-async function deleteGallery(id) {
-
-if (
-    !confirm(
-        t("deleteGalleryConfirm")
-    )
-) return;
-
-try {
-
-    await apiRequest(
-        "/api/admin/gallery/" + id,
-        {
-            method: "DELETE"
-        }
-    );
-
-    loadGallery();
-
-    loadDashboard();
-
-} catch(error) {
-
-    alert(error.message);
-
-}
-
-}
 /* =========================================================
-DIRECT GALLERY PHOTO UPLOAD
+   CLEAR GALLERY ERRORS
 ========================================================= */
 
-async function uploadGalleryPhoto() {
+function clearGalleryErrors() {
 
-try {
+    const errorFields = [
+
+        "galleryTitleHiError",
+        "galleryTitleEnError",
+        "galleryImageError",
+        "galleryPhotoFileError",
+        
+        "galleryDateError"
+
+    ];
+
+
+    errorFields.forEach(id => {
+
+        const element =
+            document.getElementById(id);
+
+        if (element) {
+
+            element.textContent = "";
+
+        }
+
+    });
+
+}
+
+
+/* =========================================================
+   SHOW GALLERY ERROR
+========================================================= */
+
+function galleryError(id, hiMessage, enMessage) {
+
+    const element =
+        document.getElementById(id);
+
+    if (element) {
+
+        element.textContent =
+            currentLanguage === "hi"
+                ? hiMessage
+                : enMessage;
+
+    }
+
+}
+
+
+/* =========================================================
+   VALIDATE GALLERY
+========================================================= */
+
+function validateGallery(mode = "url") {
+
+    clearGalleryErrors();
+
+
+    const titleHi =
+        value("galleryTitleHi").trim();
+
+
+    const titleEn =
+        value("galleryTitleEn").trim();
+
+
+    const image =
+        value("galleryImage").trim();
+
+
+   
+    const date =
+        value("galleryDate").trim();
+
 
     const fileInput =
         document.getElementById(
@@ -1980,159 +2911,770 @@ try {
         );
 
 
-    if (
-        !fileInput ||
-        !fileInput.files.length
-    ) {
+    const hasFile =
+        fileInput &&
+        fileInput.files &&
+        fileInput.files.length > 0;
 
-        alert(
-            "Please select a photo file."
+
+    let hasError = false;
+
+
+    /* =========================================
+       HINDI TITLE
+       ALL DATA TYPES ALLOWED
+       ONLY BLANK / SPACES NOT ALLOWED
+    ========================================= */
+
+    if (!titleHi) {
+
+        galleryError(
+            "galleryTitleHiError",
+            "कृपया हिंदी शीर्षक दर्ज करें।",
+            "Please enter Hindi title."
         );
+
+        hasError = true;
+
+    }
+
+
+    /* =========================================
+       ENGLISH TITLE
+       ALL DATA TYPES ALLOWED
+       ONLY BLANK / SPACES NOT ALLOWED
+    ========================================= */
+
+    if (!titleEn) {
+
+        galleryError(
+            "galleryTitleEnError",
+            "कृपया अंग्रेजी शीर्षक दर्ज करें।",
+            "Please enter English title."
+        );
+
+        hasError = true;
+
+    }
+
+
+    /* =========================================
+       IMAGE / FILE
+    ========================================= */
+
+    if (mode === "url") {
+
+        if (!image) {
+
+            galleryError(
+                "galleryImageError",
+                "कृपया Image URL दर्ज करें।",
+                "Please enter Image URL."
+            );
+
+            hasError = true;
+
+        }
+
+    }
+
+
+    if (mode === "upload") {
+
+        if (!hasFile) {
+
+            galleryError(
+                "galleryPhotoFileError",
+                "कृपया फोटो चुनें।",
+                "Please select a photo."
+            );
+
+            hasError = true;
+
+        }
+
+    }
+
+    /* =========================================
+       DATE
+    ========================================= */
+
+    if (!date) {
+
+        galleryError(
+            "galleryDateError",
+            "कृपया दिनांक चुनें।",
+            "Please select date."
+        );
+
+        hasError = true;
+
+    }
+
+
+    return !hasError;
+
+}
+
+
+/* =========================================================
+   ADD / UPDATE GALLERY BY URL
+========================================================= */
+
+async function addGallery() {
+
+    const isEdit =
+        document.getElementById(
+            "galleryAddButton"
+        )?.dataset.editId;
+
+
+    if (
+        !validateGallery(
+            "url"
+        )
+    ) {
 
         return;
 
     }
 
 
-    const file =
-        fileInput.files[0];
+    try {
+
+        const body = {
+
+            titleHi:
+                value("galleryTitleHi").trim(),
+
+            titleEn:
+                value("galleryTitleEn").trim(),
+
+            image:
+                value("galleryImage").trim(),
+
+           year:
+    new Date(
+        value("galleryDate")
+    ).getFullYear(),
+            category:
+                value("galleryCategory"),
+
+            date:
+                value("galleryDate").trim(),
+
+            active: true
+
+        };
 
 
-    const formData =
-        new FormData();
+        /* =========================================
+           UPDATE
+        ========================================= */
+
+        if (isEdit) {
+
+            await apiRequest(
+                "/api/admin/gallery/" +
+                isEdit,
+                {
+                    method: "PUT",
+
+                    body:
+                        JSON.stringify(body)
+                }
+            );
 
 
-    formData.append(
-        "photoFile",
-        file
-    );
+            alert(
+                currentLanguage === "hi"
+                    ? "गैलरी सफलतापूर्वक अपडेट कर दी गई।"
+                    : "Gallery updated successfully."
+            );
+
+        }
 
 
-    formData.append(
-        "titleHi",
-        value(
-            "galleryTitleHi"
-        )
-    );
+        /* =========================================
+           ADD
+        ========================================= */
+
+        else {
+
+            await apiRequest(
+                "/api/admin/gallery",
+                {
+                    method: "POST",
+
+                    body:
+                        JSON.stringify(body)
+                }
+            );
 
 
-    formData.append(
-        "titleEn",
-        value(
-            "galleryTitleEn"
-        )
-    );
+            alert(
+                currentLanguage === "hi"
+                    ? "गैलरी सफलतापूर्वक जोड़ दी गई।"
+                    : "Gallery added successfully."
+            );
+
+        }
 
 
-    formData.append(
-        "year",
-        value(
-            "galleryYear"
-        )
-    );
+        resetGalleryForm();
+
+        await loadGallery();
+
+        await loadDashboard();
 
 
-    formData.append(
-        "category",
-        value(
-            "galleryCategory"
-        )
-    );
+    } catch (error) {
 
-
-    formData.append(
-        "date",
-        value(
-            "galleryDate"
-        )
-    );
-
-
-    const token =
-        localStorage.getItem(
-            "durgaAdminToken"
+        console.error(
+            "Gallery Save/Update Error:",
+            error
         );
 
 
-    const response =
-        await fetch(
-            "/api/admin/gallery/upload",
-            {
+        alert(
+            error.message ||
+            "Failed to save gallery."
+        );
 
-                method: "POST",
+    }
 
-                headers: {
+}
 
-                    Authorization:
-                        "Bearer " +
-                        token
 
-                },
+/* =========================================================
+   DIRECT PHOTO UPLOAD
+========================================================= */
 
-                body:
-                    formData
+async function uploadGalleryPhoto() {
 
-            }
+    /* =========================================
+       VALIDATION
+    ========================================= */
+
+    if (
+        !validateGallery(
+            "upload"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const fileInput =
+            document.getElementById(
+                "galleryPhotoFile"
+            );
+
+
+        const file =
+            fileInput.files[0];
+
+
+        /* =========================================
+           FILE SIZE
+           MAX 10 MB
+        ========================================= */
+
+        if (
+            file.size >
+            10 * 1024 * 1024
+        ) {
+
+            galleryError(
+                "galleryPhotoFileError",
+                "फोटो का आकार 10 MB से अधिक नहीं होना चाहिए।",
+                "Photo size must not exceed 10 MB."
+            );
+
+            return;
+
+        }
+
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "photoFile",
+            file
         );
 
 
-    const result =
-        await response.json();
+        formData.append(
+            "titleHi",
+            value(
+                "galleryTitleHi"
+            ).trim()
+        );
 
 
-    if (!response.ok) {
+        formData.append(
+            "titleEn",
+            value(
+                "galleryTitleEn"
+            ).trim()
+        );
 
-        throw new Error(
+
+      formData.append(
+    "year",
+    new Date(
+        value("galleryDate")
+    ).getFullYear()
+);
+
+
+        formData.append(
+            "category",
+            value(
+                "galleryCategory"
+            )
+        );
+
+
+        formData.append(
+            "date",
+            value(
+                "galleryDate"
+            ).trim()
+        );
+
+
+        const token =
+            localStorage.getItem(
+                "durgaAdminToken"
+            );
+
+
+        const response =
+            await fetch(
+                "/api/admin/gallery/upload",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        Authorization:
+                            "Bearer " +
+                            token
+
+                    },
+
+                    body:
+                        formData
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.message ||
+                "Gallery photo upload failed."
+            );
+
+        }
+
+
+        alert(
             result.message ||
+            (
+                currentLanguage === "hi"
+                    ? "फोटो सफलतापूर्वक अपलोड हो गई।"
+                    : "Gallery photo uploaded successfully."
+            )
+        );
+
+
+        resetGalleryForm();
+
+
+        await loadGallery();
+
+        await loadDashboard();
+
+
+    } catch (error) {
+
+        console.error(
+            "Gallery photo upload error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
             "Gallery photo upload failed."
         );
 
     }
 
-
-    alert(
-        result.message ||
-        "Gallery photo uploaded successfully."
-    );
+}
 
 
-    document.getElementById(
-        "galleryTitleHi"
-    ).value = "";
+/* =========================================================
+   EDIT GALLERY
+========================================================= */
+
+async function editGallery(id) {
+
+    try {
+
+        const notices =
+            await apiRequest(
+                "/api/gallery"
+            );
 
 
-    document.getElementById(
-        "galleryTitleEn"
-    ).value = "";
+        const items =
+            Array.isArray(notices)
+                ? notices
+                : (
+                    notices &&
+                    Array.isArray(
+                        notices.data
+                    )
+                        ? notices.data
+                        : []
+                );
 
 
-    document.getElementById(
-        "galleryPhotoFile"
-    ).value = "";
+        const item =
+            items.find(
+                gallery =>
+                    String(
+                        gallery._id ||
+                        gallery.id
+                    ) ===
+                    String(id)
+            );
 
 
-    loadGallery();
+        if (!item) {
 
-    loadDashboard();
+            alert(
+                currentLanguage === "hi"
+                    ? "गैलरी फोटो नहीं मिली।"
+                    : "Gallery photo not found."
+            );
+
+            return;
+
+        }
 
 
-} catch (error) {
+        /* =========================================
+           FILL FORM
+        ========================================= */
 
-    console.error(
-        "Gallery photo upload error:",
-        error
-    );
+        document.getElementById(
+            "galleryTitleHi"
+        ).value =
+            item.titleHi || "";
 
 
-    alert(
-        error.message ||
-        "Gallery photo upload failed."
-    );
+        document.getElementById(
+            "galleryTitleEn"
+        ).value =
+            item.titleEn || "";
+
+
+        document.getElementById(
+            "galleryImage"
+        ).value =
+            item.image || "";
+
+
+       
+
+
+        document.getElementById(
+            "galleryCategory"
+        ).value =
+            item.category || "all";
+
+
+        document.getElementById(
+            "galleryDate"
+        ).value =
+            item.date || "";
+
+
+        /* =========================================
+           STORE EDIT ID
+        ========================================= */
+
+        const addButton =
+            document.getElementById(
+                "galleryAddButton"
+            );
+
+
+        if (addButton) {
+
+            addButton.dataset.editId =
+                item._id ||
+                item.id;
+
+
+            addButton.textContent =
+                currentLanguage === "hi"
+                    ? "✏️ गैलरी अपडेट करें"
+                    : "✏️ Update Gallery";
+
+        }
+
+
+        /* =========================================
+           HIDE UPLOAD WHILE EDITING
+        ========================================= */
+
+        const uploadButton =
+            document.getElementById(
+                "galleryUploadButton"
+            );
+
+
+        if (uploadButton) {
+
+            uploadButton.style.display =
+                "none";
+
+        }
+
+
+        /* =========================================
+           SHOW CANCEL
+        ========================================= */
+
+        const cancelButton =
+            document.getElementById(
+                "cancelGalleryEdit"
+            );
+
+
+        if (cancelButton) {
+
+            cancelButton.style.display =
+                "inline-block";
+
+        }
+
+
+        clearGalleryErrors();
+
+
+        /* =========================================
+           SCROLL TO FORM
+        ========================================= */
+
+        const gallerySection =
+            document.getElementById(
+                "gallery"
+            );
+
+
+        if (gallerySection) {
+
+            gallerySection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Edit Gallery Error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Unable to edit gallery."
+        );
+
+    }
 
 }
 
+
+/* =========================================================
+   RESET GALLERY FORM
+========================================================= */
+
+function resetGalleryForm() {
+
+    const titleHi =
+        document.getElementById(
+            "galleryTitleHi"
+        );
+
+    const titleEn =
+        document.getElementById(
+            "galleryTitleEn"
+        );
+
+    const image =
+        document.getElementById(
+            "galleryImage"
+        );
+
+    const file =
+        document.getElementById(
+            "galleryPhotoFile"
+        );
+
+    const date =
+        document.getElementById(
+            "galleryDate"
+        );
+
+
+    if (titleHi)
+        titleHi.value = "";
+
+
+    if (titleEn)
+        titleEn.value = "";
+
+
+    if (image)
+        image.value = "";
+
+
+    if (file)
+        file.value = "";
+
+
+    if (date)
+        date.value = "";
+
+
+    clearGalleryErrors();
+
+
+    /* =========================================
+       RESET ADD BUTTON
+    ========================================= */
+
+    const addButton =
+        document.getElementById(
+            "galleryAddButton"
+        );
+
+
+    if (addButton) {
+
+        delete addButton.dataset.editId;
+
+
+        addButton.textContent =
+            currentLanguage === "hi"
+                ? "🔗 URL से गैलरी जोड़ें"
+                : "🔗 Add Gallery by URL";
+
+    }
+
+
+    /* =========================================
+       SHOW UPLOAD BUTTON
+    ========================================= */
+
+    const uploadButton =
+        document.getElementById(
+            "galleryUploadButton"
+        );
+
+
+    if (uploadButton) {
+
+        uploadButton.style.display =
+            "inline-block";
+
+    }
+
+
+    /* =========================================
+       HIDE CANCEL
+    ========================================= */
+
+    const cancelButton =
+        document.getElementById(
+            "cancelGalleryEdit"
+        );
+
+
+    if (cancelButton) {
+
+        cancelButton.style.display =
+            "none";
+
+    }
+
 }
 
+
+/* =========================================================
+   DELETE GALLERY
+========================================================= */
+
+async function deleteGallery(id) {
+
+    if (
+        !confirm(
+            t("deleteGalleryConfirm")
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    try {
+
+        await apiRequest(
+            "/api/admin/gallery/" + id,
+            {
+                method: "DELETE"
+            }
+        );
+
+
+        await loadGallery();
+
+        await loadDashboard();
+
+
+    } catch (error) {
+
+        alert(
+            error.message
+        );
+
+    }
+
+}
 
 /* =========================================================
    VIDEOS
@@ -2169,14 +3711,25 @@ try {
             `<tr>
                 <td>${escapeHtml(title)}</td>
                 <td>${escapeHtml(video.youtubeUrl || "")}</td>
-                <td>
-                    <button
-                        class="btn btn-danger"
-                        onclick="deleteVideo('${video._id}')"
-                    >
-                        ${t("delete")}
-                    </button>
-                </td>
+               <td>
+
+    <button
+        type="button"
+        class="btn btn-edit"
+        onclick="editVideo('${video._id}')"
+    >
+        ✏️ Edit
+    </button>
+
+    <button
+        type="button"
+        class="btn btn-danger"
+        onclick="deleteVideo('${video._id}')"
+    >
+        ${t("delete")}
+    </button>
+
+</td>
             </tr>`;
 
     });
@@ -2197,55 +3750,410 @@ try {
 }
 
 }
+/* =========================================================
+   ADD / UPDATE VIDEO
+========================================================= */
 
 async function addVideo() {
 
-try {
+    const button =
+        document.getElementById("videoAddButton");
 
-    await apiRequest(
-        "/api/admin/videos",
-        {
-            method: "POST",
+    const editId =
+        button?.dataset.editId;
 
-            body: JSON.stringify({
+    const titleHi =
+        value("videoTitleHi").trim();
 
-                titleHi:
-                    value("videoTitleHi"),
+    const titleEn =
+        value("videoTitleEn").trim();
 
-                titleEn:
-                    value("videoTitleEn"),
+    const youtubeUrl =
+        value("youtubeUrl").trim();
 
-                youtubeUrl:
-                    value("youtubeUrl"),
+    const thumbnail =
+        value("videoThumbnail").trim();
 
-                thumbnail:
-                    value("videoThumbnail"),
 
-                active: true
+    /* CLEAR OLD ERRORS */
 
-            })
+    document
+        .querySelectorAll("#videos .field-error")
+        .forEach(el => {
+            el.textContent = "";
+        });
+
+
+    let hasError = false;
+
+
+    /* HINDI TITLE */
+
+    if (!titleHi) {
+
+        document.getElementById(
+            "videoTitleHiError"
+        ).textContent =
+            currentLanguage === "hi"
+                ? "कृपया हिंदी शीर्षक दर्ज करें।"
+                : "Please enter Hindi title.";
+
+        hasError = true;
+
+    }
+
+
+    /* ENGLISH TITLE - ONLY ENGLISH */
+
+    else if (!/^[A-Za-z0-9 ]+$/.test(titleHi)) {
+
+        document.getElementById(
+            "videoTitleHiError"
+        ).textContent =
+            currentLanguage === "hi"
+                ? "हिंदी शीर्षक में केवल हिंदी/अंग्रेजी अक्षर, अंक और स्पेस मान्य हैं।"
+                : "Hindi title can contain Hindi/English letters, numbers and spaces only.";
+
+        hasError = true;
+
+    }
+
+
+    /* ENGLISH TITLE */
+
+    if (!titleEn) {
+
+        document.getElementById(
+            "videoTitleEnError"
+        ).textContent =
+            currentLanguage === "hi"
+                ? "कृपया अंग्रेजी शीर्षक दर्ज करें।"
+                : "Please enter English title.";
+
+        hasError = true;
+
+    }
+
+
+    /* ONLY ENGLISH LETTERS */
+
+    else if (!/^[A-Za-z ]+$/.test(titleEn)) {
+
+        document.getElementById(
+            "videoTitleEnError"
+        ).textContent =
+            currentLanguage === "hi"
+                ? "अंग्रेजी शीर्षक में केवल English letters और spaces मान्य हैं।"
+                : "English title can contain English letters and spaces only.";
+
+        hasError = true;
+
+    }
+
+
+    /* YOUTUBE URL */
+
+    if (!youtubeUrl) {
+
+        document.getElementById(
+            "youtubeUrlError"
+        ).textContent =
+            currentLanguage === "hi"
+                ? "कृपया YouTube URL दर्ज करें।"
+                : "Please enter YouTube URL.";
+
+        hasError = true;
+
+    }
+
+
+    /* THUMBNAIL URL */
+
+    if (!thumbnail) {
+
+        document.getElementById(
+            "videoThumbnailError"
+        ).textContent =
+            currentLanguage === "hi"
+                ? "कृपया Thumbnail URL दर्ज करें।"
+                : "Please enter Thumbnail URL.";
+
+        hasError = true;
+
+    }
+
+
+    if (hasError) return;
+
+
+    try {
+
+        const body = {
+
+            titleHi: titleHi,
+            titleEn: titleEn,
+            youtubeUrl: youtubeUrl,
+            thumbnail: thumbnail,
+            active: true
+
+        };
+
+
+        /* UPDATE */
+
+        if (editId) {
+
+            await apiRequest(
+                "/api/admin/videos/" + editId,
+                {
+                    method: "PUT",
+                    body: JSON.stringify(body)
+                }
+            );
+
+            alert(
+                currentLanguage === "hi"
+                    ? "वीडियो सफलतापूर्वक अपडेट हो गया।"
+                    : "Video updated successfully."
+            );
 
         }
-    );
 
-    alert(t("videoAdded"));
 
-    loadVideos();
+        /* ADD */
 
-} catch(error) {
+        else {
 
-    alert(error.message);
+            await apiRequest(
+                "/api/admin/videos",
+                {
+                    method: "POST",
+                    body: JSON.stringify(body)
+                }
+            );
+
+            alert(t("videoAdded"));
+
+        }
+
+
+        resetVideoForm();
+
+        await loadVideos();
+
+
+    } catch (error) {
+
+        console.error(
+            "Video Save/Update Error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Failed to save video."
+        );
+
+    }
+
+}
+/* =========================================================
+   EDIT VIDEO
+========================================================= */
+
+async function editVideo(id) {
+
+    try {
+
+        const videos =
+            await apiRequest("/api/videos");
+
+        const video =
+            videos.find(
+                item =>
+                    String(item._id) === String(id)
+            );
+
+        if (!video) {
+
+            alert(
+                currentLanguage === "hi"
+                    ? "वीडियो नहीं मिला।"
+                    : "Video not found."
+            );
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "videoTitleHi"
+        ).value =
+            video.titleHi || "";
+
+
+        document.getElementById(
+            "videoTitleEn"
+        ).value =
+            video.titleEn || "";
+
+
+        document.getElementById(
+            "youtubeUrl"
+        ).value =
+            video.youtubeUrl || "";
+
+
+        document.getElementById(
+            "videoThumbnail"
+        ).value =
+            video.thumbnail || "";
+
+
+        const button =
+            document.getElementById(
+                "videoAddButton"
+            );
+
+        if (button) {
+
+            button.dataset.editId = id;
+
+            button.textContent =
+                currentLanguage === "hi"
+                    ? "✏️ वीडियो अपडेट करें"
+                    : "✏️ Update Video";
+
+        }
+
+
+        const cancel =
+            document.getElementById(
+                "cancelVideoEdit"
+            );
+
+        if (cancel) {
+
+            cancel.style.display =
+                "inline-block";
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Edit Video Error:",
+            error
+        );
+
+        alert(error.message);
+
+    }
 
 }
 
+
+/* =========================================================
+   RESET VIDEO FORM
+========================================================= */
+
+function resetVideoForm() {
+
+    const ids = [
+        "videoTitleHi",
+        "videoTitleEn",
+        "youtubeUrl",
+        "videoThumbnail"
+    ];
+
+    ids.forEach(id => {
+
+        const el =
+            document.getElementById(id);
+
+        if (el) el.value = "";
+
+    });
+
+
+    document
+        .querySelectorAll("#videos .field-error")
+        .forEach(el => {
+            el.textContent = "";
+        });
+
+
+    const button =
+        document.getElementById(
+            "videoAddButton"
+        );
+
+    if (button) {
+
+        delete button.dataset.editId;
+
+        button.textContent =
+            currentLanguage === "hi"
+                ? "वीडियो जोड़ें"
+                : "Add Video";
+
+    }
+
+
+    const cancel =
+        document.getElementById(
+            "cancelVideoEdit"
+        );
+
+    if (cancel) {
+
+        cancel.style.display =
+            "none";
+
+    }
 
 }
 /* =========================================================
    DIRECT VIDEO UPLOAD
 ========================================================= */
 
-async function uploadVideoFile() {
 
+
+    async function uploadVideoFile() {
+
+    const titleHi = value("uploadVideoTitleHi");
+    const titleEn = value("uploadVideoTitleEn");
+    const fileInput = document.getElementById("uploadVideoFile");
+
+    if (!titleHi) {
+        alert(
+            currentLanguage === "hi"
+                ? "हिंदी शीर्षक खाली नहीं हो सकता।"
+                : "Hindi title cannot be blank."
+        );
+        return;
+    }
+
+    if (!titleEn) {
+        alert(
+            currentLanguage === "hi"
+                ? "English title खाली नहीं हो सकता।"
+                : "English title cannot be blank."
+        );
+        return;
+    }
+
+    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+        alert(
+            currentLanguage === "hi"
+                ? "कृपया Video File चुनें।"
+                : "Please select a video file."
+        );
+        return;
+    }
+
+    // ⬇️ YAHAN SE AAPKA EXISTING DIRECT VIDEO UPLOAD CODE SAME RAHEGA
     try {
 
         const fileInput =
@@ -2408,88 +4316,207 @@ try {
 }
 
 /* =========================================================
-LIVE DARSHAN
+   LIVE DARSHAN
 ========================================================= */
 
 async function loadLive() {
 
-try {
+    try {
 
-    const data =
-        await apiRequest(
-            "/api/live"
-        );
+        const data =
+            await apiRequest(
+                "/api/live"
+            );
 
-    document
-        .getElementById("liveTitleHi")
-        .value =
-        data.titleHi || "";
 
-    document
-        .getElementById("liveTitleEn")
-        .value =
-        data.titleEn || "";
+        /* =========================================
+           LIVE ENABLE
+        ========================================= */
 
-    document
-        .getElementById("liveStreamUrl")
-        .value =
-        data.streamUrl || "";
+        document
+            .getElementById("liveEnabled")
+            .checked =
+            data.active === true;
 
-    document
-        .getElementById("liveActive")
-        .checked =
-        data.active === true;
 
-} catch(error) {
+        /* =========================================
+           SOURCE
+        ========================================= */
 
-    console.error(error);
+        const source =
+            data.source || "youtube";
 
-}
+        const sourceRadio =
+            document.querySelector(
+                `input[name="liveSource"][value="${source}"]`
+            );
 
-}
+        if (sourceRadio) {
 
-async function updateLive() {
-
-try {
-
-    await apiRequest(
-        "/api/admin/live",
-        {
-            method: "PUT",
-
-            body: JSON.stringify({
-
-                titleHi:
-                    value("liveTitleHi"),
-
-                titleEn:
-                    value("liveTitleEn"),
-
-                streamUrl:
-                    value("liveStreamUrl"),
-
-                active:
-                    document
-                        .getElementById(
-                            "liveActive"
-                        )
-                        .checked
-
-            })
+            sourceRadio.checked = true;
 
         }
-    );
 
-    alert(t("liveUpdated"));
 
-} catch(error) {
+        /* =========================================
+           YOUTUBE URL
+        ========================================= */
 
-    alert(error.message);
+        document
+            .getElementById("youtubeLiveUrl")
+            .value =
+            data.youtubeUrl || "";
+
+
+        /* =========================================
+           DIRECT CAMERA URL
+        ========================================= */
+
+        document
+            .getElementById("directCameraUrl")
+            .value =
+            data.directCameraUrl || "";
+
+
+        toggleLiveSource();
+
+    } catch(error) {
+
+        console.error(error);
+
+    }
 
 }
 
+
+/* =========================================================
+   SOURCE TOGGLE
+========================================================= */
+
+function toggleLiveSource() {
+
+    const source =
+        document.querySelector(
+            'input[name="liveSource"]:checked'
+        )?.value || "youtube";
+
+
+    const youtubeGroup =
+        document.getElementById(
+            "youtubeLiveGroup"
+        );
+
+    const cameraGroup =
+        document.getElementById(
+            "directCameraGroup"
+        );
+
+
+    if (source === "youtube") {
+
+        youtubeGroup.style.display = "block";
+
+        cameraGroup.style.display = "none";
+
+    } else {
+
+        youtubeGroup.style.display = "none";
+
+        cameraGroup.style.display = "block";
+
+    }
+
 }
 
+
+/* =========================================================
+   UPDATE LIVE
+========================================================= */
+
+async function saveLiveSettings() {
+
+    try {
+
+        const source =
+            document.querySelector(
+                'input[name="liveSource"]:checked'
+            )?.value || "youtube";
+
+
+        await apiRequest(
+            "/api/admin/live",
+            {
+                method: "PUT",
+
+                body: JSON.stringify({
+
+                    source: source,
+
+                    youtubeUrl:
+                        value(
+                            "youtubeLiveUrl"
+                        ),
+
+                    directCameraUrl:
+                        value(
+                            "directCameraUrl"
+                        ),
+
+                    active:
+                        document
+                            .getElementById(
+                                "liveEnabled"
+                            )
+                            .checked
+
+                })
+
+            }
+        );
+
+
+        const message =
+            document.getElementById(
+                "liveSettingsMessage"
+            );
+
+        message.textContent =
+            t("liveUpdated");
+
+
+        setTimeout(() => {
+
+            message.textContent = "";
+
+        }, 3000);
+
+
+    } catch(error) {
+
+        alert(error.message);
+
+    }
+
+}
+
+
+/* =========================================================
+   SOURCE CHANGE
+========================================================= */
+
+document
+    .querySelectorAll(
+        'input[name="liveSource"]'
+    )
+    .forEach(radio => {
+
+        radio.addEventListener(
+            "change",
+            toggleLiveSource
+        );
+
+    });
+    
 /* =========================================================
 SPECIAL DARSHAN
 ========================================================= */
@@ -2627,6 +4654,8 @@ async function loadDonations() {
                 <tr>
                      <th>S.No.</th>
                     <th>${t("name")}</th>
+                    
+
                     <th>Receipt No.</th>
                     <th>Date</th>
 
@@ -3036,7 +5065,16 @@ async function loadDonations() {
 
                         </button>
 
-
+<!-- EDIT -->
+<button
+    type="button"
+    class="btn btn-warning"
+    onclick="editDonation(
+        '${record._id}'
+    )"
+>
+    ✏️ Edit
+</button>
                         <!-- DELETE -->
 
                         <button
@@ -3128,43 +5166,304 @@ async function addDonation(event) {
        GET FORM VALUES
     ===================================================== */
 
-    const name =
-        value("donationName");
+/* =====================================================
+   GET FORM VALUES
+===================================================== */
 
-    const amount =
-        Number(
-            value("donationAmount")
-        );
+const year =
+    value("donationYear").trim();
+
+const name =
+    value("donationName").trim();
+
+const fatherName =
+    value("donationFatherName").trim();
+
+const organization =
+    value("donationOrganization").trim();
+
+const email =
+    value("donationEmail").trim();
+
+const mobile =
+    value("donationMobile").trim();
+
+const amountText =
+    value("donationAmount").trim();
+
+const address =
+    value("donationAddress").trim();
+
+const receivedBy =
+    value("donationReceivedBy").trim();
+
+const date =
+    value("donationDate").trim();
+
+const paymentMode =
+    value("donationPaymentMode").trim();
 
 
-    /* =====================================================
-       VALIDATION
-    ===================================================== */
+/* =====================================================
+   YEAR
+   Required
+===================================================== */
 
-    if (!name) {
+if (!year) {
 
-        alert(
-            t("donorRequired")
-        );
+    alert(
+        currentLanguage === "hi"
+            ? "वर्ष आवश्यक है।"
+            : "Year is required."
+    );
 
-        return false;
+    return false;
+}
 
-    }
+
+/* =====================================================
+   DONOR NAME
+   Required + letters only
+===================================================== */
+
+if (!name) {
+
+    alert(
+        currentLanguage === "hi"
+            ? "Donor Name आवश्यक है।"
+            : "Donor Name is required."
+    );
+
+    return false;
+}
+
+if (!/^[A-Za-z\s]+$/.test(name)) {
+
+    alert(
+        currentLanguage === "hi"
+            ? "Donor Name में केवल अक्षर और space मान्य हैं।"
+            : "Donor Name can contain only letters and spaces."
+    );
+
+    return false;
+}
 
 
-    if (
-        !Number.isFinite(amount) ||
-        amount <= 0
-    ) {
+/* =====================================================
+   FATHER NAME
+   Optional + letters only
+===================================================== */
 
-        alert(
-            t("amountRequired")
-        );
+if (
+    fatherName &&
+    !/^[A-Za-z\s]+$/.test(fatherName)
+) {
 
-        return false;
+    alert(
+        currentLanguage === "hi"
+            ? "Father Name में केवल अक्षर और space मान्य हैं।"
+            : "Father Name can contain only letters and spaces."
+    );
 
-    }
+    return false;
+}
 
+
+/* =====================================================
+   MOBILE
+   Optional + digits only
+===================================================== */
+
+/* =====================================================
+   MOBILE
+   Required + digits only + exactly 10 digits
+===================================================== */
+
+if (!mobile) {
+
+    alert(
+        currentLanguage === "hi"
+            ? "Mobile Number आवश्यक है।"
+            : "Mobile Number is required."
+    );
+
+    return false;
+}
+
+if (!/^\d+$/.test(mobile)) {
+
+    alert(
+        currentLanguage === "hi"
+            ? "Mobile Number में केवल अंक मान्य हैं।"
+            : "Mobile Number can contain only digits."
+    );
+
+    return false;
+}
+
+if (mobile.length !== 10) {
+
+    alert(
+        currentLanguage === "hi"
+            ? "Mobile Number 10 अंकों का होना चाहिए।"
+            : "Mobile Number must contain exactly 10 digits."
+    );
+
+    return false;
+}
+
+
+
+
+
+/* =====================================================
+   EMAIL
+   Optional
+===================================================== */
+
+if (
+    email &&
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+) {
+
+    alert(
+        currentLanguage === "hi"
+            ? "कृपया valid Email डालें।"
+            : "Please enter a valid Email."
+    );
+
+    return false;
+}
+
+
+/* =====================================================
+   AMOUNT
+   Required + maximum 2 decimal places
+===================================================== */
+
+if (!amountText) {
+
+    alert(
+        currentLanguage === "hi"
+            ? "Amount आवश्यक है।"
+            : "Amount is required."
+    );
+
+    return false;
+
+}
+
+if (
+    !/^\d+(\.\d{1,2})?$/.test(amountText)
+)
+ {
+
+    alert(
+        currentLanguage === "hi"
+            ? "Amount में केवल number और अधिकतम 2 decimal places मान्य हैं।"
+            : "Amount must be a number with maximum 2 decimal places."
+    );
+
+    return false;
+}
+
+const amount =
+    Number(amountText);
+
+if (
+    !Number.isFinite(amount) ||
+    amount <= 0
+) {
+
+    alert(
+        currentLanguage === "hi"
+            ? "Amount 0 से अधिक होना चाहिए।"
+            : "Amount must be greater than 0."
+    );
+
+    return false;
+}
+
+
+/* =====================================================
+   ADDRESS
+   Required
+===================================================== */
+
+if (!address) {
+
+    alert(
+        currentLanguage === "hi"
+            ? "Address आवश्यक है।"
+            : "Address is required."
+    );
+
+    return false;
+}
+
+
+/* =====================================================
+   RECEIVED BY
+   Required + letters only
+===================================================== */
+
+if (!receivedBy) {
+
+    alert(
+        currentLanguage === "hi"
+            ? "Received By आवश्यक है।"
+            : "Received By is required."
+    );
+
+    return false;
+}
+
+if (
+    !/^[A-Za-z\s]+$/.test(receivedBy)
+) {
+
+    alert(
+        currentLanguage === "hi"
+            ? "Received By में केवल अक्षर और space मान्य हैं।"
+            : "Received By can contain only letters and spaces."
+    );
+
+    return false;
+}
+
+
+/* =====================================================
+   PAYMENT MODE
+   Select not allowed
+===================================================== */
+
+if (!paymentMode) {
+
+    alert(
+        currentLanguage === "hi"
+            ? "Payment Mode select करें।"
+            : "Please select Payment Mode."
+    );
+
+    return false;
+}
+
+
+/* =====================================================
+   DATE
+   Required
+===================================================== */
+
+if (!date) {
+
+    alert(
+        currentLanguage === "hi"
+            ? "Payment Date आवश्यक है।"
+            : "Payment Date is required."
+    );
+
+    return false;
+}
 
     /* =====================================================
        DONATION DATA
@@ -3172,66 +5471,41 @@ async function addDonation(event) {
 
     const donationData = {
 
-        year:
-            Number(
-                value("donationYear")
-            ) ||
-            new Date().getFullYear(),
+       year:
+    Number(year),
 
-        name:
-            name,
+name:
+    name,
 
-        fatherName:
-            value(
-                "donationFatherName"
-            ),
+fatherName:
+    fatherName,
 
-        designation:
-            value(
-                "donationDesignation"
-            ),
+designation:
+    value("donationDesignation"),
 
-        organization:
-            value(
-                "donationOrganization"
-            ),
+organization:
+    organization,
 
-        mobile:
-            value(
-                "donationMobile"
-            ),
+mobile:
+    mobile,
 
-        email:
-            value(
-                "donationEmail"
-            ),
+email:
+    email,
 
-        address:
-            value(
-                "donationAddress"
-            ),
+address:
+    address,
 
-        amount:
-            amount,
+amount:
+    amount,
 
-        receivedBy:
-            value(
-                "donationReceivedBy"
-            ),
+receivedBy:
+    receivedBy,
 
-        date:
-            value(
-                "donationDate"
-            ) ||
-            new Date()
-                .toISOString()
-                .slice(0, 10),
+date:
+    date,
 
-        paymentMode:
-            value(
-                "donationPaymentMode"
-            ),
-
+paymentMode:
+    paymentMode,
         remarks:
             value(
                 "donationRemarks"
@@ -3472,6 +5746,189 @@ async function updateDonationStatus(
     }
 
 }
+/* =========================================================
+   EDIT DONATION
+========================================================= */
+
+async function editDonation(id) {
+
+    try {
+
+        /* =================================================
+           GET ALL DONATIONS
+        ================================================= */
+
+        const data =
+            await apiRequest(
+                "/api/admin/donations"
+            );
+
+        const record =
+            (data.records || []).find(
+                item => String(item._id) === String(id)
+            );
+
+
+        if (!record) {
+
+            alert(
+                currentLanguage === "hi"
+                    ? "Donation record नहीं मिला।"
+                    : "Donation record not found."
+            );
+
+            return;
+
+        }
+
+
+        /* =================================================
+           FILL FORM
+        ================================================= */
+
+        document.getElementById(
+            "donationYear"
+        ).value =
+            record.year || "";
+
+
+        document.getElementById(
+            "donationName"
+        ).value =
+            record.name || "";
+
+
+        document.getElementById(
+            "donationFatherName"
+        ).value =
+            record.fatherName || "";
+
+
+        document.getElementById(
+            "donationDesignation"
+        ).value =
+            record.designation || "";
+
+
+        document.getElementById(
+            "donationOrganization"
+        ).value =
+            record.organization || "";
+
+
+        document.getElementById(
+            "donationMobile"
+        ).value =
+            record.mobile || "";
+
+
+        document.getElementById(
+            "donationEmail"
+        ).value =
+            record.email || "";
+
+
+        document.getElementById(
+            "donationAmount"
+        ).value =
+            record.amount || "";
+
+
+        document.getElementById(
+            "donationAddress"
+        ).value =
+            record.address || "";
+
+
+        document.getElementById(
+            "donationReceivedBy"
+        ).value =
+            record.receivedBy || "";
+
+
+        document.getElementById(
+            "donationDate"
+        ).value =
+            record.date
+                ? String(record.date).slice(0, 10)
+                : "";
+
+
+        document.getElementById(
+            "donationPaymentMode"
+        ).value =
+            record.paymentMode || "";
+
+
+        document.getElementById(
+            "donationRemarks"
+        ).value =
+            record.remarks || "";
+
+
+        /* =================================================
+           STORE EDIT ID
+        ================================================= */
+
+        const editId =
+            document.getElementById(
+                "donationEditId"
+            );
+
+        if (editId) {
+
+            editId.value = id;
+
+        }
+
+
+        /* =================================================
+           CHANGE BUTTON
+        ================================================= */
+
+        const addButton =
+            document.querySelector(
+                '#donations .btn-add'
+            );
+
+        if (addButton) {
+
+            addButton.innerHTML =
+                "✏️ Edit Donation";
+
+            addButton.setAttribute(
+                "onclick",
+                "updateDonation(event)"
+            );
+
+        }
+
+
+        /* =================================================
+           SCROLL TO DONATION FORM
+        ================================================= */
+
+        document
+            .getElementById("donations")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+
+    } catch (error) {
+
+        console.error(
+            "Edit donation error:",
+            error
+        );
+
+        alert(
+            error.message
+        );
+
+    }
+
+}
 
 
 /* =========================================================
@@ -3614,50 +6071,64 @@ try {
         `<table>
             <thead>
                 <tr>
-                     <th>S.No.</th>
+                    <th>S.No.</th>
                     <th>${t("name")}</th>
-                    <th>${t("year")}</th>
-                    <th>${t("amount")}</th>
-                    <th>${t("message")}</th>
-                    <th>${t("approved")}</th>
+                    <th>${t("mobile")}</th>
+                    <th>Organization</th>
+                    <th>Contribution Details</th>
+                    <th>Date</th>
+                    <th>${t("action")}</th>
                 </tr>
             </thead>
             <tbody>`;
 
-  contributors.forEach((item, index) => {
+    contributors.forEach((item, index) => {
 
         html +=
             `<tr>
-             <td>
-                ${index + 1}
-            </td>
+
+                <td>
+                    ${index + 1}
+                </td>
 
                 <td>
                     ${escapeHtml(item.name || "")}
                 </td>
 
                 <td>
-                    ${item.year || ""}
+                    ${escapeHtml(item.mobile || "")}
                 </td>
 
                 <td>
-                    ₹${Number(
-                        item.amount || 0
-                    ).toLocaleString("en-IN")}
+                    ${escapeHtml(item.organization || "")}
                 </td>
 
                 <td>
                     ${escapeHtml(
-                        item.message || ""
+                        item.contributionDetails || ""
                     )}
                 </td>
 
                 <td>
-                    ${
-                        item.approved
-                            ? t("yes")
-                            : t("no")
-                    }
+                    ${escapeHtml(item.date || "")}
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn btn-warning"
+                        onclick="editContributor('${item._id}')"
+                    >
+                        ${t("edit")}
+                    </button>
+
+                    <button
+                        class="btn btn-danger"
+                        onclick="deleteContributor('${item._id}')"
+                    >
+                        ${t("delete")}
+                    </button>
+
                 </td>
 
             </tr>`;
@@ -3684,10 +6155,79 @@ try {
 }
 
 }
-
 async function addContributor() {
 
 try {
+
+    const name =
+        value("contributorName");
+
+    const mobile =
+        value("contributorMobile");
+
+    const organization =
+        value("contributorOrganization");
+
+    const contributionDetails =
+        value("contributorDetails");
+
+    const date =
+        value("contributorDate");
+
+
+    /* NAME */
+
+    if (!name) {
+        alert("Contributor name is required.");
+        return false;
+    }
+
+
+    /* MOBILE */
+
+    if (!mobile) {
+        alert("Mobile number is required.");
+        return false;
+    }
+
+    if (!/^[6-9]\d{9}$/.test(mobile)) {
+        alert(
+            "Please enter a valid 10-digit mobile number."
+        );
+        return false;
+    }
+
+
+    /* ORGANIZATION */
+
+    if (!organization) {
+        alert("Organization is required.");
+        return false;
+    }
+
+
+    /* CONTRIBUTION DETAILS */
+
+    if (!contributionDetails) {
+        alert("Contribution details are required.");
+        return false;
+    }
+
+
+    /* DATE */
+
+    if (!date) {
+        alert("Date is required.");
+        return false;
+    }
+
+    const today =
+    new Date().toISOString().split("T")[0];
+
+if (date > today) {
+    alert("Future date is not allowed.");
+    return false;
+}
 
     await apiRequest(
         "/api/admin/contributors",
@@ -3696,36 +6236,17 @@ try {
 
             body: JSON.stringify({
 
-                name:
-                    value(
-                        "contributorName"
-                    ),
+                name: name,
 
-                year:
-                    Number(
-                        value(
-                            "contributorYear"
-                        )
-                    ),
+                mobile: mobile,
 
-                amount:
-                    Number(
-                        value(
-                            "contributorAmount"
-                        )
-                    ) || 0,
+                organization:
+                    organization,
 
-                message:
-                    value(
-                        "contributorMessage"
-                    ),
+                contributionDetails:
+                    contributionDetails,
 
-                approved:
-                    document
-                        .getElementById(
-                            "contributorApproved"
-                        )
-                        .checked,
+                date: date,
 
                 active: true
 
@@ -3734,7 +6255,355 @@ try {
         }
     );
 
+
     alert(t("contributorAdded"));
+
+    loadContributors();
+
+    loadDashboard();
+
+
+    /* CLEAR FORM */
+const contributorNameInput =
+    document.getElementById(
+        "contributorName"
+    );
+
+if (contributorNameInput) {
+    contributorNameInput.value = "";
+}
+
+
+const contributorMobileInput =
+    document.getElementById(
+        "contributorMobile"
+    );
+
+if (contributorMobileInput) {
+    contributorMobileInput.value = "";
+}
+
+
+const contributorOrganizationInput =
+    document.getElementById(
+        "contributorOrganization"
+    );
+
+if (contributorOrganizationInput) {
+    contributorOrganizationInput.value = "";
+}
+
+
+const contributorDetailsInput =
+    document.getElementById(
+        "contributorDetails"
+    );
+
+if (contributorDetailsInput) {
+    contributorDetailsInput.value = "";
+}
+
+
+const contributorDateInput =
+    document.getElementById(
+        "contributorDate"
+    );
+
+if (contributorDateInput) {
+    contributorDateInput.value = "";
+}
+
+} catch(error) {
+
+    alert(error.message);
+
+}
+
+}
+async function editContributor(id) {
+
+try {
+
+    const contributors =
+        await apiRequest(
+            "/api/contributors"
+        );
+
+    const item =
+        contributors.find(
+            contributor =>
+                contributor._id === id
+        );
+
+    if (!item) {
+        alert("Contributor not found.");
+        return;
+    }
+
+
+    document.getElementById(
+        "contributorName"
+    ).value =
+        item.name || "";
+
+
+    document.getElementById(
+        "contributorMobile"
+    ).value =
+        item.mobile || "";
+
+
+    document.getElementById(
+        "contributorOrganization"
+    ).value =
+        item.organization || "";
+
+
+    document.getElementById(
+        "contributorDetails"
+    ).value =
+        item.contributionDetails || "";
+
+
+    document.getElementById(
+        "contributorDate"
+    ).value =
+        item.date || "";
+
+
+    /* Store ID for update */
+
+    window.editingContributorId = id;
+
+
+    alert("Contributor loaded for editing.");
+   const button =
+    document.getElementById(
+        "contributorSubmitBtn"
+    );
+
+if (button) {
+
+    button.setAttribute(
+        "onclick",
+        "updateContributor()"
+    );
+
+    button.textContent =
+        "✏️ Update Contributor";
+
+}
+
+} catch(error) {
+
+    alert(error.message);
+
+}
+
+
+}
+async function updateContributor() {
+
+    const id =
+        window.editingContributorId;
+
+    if (!id) {
+        alert("Please select a contributor to edit.");
+        return false;
+    }
+
+    try {
+
+        const name =
+            value("contributorName");
+
+        const mobile =
+            value("contributorMobile");
+
+        const organization =
+            value("contributorOrganization");
+
+        const contributionDetails =
+            value("contributorDetails");
+
+        const date =
+            value("contributorDate");
+
+
+        /* NAME */
+
+        if (!name) {
+            alert("Contributor name is required.");
+            return false;
+        }
+
+
+        /* MOBILE */
+
+        if (!mobile) {
+            alert("Mobile number is required.");
+            return false;
+        }
+
+        if (!/^[6-9]\d{9}$/.test(mobile)) {
+            alert(
+                "Please enter a valid 10-digit mobile number."
+            );
+            return false;
+        }
+
+
+        /* ORGANIZATION */
+
+        if (!organization) {
+            alert("Organization is required.");
+            return false;
+        }
+
+
+        /* CONTRIBUTION DETAILS */
+
+       if (!contributionDetails) {
+    alert("Contribution details are required.");
+    return false;
+}
+            
+
+
+        
+
+
+        /* DATE */
+
+        if (!date) {
+            alert("Date is required.");
+            return false;
+        }
+        const today =
+    new Date().toISOString().split("T")[0];
+
+if (date > today) {
+    alert("Future date is not allowed.");
+    return false;
+}
+
+
+        /* UPDATE BACKEND */
+
+        await apiRequest(
+            "/api/admin/contributors/" + id,
+            {
+                method: "PUT",
+
+                body: JSON.stringify({
+
+                    name: name,
+
+                    mobile: mobile,
+
+                    organization:
+                        organization,
+
+                    contributionDetails:
+                        contributionDetails,
+
+                    date: date,
+
+                    active: true
+
+                })
+            }
+        );
+
+
+        alert("Contributor updated successfully.");
+
+
+        /* CLEAR EDIT MODE */
+
+        window.editingContributorId =
+            null;
+
+
+        document.getElementById(
+            "contributorName"
+        ).value = "";
+
+        document.getElementById(
+            "contributorMobile"
+        ).value = "";
+
+        document.getElementById(
+            "contributorOrganization"
+        ).value = "";
+
+        document.getElementById(
+            "contributorDetails"
+        ).value = "";
+
+        document.getElementById(
+            "contributorDate"
+        ).value = "";
+
+
+        /* CHANGE BUTTON BACK TO ADD */
+
+        const button =
+    document.getElementById(
+        "contributorSubmitBtn"
+    );
+
+        if (button) {
+
+            button.setAttribute(
+                "onclick",
+                "addContributor()"
+            );
+
+            button.textContent =
+                "+ योगदानकर्ता जोड़ें";
+
+        }
+
+
+        loadContributors();
+
+        loadDashboard();
+
+
+    } catch (error) {
+
+        console.error(
+            "Update contributor error:",
+            error
+        );
+
+        alert(error.message);
+
+    }
+
+}
+
+async function deleteContributor(id) {
+
+if (
+    !confirm(
+        "Are you sure you want to delete this contributor?"
+    )
+) {
+    return;
+}
+
+try {
+
+    await apiRequest(
+        "/api/admin/contributors/" + id,
+        {
+            method: "DELETE"
+        }
+    );
+
+    alert("Contributor deleted successfully.");
 
     loadContributors();
 
@@ -3747,7 +6616,6 @@ try {
 }
 
 }
-
 /* =========================================================
 CONTACTS
 ========================================================= */

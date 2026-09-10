@@ -49,15 +49,18 @@
 
 <div class="website-video-overlay"></div>
 
-    <!-- =====================================================
-         LANGUAGE BAR
-    ====================================================== -->
-
+   
+ <!-- FESTIVE NAME -->
+<div class="festive-name">
+    <div class="festive-track">
+        <span>✨ श्री श्री दुर्गा पूजा समिति ✨</span>
+        <span>🌸 Shree Shree Durga Puja Samiti 🌸</span>
+        <span>🪔 जय माता दी 🪔</span>
+        <span>✨ श्री श्री दुर्गा पूजा समिति ✨</span>
+    </div>
+</div>
+<!-- LANGUAGE BAR -->
     <div class="language-bar">
-
-        <span>
-            भाषा / Language:
-        </span>
 
         <button
             id="hindiBtn"
@@ -140,11 +143,10 @@
         <!-- =================================================
              MAIN NAVIGATION
         ================================================== -->
+<nav id="mainNav">
 
-        <nav id="mainNav">
-
-            <ul>
-
+    <ul>
+       
 
                 <!-- ================= HOME ================= -->
 
@@ -804,83 +806,7 @@
 
 
 
-        <!-- =================================================
-             QUICK ACTIONS
-        ================================================== -->
-
-        <section class="quick-actions">
-
-
-            <a
-                href="#donation"
-                class="quick-action">
-
-                🙏
-
-                <span
-                    data-hi="सहयोग करें"
-                    data-en="Donate">
-
-                    सहयोग करें
-
-                </span>
-
-            </a>
-
-
-            <a
-                href="#program"
-                class="quick-action">
-
-                📅
-
-                <span
-                    data-hi="पूजा कार्यक्रम"
-                    data-en="Puja Program">
-
-                    पूजा कार्यक्रम
-
-                </span>
-
-            </a>
-
-
-            <a
-                href="#gallery"
-                class="quick-action">
-
-                📸
-
-                <span
-                    data-hi="गैलरी देखें"
-                    data-en="View Gallery">
-
-                    गैलरी देखें
-
-                </span>
-
-            </a>
-
-
-            <a
-                href="#location"
-                class="quick-action">
-
-                📍
-
-                <span
-                    data-hi="स्थान देखें"
-                    data-en="View Location">
-
-                    स्थान देखें
-
-                </span>
-
-            </a>
-
-
-        </section>
-
+       
 
 
         <!-- =================================================
@@ -1301,21 +1227,17 @@
 
 
                <div class="gallery-year-dropdown">
+<button
+    type="button"
+    id="galleryYearButton"
+    class="gallery-year-button"
+>
+    <span id="gallerySelectedYear">
+        सभी वर्ष
+    </span>
 
-    <button
-        type="button"
-        class="gallery-year-button"
-        id="galleryYearButton">
-
-        <span id="gallerySelectedYear">
-            सभी वर्ष
-        </span>
-
-        <span class="gallery-year-arrow">
-            ▼
-        </span>
-
-    </button>
+    <span class="gallery-year-arrow">▼</span>
+</button>
 
 
     <div
@@ -1374,38 +1296,45 @@
 
 </div>
 
+<div class="gallery-category-dropdown">
 
-                <select id="galleryCategory">
+    <select id="galleryCategory">
 
-                    <option value="all">
-                        सभी श्रेणियाँ
-                    </option>
+        <option value="all">
+            सभी श्रेणियाँ
+        </option>
 
-                    <option value="puja">
-                        पूजा
-                    </option>
+        <option value="puja">
+            पूजा
+        </option>
 
-                    <option value="pandal">
-                        पंडाल
-                    </option>
+        <option value="pandal">
+            पंडाल
+        </option>
 
-                    <option value="aarti">
-                        आरती
-                    </option>
+        <option value="aarti">
+            आरती
+        </option>
 
-                    <option value="bhandara">
-                        भंडारा
-                    </option>
+        <option value="bhandara">
+            भंडारा
+        </option>
 
-                    <option value="cultural">
-                        सांस्कृतिक कार्यक्रम
-                    </option>
+        <option value="cultural">
+            सांस्कृतिक कार्यक्रम
+        </option>
 
-                    <option value="visarjan">
-                        विसर्जन
-                    </option>
+        <option value="visarjan">
+            विसर्जन
+        </option>
 
-                </select>
+    </select>
+
+    <span class="gallery-category-arrow">
+        ▼
+    </span>
+
+</div>
 
 
             </div>
@@ -1534,69 +1463,49 @@
         </section>
 
 
+<!-- =================================================
+     LIVE DARSHAN SETTINGS
+================================================== -->
 
-        <!-- =================================================
-             LIVE DARSHAN
-        ================================================== -->
+<section
+    id="live"
+    class="section live-section">
 
-        <section
-            id="live"
-            class="section live-section">
+<div class="section-title">
 
+    <span>🔴</span>
 
-            <div class="section-title">
+    <h2
+        data-hi="लाइव दर्शन"
+        data-en="Live Darshan">
 
-                <span>🔴</span>
+        लाइव दर्शन
 
-                <h2
-                    data-hi="लाइव दर्शन"
-                    data-en="Live Darshan">
+    </h2>
 
-                    लाइव दर्शन
+</div>
 
-                </h2>
+<div
+    class="live-container"
+    id="liveContainer">
 
-            </div>
+    <div class="gallery-placeholder">
 
+        🔴
 
-            <div
-                class="live-container"
-                id="liveContainer">
+        <span
+            data-hi="लाइव दर्शन अभी उपलब्ध नहीं है।"
+            data-en="Live Darshan is currently unavailable.">
 
+            लाइव दर्शन अभी उपलब्ध नहीं है।
 
-                <div class="live-placeholder">
+        </span>
 
+    </div>
 
-                    <span>
-                        🔴
-                    </span>
+</div>
 
-
-                    <h3
-                        data-hi="लाइव दर्शन"
-                        data-en="Live Darshan">
-
-                        लाइव दर्शन
-
-                    </h3>
-
-
-                    <p
-                        data-hi="लाइव प्रसारण शुरू होने पर यहाँ दिखाई देगा।"
-                        data-en="Live stream will appear here when available.">
-
-                        लाइव प्रसारण शुरू होने पर यहाँ दिखाई देगा।
-
-                    </p>
-
-
-                </div>
-
-
-            </div>
-
-        </section>
-
+</section>
 
 
         <!-- =================================================
@@ -1724,81 +1633,85 @@
 
                     <div class="form-group">
 
-                        <label for="donorName">
+                       <label
+    for="donorName"
+    data-hi="नाम *"
+    data-en="Name *">
+    नाम *
+</label>
 
-                            नाम *
-
-                        </label>
-
-
-                        <input
-                            type="text"
-                            id="donorName"
-                            data-hi="अपना नाम लिखें"
-                            data-en="Enter your name"
-                            name="name"
-                            required
-                            placeholder="अपना नाम लिखें">
-
+                       <input
+    type="text"
+    id="donorName"
+    name="name"
+    required
+    data-placeholder-hi="अपना नाम लिखें"
+    data-placeholder-en="Enter your name"
+    placeholder="अपना नाम लिखें">
                     </div>
 
 
 
                     <div class="form-group">
 
-                        <label for="donorMobile">
-                               
-                            मोबाइल नंबर *
+                       <label
+    for="donorMobile"
+    data-hi="मोबाइल नंबर *"
+    data-en="Mobile Number *">
+    मोबाइल नंबर *
+</label>
 
-                        </label>
-
-
-                        <input
-                            type="tel"
-                            id="donorMobile"
-                            name="mobile"
-                            required
-                            maxlength="10"
-                            inputmode="numeric"
-                            placeholder="10 अंकों का मोबाइल नंबर">
-
+                       <input
+    type="tel"
+    id="donorMobile"
+    name="mobile"
+    required
+    maxlength="10"
+    inputmode="numeric"
+    data-placeholder-hi="10 अंकों का मोबाइल नंबर"
+    data-placeholder-en="10-digit mobile number"
+    placeholder="10 अंकों का मोबाइल नंबर">
                     </div>
 
 
 
                     <div class="form-group">
 
-                        <label for="donorEmail">
+                       <label
+    for="donorEmail"
+    data-hi="ईमेल"
+    data-en="Email">
+    ईमेल
+</label>
 
-                            Email
 
-                        </label>
-
-
-                        <input
-                            type="email"
-                            id="donorEmail"
-                            name="email"
-                            placeholder="example@email.com">
-
+                       <input
+    type="email"
+    id="donorEmail"
+    name="email"
+    data-placeholder-hi="अपना ईमेल लिखें"
+    data-placeholder-en="Enter your email"
+    placeholder="अपना ईमेल लिखें">
                     </div>
 
 
 
                     <div class="form-group">
 
-                        <label for="donorAddress">
+                       <label
+    for="donorAddress"
+    data-hi="पता"
+    data-en="Address">
+    पता
+</label>
 
-                            पता
 
-                        </label>
-
-
-                        <textarea
-                            id="donorAddress"
-                            name="address"
-                            placeholder="अपना पता लिखें"></textarea>
-
+                       <textarea
+    id="donorAddress"
+    name="address"
+    data-placeholder-hi="अपना पता लिखें"
+    data-placeholder-en="Enter your address"
+    placeholder="अपना पता लिखें"></textarea>
                     </div>
 
 
@@ -1807,11 +1720,11 @@
 
                     <div class="form-group">
 
-                        <label>
-
-                            सहयोग राशि *
-
-                        </label>
+                       <label
+    data-hi="सहयोग राशि *"
+    data-en="Donation Amount *">
+    सहयोग राशि *
+</label>
 
 
                         <div class="amount-options">
@@ -1866,25 +1779,25 @@
 
 
                         <input
-                            type="number"
-                            id="donationAmount"
-                            name="amount"
-                            min="1"
-                            step="1"
-                            required
-                            placeholder="अन्य राशि">
-
+    type="number"
+    id="donationAmount"
+    name="amount"
+    min="1"
+    step="1"
+    required
+    data-placeholder-hi="अन्य राशि"
+    data-placeholder-en="Other Amount"
+    placeholder="अन्य राशि">
                     </div>
 
 
-
-                    <button
-                        type="submit"
-                        class="btn primary">
-
-                        💳 आगे बढ़ें
-
-                    </button>
+<button
+    type="submit"
+    class="btn primary"
+    data-hi="💳 आगे बढ़ें"
+    data-en="💳 Proceed">
+    💳 आगे बढ़ें
+</button>
 
 
                 </form>
@@ -1998,19 +1911,120 @@
 
                         </label>
 
+<div class="year-dropdown" id="yearDropdown">
 
-                        <select id="publicDonationYear">
+    <button
+        type="button"
+        class="year-dropdown-btn"
+        id="yearDropdownBtn">
 
-                            <option value="all">
-                                सभी वर्ष
-                            </option>
+        <span id="selectedYearText">
+            सभी वर्ष
+        </span>
 
-                            <option value="2026">
-                                2026
-                            </option>
+        <span class="year-dropdown-arrow">▼</span>
 
-                        </select>
+    </button>
 
+
+    <div
+        class="year-dropdown-menu"
+        id="yearDropdownMenu">
+
+        <div
+            class="year-option active"
+            data-value="all">
+
+            सभी वर्ष
+
+        </div>
+
+        <div class="year-option" data-value="2016">2016</div>
+        <div class="year-option" data-value="2017">2017</div>
+        <div class="year-option" data-value="2018">2018</div>
+        <div class="year-option" data-value="2019">2019</div>
+        <div class="year-option" data-value="2020">2020</div>
+        <div class="year-option" data-value="2021">2021</div>
+        <div class="year-option" data-value="2022">2022</div>
+        <div class="year-option" data-value="2023">2023</div>
+        <div class="year-option" data-value="2024">2024</div>
+        <div class="year-option" data-value="2025">2025</div>
+        <div class="year-option" data-value="2026">2026</div>
+        <div class="year-option" data-value="2027">2027</div>
+        <div class="year-option" data-value="2028">2028</div>
+        <div class="year-option" data-value="2029">2029</div>
+        <div class="year-option" data-value="2030">2030</div>
+        <div class="year-option" data-value="2031">2031</div>
+        <div class="year-option" data-value="2032">2032</div>
+        <div class="year-option" data-value="2033">2033</div>
+        <div class="year-option" data-value="2034">2034</div>
+        <div class="year-option" data-value="2035">2035</div>
+        <div class="year-option" data-value="2036">2036</div>
+        <div class="year-option" data-value="2037">2037</div>
+        <div class="year-option" data-value="2038">2038</div>
+        <div class="year-option" data-value="2039">2039</div>
+        <div class="year-option" data-value="2040">2040</div>
+        <div class="year-option" data-value="2041">2041</div>
+        <div class="year-option" data-value="2042">2042</div>
+        <div class="year-option" data-value="2043">2043</div>
+        <div class="year-option" data-value="2044">2044</div>
+        <div class="year-option" data-value="2045">2045</div>
+        <div class="year-option" data-value="2046">2046</div>
+        <div class="year-option" data-value="2047">2047</div>
+        <div class="year-option" data-value="2048">2048</div>
+        <div class="year-option" data-value="2049">2049</div>
+        <div class="year-option" data-value="2050">2050</div>
+
+    </div>
+
+
+    <!-- Existing JS compatibility -->
+
+    <select
+        id="publicDonationYear"
+        style="display:none;">
+
+        <option value="all">सभी वर्ष</option>
+
+        <option value="2016">2016</option>
+        <option value="2017">2017</option>
+        <option value="2018">2018</option>
+        <option value="2019">2019</option>
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+        <option value="2026">2026</option>
+        <option value="2027">2027</option>
+        <option value="2028">2028</option>
+        <option value="2029">2029</option>
+        <option value="2030">2030</option>
+        <option value="2031">2031</option>
+        <option value="2032">2032</option>
+        <option value="2033">2033</option>
+        <option value="2034">2034</option>
+        <option value="2035">2035</option>
+        <option value="2036">2036</option>
+        <option value="2037">2037</option>
+        <option value="2038">2038</option>
+        <option value="2039">2039</option>
+        <option value="2040">2040</option>
+        <option value="2041">2041</option>
+        <option value="2042">2042</option>
+        <option value="2043">2043</option>
+        <option value="2044">2044</option>
+        <option value="2045">2045</option>
+        <option value="2046">2046</option>
+        <option value="2047">2047</option>
+        <option value="2048">2048</option>
+        <option value="2049">2049</option>
+        <option value="2050">2050</option>
+
+    </select>
+
+</div>
                     </div>
 
 
@@ -2228,41 +2242,47 @@
                 <form id="contactForm">
 
 
-                    <input
-                        type="text"
-                        id="contactName"
-                        placeholder="आपका नाम"
-                        required>
+                   <input
+    type="text"
+    id="contactName"
+    data-placeholder-hi="आपका नाम"
+    data-placeholder-en="Your Name"
+    placeholder="आपका नाम"
+    required>
 
 
-                    <input
-                        type="tel"
-                        id="contactMobile"
-                        maxlength="10"
-                        placeholder="मोबाइल नंबर"
-                        required>
+                   <input
+    type="tel"
+    id="contactMobile"
+    maxlength="10"
+    data-placeholder-hi="मोबाइल नंबर"
+    data-placeholder-en="Mobile Number"
+    placeholder="मोबाइल नंबर"
+    required>
 
 
-                    <input
-                        type="email"
-                        id="contactEmail"
-                        placeholder="Email">
+                  <input
+    type="email"
+    id="contactEmail"
+    data-placeholder-hi="ईमेल"
+    data-placeholder-en="Email"
+    placeholder="ईमेल">
 
+                   <textarea
+    id="contactMessage"
+    data-placeholder-hi="अपना संदेश लिखें"
+    data-placeholder-en="Enter your message"
+    placeholder="अपना संदेश लिखें"
+    required></textarea>
+<button
+    type="submit"
+    class="btn primary"
+    data-hi="📩 संदेश भेजें"
+    data-en="📩 Send Message">
 
-                    <textarea
-                        id="contactMessage"
-                        placeholder="अपना संदेश लिखें"
-                        required></textarea>
+    📩 संदेश भेजें
 
-
-                    <button
-                        type="submit"
-                        class="btn primary">
-
-                        📩 संदेश भेजें
-
-                    </button>
-
+</button>
 
                 </form>
 
@@ -2441,9 +2461,11 @@
          JAVASCRIPT
     ====================================================== -->
 
-    <script src="script.js"></script>
+    
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
+ <script src="script.js"></script>
 </body>
 
 </html>

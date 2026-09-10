@@ -9,7 +9,7 @@
 <title>Admin Panel | श्री श्री दुर्गा पूजा समिति</title>
 
 <!-- Admin CSS -->
-<link rel="stylesheet" href="admin/admin.css">
+<link rel="stylesheet" href="/admin/admin.css">
 
 
 </head>
@@ -270,6 +270,7 @@
                     <thead>
 
                         <tr>
+                            <th>S.No.</th>
                             <th data-i18n="name">नाम</th>
                             <th data-i18n="year">वर्ष</th>
                             <th data-i18n="amount">राशि</th>
@@ -281,7 +282,7 @@
                     <tbody id="recentDonations">
 
                         <tr>
-                            <td colspan="4" data-i18n="loading">
+                            <td colspan="5" data-i18n="loading">
                                 लोड हो रहा है...
                             </td>
                         </tr>
@@ -297,13 +298,16 @@
     </section>
 
 
-    <!-- =================================================
-         MEMBERS
-    ================================================== -->
 
-    <section class="content-section" id="members">
+<!-- =================================================
+     MEMBERS
+================================================== -->
 
-        <div class="card">
+<section class="content-section" id="members">
+
+    <div class="card">
+
+        <form id="memberForm">
 
             <h2 data-i18n="committeeMembers">
                 👥 समिति सदस्य
@@ -311,70 +315,155 @@
 
             <div class="grid">
 
+                <!-- POSITION HINDI -->
                 <div class="form-group">
                     <label data-i18n="positionHindi">
                         पद - हिंदी
                     </label>
-                    <input id="memberPositionHi">
+
+                    <input
+                        id="memberPositionHi"
+                        type="text"
+                        required
+                        autocomplete="off"
+                    >
                 </div>
 
+
+                <!-- POSITION ENGLISH -->
                 <div class="form-group">
                     <label data-i18n="positionEnglish">
                         पद - English
                     </label>
-                    <input id="memberPositionEn">
+
+                    <input
+                        id="memberPositionEn"
+                        type="text"
+                        required
+                        autocomplete="off"
+                    >
                 </div>
 
+
+                <!-- NAME HINDI -->
                 <div class="form-group">
                     <label data-i18n="nameHindi">
                         नाम - हिंदी
                     </label>
-                    <input id="memberNameHi">
+
+                    <input
+                        id="memberNameHi"
+                        type="text"
+                        required
+                        autocomplete="off"
+                    >
                 </div>
 
+
+                <!-- NAME ENGLISH -->
                 <div class="form-group">
                     <label data-i18n="nameEnglish">
                         नाम - English
                     </label>
-                    <input id="memberNameEn">
-                </div>
-                <div class="form-group">
-                 <label data-i18n="memberType">
-                   सदस्य प्रकार
-                   </label>
 
-                  <select id="memberType">
-                    <option value="officeBearer">
-                    🏛️ Office Bearer
-                    </option>
-
-                    <option value="generalMember">
-                    👥 General Member
-                   </option>
-                 </select>
+                    <input
+                        id="memberNameEn"
+                        type="text"
+                        required
+                        autocomplete="off"
+                    >
                 </div>
 
+
+                <!-- MEMBER TYPE -->
                 <div class="form-group">
+
+                    <label data-i18n="memberType">
+                        सदस्य प्रकार
+                    </label>
+
+                    <select
+                        id="memberType"
+                        required
+                    >
+                        <option value="officeBearer">
+                            🏛️ Office Bearer
+                        </option>
+
+                        <option value="generalMember">
+                            👥 General Member
+                        </option>
+                    </select>
+
+                </div>
+           
+
+<!-- GENDER -->
+<div class="form-group">
+    <label>लिंग / Gender</label>
+
+    <div style="display:flex; gap:20px; align-items:center;">
+
+        <label>
+            <input type="radio" name="memberGender" value="Male">
+            पुरुष / Male
+        </label>
+
+        <label>
+            <input type="radio" name="memberGender" value="Female">
+            महिला / Female
+        </label>
+
+        <label>
+            <input type="radio" name="memberGender" value="Other">
+            अन्य / Other
+        </label>
+
+    </div>
+</div>
+
+
+                <!-- IMAGE URL -->
+                <div class="form-group">
+
                     <label data-i18n="imageUrl">
                         Image URL
                     </label>
-                    <input id="memberImage">
+
+                    <input
+                        id="memberImage"
+                        type="url"
+                        required
+                        autocomplete="off"
+                    >
+
                 </div>
 
+
+                <!-- ORDER -->
                 <div class="form-group">
+
                     <label data-i18n="order">
                         क्रम
                     </label>
+
                     <input
                         type="number"
                         id="memberOrder"
-                        value="0"
+                        min="1"
+                        step="1"
+                        required
+                        autocomplete="off"
                     >
+
                 </div>
 
             </div>
 
+
+            <!-- ADD / UPDATE -->
             <button
+                type="button"
                 class="btn btn-add"
                 onclick="addMember()"
                 data-i18n="addMember"
@@ -382,24 +471,42 @@
                 + सदस्य जोड़ें
             </button>
 
-        </div>
 
-        <div class="card">
-
-            <h2 data-i18n="membersList">
-                सदस्य सूची
-            </h2>
-
-            <div
-                class="table-wrap"
-                id="membersList"
+            <!-- CANCEL -->
+            <button
+                type="button"
+                id="cancelMemberEdit"
+                class="btn"
+                onclick="resetMemberForm()"
+                style="display:none;"
             >
-                Loading...
-            </div>
+                ❌ Cancel
+            </button>
 
+        </form>
+
+    </div>
+
+
+    <!-- MEMBERS LIST -->
+    <div class="card">
+
+        <h2 data-i18n="membersList">
+            सदस्य सूची
+        </h2>
+
+        <div
+            class="table-wrap"
+            id="membersList"
+        >
+            Loading...
         </div>
 
-    </section>
+    </div>
+
+</section>
+
+
 
 
     <!-- =================================================
@@ -409,10 +516,13 @@
     <section class="content-section" id="programs">
 
         <div class="card">
+            
 
             <h2 data-i18n="pujaProgram">
                 📅 पूजा कार्यक्रम
             </h2>
+            
+<form id="programForm" onsubmit="addProgram(event)">
 
             <div class="grid">
 
@@ -422,43 +532,15 @@
         वर्ष
     </label>
 
-    <select id="programYear">
-
-        <option value="2016">2016</option>
-        <option value="2017">2017</option>
-        <option value="2018">2018</option>
-        <option value="2019">2019</option>
-        <option value="2020">2020</option>
-        <option value="2021">2021</option>
-        <option value="2022">2022</option>
-        <option value="2023">2023</option>
-        <option value="2024">2024</option>
-        <option value="2025">2025</option>
-        <option value="2026" selected>2026</option>
-        <option value="2027">2027</option>
-        <option value="2028">2028</option>
-        <option value="2029">2029</option>
-        <option value="2030">2030</option>
-        <option value="2031">2031</option>
-        <option value="2032">2032</option>
-        <option value="2033">2033</option>
-        <option value="2034">2034</option>
-        <option value="2035">2035</option>
-        <option value="2036">2036</option>
-        <option value="2037">2037</option>
-        <option value="2038">2038</option>
-        <option value="2039">2039</option>
-        <option value="2040">2040</option>
-        <option value="2041">2041</option>
-        <option value="2042">2042</option>
-        <option value="2043">2043</option>
-        <option value="2044">2044</option>
-        <option value="2045">2045</option>
-        <option value="2046">2046</option>
-        <option value="2047">2047</option>
-        <option value="2048">2048</option>
-        <option value="2049">2049</option>
-        <option value="2050">2050</option>
+<input
+    type="number"
+    id="programYear"
+    min="2016"
+    max="2050"
+    step="1"
+    value="2026"
+    required
+>
 
     </select>
 
@@ -469,73 +551,108 @@
                     <input
                         type="date"
                         id="programDate"
+                        required
                     >
                 </div>
 
                 <div class="form-group">
                     <label data-i18n="dayHindi">दिन - हिंदी</label>
-                    <input id="programDayHi">
+                    <input
+                        type="text"
+                        id="programDayHi"
+                           required
+                         autocomplete="off"
+                         >
                 </div>
 
                 <div class="form-group">
                     <label data-i18n="dayEnglish">
                         Day - English
                     </label>
-                    <input id="programDayEn">
+                    <input
+    type="text"
+    id="programDayEn"
+    required
+    autocomplete="off"
+>
                 </div>
 
                 <div class="form-group">
                     <label data-i18n="titleHindi">
                         शीर्षक - हिंदी
                     </label>
-                    <input id="programTitleHi">
+                    <input
+    type="text"
+    id="programTitleHi"
+    required
+>
                 </div>
 
                 <div class="form-group">
                     <label data-i18n="titleEnglish">
                         Title - English
                     </label>
-                    <input id="programTitleEn">
+                    <input
+    type="text"
+    id="programTitleEn"
+    required
+>
                 </div>
 
                 <div class="form-group full">
                     <label data-i18n="descriptionHindi">
                         विवरण - हिंदी
                     </label>
-                    <textarea id="programDescriptionHi"></textarea>
+                    <textarea
+    id="programDescriptionHi"
+    required
+></textarea>
                 </div>
 
                 <div class="form-group full">
                     <label data-i18n="descriptionEnglish">
                         Description - English
                     </label>
-                    <textarea id="programDescriptionEn"></textarea>
+                    <textarea
+    id="programDescriptionEn"
+    required
+></textarea>
                 </div>
 
                 <div class="form-group">
                     <label data-i18n="time">समय</label>
-                    <input id="programTime">
+                    <input
+    type="text"
+    id="programTime"
+    placeholder="07:30 PM"
+    required
+>
                 </div>
 
                 <div class="form-group">
                     <label data-i18n="order">क्रम</label>
-                    <input
-                        type="number"
-                        id="programOrder"
-                        value="0"
-                    >
-                </div>
+                   <input
+    type="number"
+    id="programOrder"
+    min="1"
+    step="1"
+    required
+>
+            
 
             </div>
 
-            <button
-                class="btn btn-add"
-                onclick="addProgram()"
-                data-i18n="addProgram"
-            >
-                + कार्यक्रम जोड़ें
-            </button>
+           </div>
 
+<button
+    type="submit"
+    class="btn btn-add"
+    data-i18n="addProgram"
+>
+    + कार्यक्रम जोड़ें
+</button>
+
+</form>
         </div>
 
         <div class="card">
@@ -567,6 +684,9 @@
             📢 सूचना
         </h2>
 
+        <form id="noticeForm" onsubmit="addNotice(event)" novalidate>
+
+    
         <div class="grid">
 
             <!-- HINDI TITLE -->
@@ -577,12 +697,18 @@
                 </label>
 
                 <input
-                    type="text"
-                    id="noticeTitleHi"
-                    data-placeholder-hi="सूचना का शीर्षक"
-                    data-placeholder-en="Notice title in Hindi"
-                    placeholder="सूचना का शीर्षक"
-                >
+    type="text"
+    id="noticeTitleHi"
+    required
+    data-placeholder-hi="सूचना का शीर्षक"
+    data-placeholder-en="Notice title in Hindi"
+    placeholder="सूचना का शीर्षक"
+>
+
+<small
+    id="noticeTitleHiError"
+    class="field-error"
+></small>
 
             </div>
 
@@ -595,12 +721,18 @@
                 </label>
 
                 <input
-                    type="text"
-                    id="noticeTitleEn"
-                    data-placeholder-hi="सूचना का शीर्षक अंग्रेजी में"
-                    data-placeholder-en="Notice title in English"
-                    placeholder="सूचना का शीर्षक अंग्रेजी में"
-                >
+    type="text"
+    required
+    id="noticeTitleEn"
+    data-placeholder-hi="सूचना का शीर्षक अंग्रेजी में"
+    data-placeholder-en="Notice title in English"
+    placeholder="सूचना का शीर्षक अंग्रेजी में"
+>
+
+<small
+    id="noticeTitleEnError"
+    class="field-error"
+></small>
 
             </div>
 
@@ -612,12 +744,18 @@
                     संदेश - हिंदी
                 </label>
 
-                <textarea
-                    id="noticeMessageHi"
-                    data-placeholder-hi="सूचना का संदेश लिखें..."
-                    data-placeholder-en="Enter notice message in Hindi..."
-                    placeholder="सूचना का संदेश लिखें..."
-                ></textarea>
+               <textarea
+    id="noticeMessageHi"
+    required
+    data-placeholder-hi="सूचना का संदेश लिखें..."
+    data-placeholder-en="Enter notice message in Hindi..."
+    placeholder="सूचना का संदेश लिखें..."
+></textarea>
+
+<small
+    id="noticeMessageHiError"
+    class="field-error"
+></small>
 
             </div>
 
@@ -629,13 +767,17 @@
                     Message - English
                 </label>
 
-                <textarea
-                    id="noticeMessageEn"
-                    data-placeholder-hi="सूचना का संदेश अंग्रेजी में लिखें..."
-                    data-placeholder-en="Enter notice message in English..."
-                    placeholder="सूचना का संदेश लिखें..."
-                ></textarea>
+               <textarea
+    id="noticeMessageEn"
+    data-placeholder-hi="सूचना का संदेश अंग्रेजी में लिखें..."
+    data-placeholder-en="Enter notice message in English..."
+    placeholder="सूचना का संदेश अंग्रेजी में लिखें..."
+></textarea>
 
+<small
+    id="noticeMessageEnError"
+    class="field-error"
+></small>
             </div>
 
 
@@ -649,6 +791,7 @@
                 <input
                     type="date"
                     id="noticeDate"
+                    required
                 >
 
             </div>
@@ -656,13 +799,24 @@
         </div>
 
 
-        <button
-            class="btn btn-add"
-            onclick="addNotice()"
-            data-i18n="addNotice"
-        >
-            + सूचना जोड़ें
-        </button>
+       <button
+    type="submit"
+    class="btn btn-add"
+    data-i18n="addNotice"
+>
+    + सूचना जोड़ें
+</button>
+
+<button
+    type="button"
+    id="cancelNoticeEdit"
+    class="btn btn-cancel"
+    onclick="resetNoticeForm()"
+    style="display:none;"
+>
+    ✖️ रद्द करें
+</button>
+</form>
 
     </div>
 
@@ -684,17 +838,19 @@
 
     </div>
 
-</section>
-
-
-<!-- =================================================
+</section> 
+<!--=================================================
      GALLERY
 ================================================== -->
 
 <section class="content-section" id="gallery">
 
 
-<!-- =================================================
+<!--=================================================
+     ADD GALLERY PHOTO
+================================================== -->
+
+<!--=================================================
      ADD GALLERY PHOTO
 ================================================== -->
 
@@ -706,6 +862,7 @@
 
     <div class="grid">
 
+        <!-- HINDI TITLE -->
         <div class="form-group">
 
             <label data-i18n="titleHindi">
@@ -713,12 +870,19 @@
             </label>
 
             <input
+                type="text"
                 id="galleryTitleHi"
             >
+
+            <small
+                id="galleryTitleHiError"
+                class="field-error"
+            ></small>
 
         </div>
 
 
+        <!-- ENGLISH TITLE -->
         <div class="form-group">
 
             <label data-i18n="titleEnglish">
@@ -726,36 +890,44 @@
             </label>
 
             <input
+                type="text"
                 id="galleryTitleEn"
             >
+
+            <small
+                id="galleryTitleEnError"
+                class="field-error"
+            ></small>
 
         </div>
 
 
-        <!-- =================================================
-             IMAGE URL OPTION
-        ================================================== -->
-
-        <div class="form-group full">
+        <!-- IMAGE URL -->
+        <div class="form-group">
 
             <label data-i18n="imageUrl">
                 🔗 Image URL
             </label>
+            
 
             <input
                 id="galleryImage"
                 type="url"
                 placeholder="https://example.com/photo.jpg"
             >
+            
+
+            <small
+                id="galleryImageError"
+                class="field-error"
+            ></small>
+            
 
         </div>
 
 
-        <!-- =================================================
-             DIRECT PHOTO UPLOAD OPTION
-        ================================================== -->
-
-        <div class="form-group full">
+        <!-- DIRECT PHOTO UPLOAD -->
+        <div class="form-group ">
 
             <label>
                 📤 Upload Photo
@@ -771,99 +943,17 @@
                 JPG, JPEG, PNG, WEBP या GIF — Maximum 10 MB
             </small>
 
-        </div>
-
-
-        <div class="form-group">
-
-            <label data-i18n="year">
-                वर्ष
-            </label>
-
-           <select id="galleryYear">
-
-    <option value="2016">2016</option>
-    <option value="2017">2017</option>
-    <option value="2018">2018</option>
-    <option value="2019">2019</option>
-    <option value="2020">2020</option>
-    <option value="2021">2021</option>
-    <option value="2022">2022</option>
-    <option value="2023">2023</option>
-    <option value="2024">2024</option>
-    <option value="2025">2025</option>
-    <option value="2026" selected>2026</option>
-    <option value="2027">2027</option>
-    <option value="2028">2028</option>
-    <option value="2029">2029</option>
-    <option value="2030">2030</option>
-    <option value="2031">2031</option>
-    <option value="2032">2032</option>
-    <option value="2033">2033</option>
-    <option value="2034">2034</option>
-    <option value="2035">2035</option>
-    <option value="2036">2036</option>
-    <option value="2037">2037</option>
-    <option value="2038">2038</option>
-    <option value="2039">2039</option>
-    <option value="2040">2040</option>
-    <option value="2041">2041</option>
-    <option value="2042">2042</option>
-    <option value="2043">2043</option>
-    <option value="2044">2044</option>
-    <option value="2045">2045</option>
-    <option value="2046">2046</option>
-    <option value="2047">2047</option>
-    <option value="2048">2048</option>
-    <option value="2049">2049</option>
-    <option value="2050">2050</option>
-
-</select>
-    
-    <select id="galleryCategory">
-
-    <option
-        value="puja"
-    >
-        पूजा
-    </option>
-
-    <option
-        value="pandal"
-    >
-        पंडाल
-    </option>
-
-    <option
-        value="aarti"
-    >
-        आरती
-    </option>
-
-    <option
-        value="bhandara"
-    >
-        भंडारा
-    </option>
-
-    <option
-        value="cultural"
-    >
-        सांस्कृतिक कार्यक्रम
-    </option>
-
-    <option
-        value="visarjan"
-    >
-        विसर्जन
-    </option>
-
-
-</select>
+            <small
+                id="galleryPhotoFileError"
+                class="field-error"
+            ></small>
 
         </div>
 
 
+       
+
+        <!-- CATEGORY -->
         <div class="form-group">
 
             <label data-i18n="category">
@@ -872,32 +962,32 @@
 
             <select id="galleryCategory">
 
-                <option
-                    value="puja"
-                    data-i18n="puja"
-                >
+                <option value="all">
+                    सभी श्रेणियाँ
+                </option>
+
+                <option value="puja">
                     पूजा
                 </option>
 
-                <option
-                    value="event"
-                    data-i18n="event"
-                >
-                    कार्यक्रम
+                <option value="pandal">
+                    पंडाल
                 </option>
 
-                <option
-                    value="committee"
-                    data-i18n="committee"
-                >
-                    समिति
+                <option value="aarti">
+                    आरती
                 </option>
 
-                <option
-                    value="other"
-                    data-i18n="other"
-                >
-                    अन्य
+                <option value="bhandara">
+                    भंडारा
+                </option>
+
+                <option value="cultural">
+                    सांस्कृतिक कार्यक्रम
+                </option>
+
+                <option value="visarjan">
+                    विसर्जन
                 </option>
 
             </select>
@@ -905,6 +995,7 @@
         </div>
 
 
+        <!-- DATE -->
         <div class="form-group">
 
             <label data-i18n="date">
@@ -916,16 +1007,20 @@
                 id="galleryDate"
             >
 
+            <small
+                id="galleryDateError"
+                class="field-error"
+            ></small>
+
         </div>
 
     </div>
 
 
-    <!-- =================================================
-         URL ADD BUTTON
-    ================================================== -->
-
+    <!-- URL ADD / UPDATE BUTTON -->
     <button
+        type="button"
+        id="galleryAddButton"
         class="btn btn-add"
         onclick="addGallery()"
         data-i18n="addGallery"
@@ -934,21 +1029,29 @@
     </button>
 
 
-    <!-- =================================================
-         FILE UPLOAD BUTTON
-    ================================================== -->
-
+    <!-- PHOTO UPLOAD BUTTON -->
     <button
+        type="button"
+        id="galleryUploadButton"
         class="btn btn-add"
         onclick="uploadGalleryPhoto()"
     >
         📤 Photo Upload करें
     </button>
 
+
+    <!-- CANCEL EDIT BUTTON -->
+    <button
+        type="button"
+        id="cancelGalleryEdit"
+        class="btn btn-cancel"
+        onclick="resetGalleryForm()"
+        style="display:none;"
+    >
+        ✖️ रद्द करें
+    </button>
+
 </div>
-
-
-
 <!-- =================================================
      GALLERY LIST
 ================================================== -->
@@ -956,11 +1059,11 @@
 <div class="card">
 
     <h2 data-i18n="galleryList">
-        गैलरी सूची
+        🖼️ गैलरी सूची
     </h2>
 
     <div
-        class="table-wrap"
+        class="gallery-admin-list"
         id="galleryList"
     >
         Loading...
@@ -994,8 +1097,10 @@
                 <label data-i18n="titleHindi">
                     शीर्षक - हिंदी
                 </label>
+                
 
                 <input id="videoTitleHi">
+                <small id="videoTitleEnError" class="field-error"></small>
 
             </div>
 
@@ -1007,41 +1112,54 @@
                 </label>
 
                 <input id="videoTitleEn">
+                <small id="videoTitleEnError" class="field-error"></small>
 
             </div>
 
 
-            <div class="form-group full">
+            <div class="form-group ">
 
                 <label data-i18n="youtubeUrl">
                     YouTube URL
                 </label>
 
                 <input id="youtubeUrl">
+                <small id="youtubeUrlError" class="field-error"></small>
 
             </div>
 
 
-            <div class="form-group full">
+            <div class="form-group ">
 
                 <label data-i18n="thumbnailUrl">
                     Thumbnail URL
                 </label>
 
                 <input id="videoThumbnail">
+                <small id="videoThumbnailError" class="field-error"></small>
 
             </div>
 
         </div>
 
 
-        <button
-            class="btn btn-add"
-            onclick="addVideo()"
-            data-i18n="addVideo"
-        >
-            + वीडियो जोड़ें
+      <button
+    type="button"
+    id="videoAddButton"
+    class="btn btn-add"
+    onclick="addVideo()"
+    data-i18n="addVideo"
+>
         </button>
+        <button
+    type="button"
+    id="cancelVideoEdit"
+    class="btn btn-cancel"
+    onclick="resetVideoForm()"
+    style="display:none;"
+>
+    ✖️ रद्द करें
+</button>
 
     </div>
 
@@ -1084,7 +1202,7 @@
             </div>
 
 
-            <div class="form-group full">
+            <div class="form-group ">
 
                 <label>
                     Video File
@@ -1133,71 +1251,181 @@
 </section>
 
 
-    <!-- =================================================
-         LIVE DARSHAN
-    ================================================== -->
+   <!-- =================================================
+     LIVE DARSHAN SETTINGS
+================================================== -->
 
-    <section class="content-section" id="live">
+<section
+    id="live"
+    class="section live-section">
 
-        <div class="card">
+    <div class="section-title">
 
-            <h2 data-i18n="liveDarshan">
-                🔴 लाइव दर्शन
-            </h2>
+        <span>🔴</span>
 
-            <div class="grid">
+        <h2
+            data-hi="लाइव दर्शन सेटिंग्स"
+            data-en="Live Darshan Settings">
 
-                <div class="form-group">
-                    <label data-i18n="titleHindi">
-                        शीर्षक - हिंदी
-                    </label>
-                    <input id="liveTitleHi">
-                </div>
+            लाइव दर्शन सेटिंग्स
 
-                <div class="form-group">
-                    <label data-i18n="titleEnglish">
-                        Title - English
-                    </label>
-                    <input id="liveTitleEn">
-                </div>
+        </h2>
 
-                <div class="form-group full">
-                    <label data-i18n="streamUrl">
-                        Stream URL
-                    </label>
-                    <input id="liveStreamUrl">
-                </div>
+    </div>
 
-                <div class="form-group">
 
-                    <label>
+    <div class="card">
 
-                        <input
-                            type="checkbox"
-                            id="liveActive"
-                        >
+        <!-- LIVE SOURCE -->
+        <div class="form-group">
 
-                        <span data-i18n="active">
-                            Active
-                        </span>
+            <label
+                data-hi="लाइव सोर्स"
+                data-en="Live Source">
 
-                    </label>
+                Live Source
 
-                </div>
+            </label>
+
+            <div
+                style="
+                    display:flex;
+                    gap:25px;
+                    flex-wrap:wrap;
+                    align-items:center;
+                ">
+
+                <label>
+                    <input
+                        type="radio"
+                        name="liveSource"
+                        value="youtube"
+                        checked
+                    >
+                    YouTube Live
+                </label>
+
+
+                <label>
+                    <input
+                        type="radio"
+                        name="liveSource"
+                        value="camera"
+                    >
+                    Direct Camera
+                </label>
 
             </div>
 
-            <button
-                class="btn btn-warning"
-                onclick="updateLive()"
-                data-i18n="saveLive"
-            >
-                लाइव दर्शन सेव करें
-            </button>
+        </div>
+
+
+        <!-- LIVE ENABLE -->
+        <div class="form-group">
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    id="liveEnabled"
+                >
+
+                <span
+                    data-hi="लाइव दर्शन चालू है"
+                    data-en="Live Darshan Enabled">
+
+                    Live Darshan Enabled
+
+                </span>
+
+            </label>
 
         </div>
 
-    </section>
+
+        <!-- YOUTUBE URL -->
+        <div
+            class="form-group"
+            id="youtubeLiveGroup">
+
+            <label
+                data-hi="YouTube Live URL"
+                data-en="YouTube Live URL">
+
+                YouTube Live URL
+
+            </label>
+
+            <input
+                type="url"
+                id="youtubeLiveUrl"
+                placeholder="https://www.youtube.com/watch?v=..."
+            >
+
+            <small
+                id="youtubeLiveUrlError"
+                class="field-error">
+            </small>
+
+        </div>
+
+
+        <!-- DIRECT CAMERA URL -->
+        <div
+            class="form-group"
+            id="directCameraGroup">
+
+            <label
+                data-hi="Direct Camera Stream URL"
+                data-en="Direct Camera Stream URL">
+
+                Direct Camera Stream URL
+
+            </label>
+
+            <input
+                type="url"
+                id="directCameraUrl"
+                placeholder="https://example.com/live/stream.m3u8"
+            >
+
+            <small
+                id="directCameraUrlError"
+                class="field-error">
+            </small>
+
+        </div>
+
+
+        <!-- SAVE -->
+        <button
+            type="button"
+            class="btn btn-add"
+            id="saveLiveSettingsButton"
+            onclick="saveLiveSettings()">
+
+            💾
+
+            <span
+                data-hi="सेटिंग सेव करें"
+                data-en="Save Settings">
+
+                Save Settings
+
+            </span>
+
+        </button>
+
+
+        <!-- MESSAGE -->
+        <small
+            id="liveSettingsMessage"
+            class="field-success">
+        </small>
+
+    </div>
+
+</section>
 
 
     <!-- =================================================
@@ -1228,7 +1456,7 @@
                     <input id="darshanTitleEn">
                 </div>
 
-                <div class="form-group full">
+                <div class="form-group ">
                     <label data-i18n="imageUrl">
                         Image URL
                     </label>
@@ -1279,6 +1507,11 @@
                 💰 दान प्रबंधन
             </h2>
 
+    <input
+        type="hidden"
+        id="donationEditId"
+    >
+
             <div class="grid">
 
                 <div class="form-group">
@@ -1294,14 +1527,22 @@
                     <label data-i18n="donorName">
                         Donor Name *
                     </label>
-                    <input id="donationName">
+                    <input
+    id="donationName"
+    type="text"
+    oninput="this.value=this.value.replace(/[^a-zA-Z\s]/g,'')"
+>
                 </div>
 
                 <div class="form-group">
                     <label data-i18n="fatherName">
                         Father's Name
                     </label>
-                    <input id="donationFatherName">
+                    <input
+    id="donationFatherName"
+    type="text"
+    oninput="this.value=this.value.replace(/[^a-zA-Z\s]/g,'')"
+>
                 </div>
 
                 <div class="form-group">
@@ -1311,25 +1552,41 @@
                     <input id="donationDesignation">
                 </div>
 
+
+
                 <div class="form-group">
                     <label data-i18n="organization">
                         Company / Organization
                     </label>
-                    <input id="donationOrganization">
+                
+                    <input
+    id="donationOrganization"
+    type="text"
+>
                 </div>
 
                 <div class="form-group">
                     <label data-i18n="mobile">
                         Mobile
                     </label>
-                    <input id="donationMobile">
+                    
+                    <input
+    id="donationMobile"
+    type="text"
+    inputmode="numeric"
+    maxlength="10"
+    oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)"
+>
                 </div>
 
                 <div class="form-group">
                     <label data-i18n="email">
                         Email
                     </label>
-                    <input id="donationEmail">
+                    <input
+    id="donationEmail"
+    type="email"
+>
                 </div>
 
                 <div class="form-group">
@@ -1337,9 +1594,11 @@
                         Amount *
                     </label>
                     <input
-                        type="number"
-                        id="donationAmount"
-                    >
+    type="text"
+    id="donationAmount"
+    inputmode="decimal"
+    oninput="this.value=this.value.replace(/[^0-9.]/g,'').replace(/^(\d*\.\d{0,2}).*$/,'$1')"
+>
                 </div>
 
                 <div class="form-group full">
@@ -1457,93 +1716,133 @@
 
 
     <!-- =================================================
-         CONTRIBUTORS
-    ================================================== -->
+     CONTRIBUTORS
+================================================== -->
 
-    <section class="content-section" id="contributors">
+<section class="content-section" id="contributors">
 
-        <div class="card">
+    <div class="card">
 
-            <h2 data-i18n="contributors">
-                🤝 योगदानकर्ता
-            </h2>
+        <h2 data-i18n="contributors">
+            🤝 योगदानकर्ता
+        </h2>
 
-            <div class="grid">
+        <div class="grid">
 
-                <div class="form-group">
-                    <label data-i18n="name">नाम</label>
-                    <input id="contributorName">
-                </div>
+            <!-- NAME -->
+            <div class="form-group">
 
-                <div class="form-group">
-                    <label data-i18n="year">वर्ष</label>
-                    <input
-                        type="number"
-                        id="contributorYear"
-                        value="2026"
-                    >
-                </div>
+                <label data-i18n="name">
+                    नाम
+                </label>
 
-                <div class="form-group">
-                    <label data-i18n="amount">राशि</label>
-                    <input
-                        type="number"
-                        id="contributorAmount"
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label data-i18n="message">संदेश</label>
-                    <input id="contributorMessage">
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-
-                        <input
-                            type="checkbox"
-                            id="contributorApproved"
-                        >
-
-                        <span data-i18n="approved">
-                            Approved
-                        </span>
-
-                    </label>
-
-                </div>
+                <input
+                    type="text"
+                    id="contributorName"
+                    required
+                >
 
             </div>
 
-            <button
-                class="btn btn-add"
-                onclick="addContributor()"
-                data-i18n="addContributor"
-            >
-                + योगदानकर्ता जोड़ें
-            </button>
 
-        </div>
+            <!-- MOBILE -->
+            <div class="form-group">
 
-        <div class="card">
+                <label data-i18n="mobile">
+                    मोबाइल नंबर
+                </label>
 
-            <h2 data-i18n="contributorList">
-                योगदानकर्ता सूची
-            </h2>
+               <input
+    type="tel"
+    id="contributorMobile"
+    inputmode="numeric"
+    maxlength="10"
+    pattern="[6-9][0-9]{9}"
+    required
+>
 
-            <div
-                class="table-wrap"
-                id="contributorsList"
-            >
-                Loading...
+            </div>
+
+
+            <!-- ORGANIZATION -->
+            <div class="form-group">
+
+                <label>
+                    Organization / संस्था
+                </label>
+
+                <input
+                    type="text"
+                    id="contributorOrganization"
+                    required
+                >
+
+            </div>
+
+
+            <!-- CONTRIBUTION DETAILS -->
+            <div class="form-group">
+
+                <label>
+                    Contribution Details / योगदान विवरण
+                </label>
+
+                <textarea
+                    id="contributorDetails"
+                    rows="3"
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <!-- DATE -->
+            <div class="form-group">
+
+                <label data-i18n="date">
+                    तारीख
+                </label>
+
+                <input
+                    type="date"
+                    id="contributorDate"
+                    required
+                >
+
             </div>
 
         </div>
 
-    </section>
+
+      <button
+    id="contributorSubmitBtn"
+    class="btn btn-add"
+    onclick="addContributor()"
+    data-i18n="addContributor"
+>
+    + योगदानकर्ता जोड़ें
+</button>
+    </div>
 
 
+    <!-- CONTRIBUTOR LIST -->
+
+    <div class="card">
+
+        <h2 data-i18n="contributorList">
+            योगदानकर्ता सूची
+        </h2>
+
+        <div
+            class="table-wrap"
+            id="contributorsList"
+        >
+            Loading...
+        </div>
+
+    </div>
+
+</section>
     <!-- =================================================
          CONTACTS
     ================================================== -->
@@ -1568,13 +1867,11 @@
     </section>
 
 </main>
-```
 
 </div>
 
 <!-- Admin JavaScript -->
-
-<script src="admin/admin.js"></script>
+<script src="/admin/admin.js"></script>
 
 </body>
 </html>

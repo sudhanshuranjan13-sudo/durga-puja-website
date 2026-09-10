@@ -46,10 +46,11 @@ async function initializeWebsite() {
         setupDropdowns();
         setupSmoothNavigation();
         setupDarshanPopup();
+        setupLiveDarshan();
         setupDonationForm();
         setupContactForm();
         setupAmountButtons();
-
+        setupMediaViewer();
         startCountdown();
         loadEstablishedYear();
 
@@ -2283,10 +2284,6 @@ async function loadGallery() {
    GALLERY FILTER SETUP
 ========================================================= */
 
-/* =========================================================
-   GALLERY FILTER SETUP
-========================================================= */
-
 function setupGalleryFilters() {
 
     const yearElement =
@@ -2332,21 +2329,20 @@ function setupGalleryFilters() {
        CUSTOM YEAR DROPDOWN
     ===================================================== */
 
-    if (
-        yearButton &&
-        yearMenu &&
-        yearDropdown
-    ) {
+  if (
+    yearButton &&
+    yearMenu &&
+    yearDropdown
+) {
 
-        yearButton.onclick =
-            function (event) {
+    yearButton.onclick = function (event) {
 
-                event.stopPropagation();
+        event.preventDefault();
+        event.stopPropagation();
 
-                yearDropdown.classList.toggle("open");
+        yearDropdown.classList.toggle("open");
 
-            };
-
+    };
 
         const yearOptions =
             yearMenu.querySelectorAll(
@@ -2582,26 +2578,483 @@ function filterGallery() {
         galleryItem.className =
             "gallery-item";
 
+galleryItem.innerHTML = `
 
-        galleryItem.innerHTML = `
+    <img
+        src="${escapeHTML(imageUrl)}"
+        alt="${escapeHTML(title)}"
+        loading="lazy"
+        onerror="this.parentElement.remove();">
 
-            <img
-                src="${escapeHTML(imageUrl)}"
-                alt="${escapeHTML(title)}"
-                loading="lazy"
-                onerror="this.parentElement.remove();">
-
-        `;
+`;
 
 
-        container.appendChild(
-            galleryItem
-        );
+
+container.appendChild(
+    galleryItem
+);
 
     });
 
 }
 
+/* =========================================================
+   MEDIA VIEWER
+   GALLERY IMAGE + VIDEO FULLSCREEN
+========================================================= */
+
+let galleryViewerImages = [];
+let galleryViewerIndex = 0;
+
+function setupMediaViewer() {
+
+    /* =====================================================
+       GALLERY IMAGE CLICK
+    ===================================================== */
+
+    document.addEventListener("click", function(event) {
+
+        const image =
+            event.target.closest(
+                "#galleryContainer .gallery-item img"
+            );
+
+        if (!image) {
+            return;
+        }
+
+        const galleryContainer =
+            document.getElementById("galleryContainer");
+
+        if (!galleryContainer) {
+            return;
+        }
+
+        const images =
+            Array.from(
+                galleryContainer.querySelectorAll(
+                    ".gallery-item img"
+                )
+            );
+
+        const currentIndex =
+            images.indexOf(image);
+
+        if (currentIndex === -1) {
+            return;
+        }
+
+        openImageViewer(
+            image.currentSrc || image.src,
+            image.alt || "Gallery Photo",
+            currentIndex,
+            images
+        );
+
+    });
+
+
+    /* =====================================================
+       UPLOADED VIDEO CLICK
+    ===================================================== */
+
+    const videoContainer =
+        document.getElementById("videoContainer");
+
+    if (videoContainer) {
+
+        videoContainer.addEventListener(
+            "click",
+            function(event) {
+
+                const video =
+                    event.target.closest(
+                        ".video-item video"
+                    );
+
+                if (!video) {
+                    return;
+                }
+
+                if (event.target !== video) {
+                    return;
+                }
+
+                if (video.requestFullscreen) {
+
+                    video.requestFullscreen()
+                        .catch(() => {});
+
+                }
+                else if (video.webkitEnterFullscreen) {
+
+                    video.webkitEnterFullscreen();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       KEYBOARD CONTROLS
+    ===================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            const viewer =
+                document.getElementById(
+                    "galleryImageViewer"
+                );
+
+            if (
+                !viewer ||
+                !viewer.classList.contains("active")
+            ) {
+                return;
+            }
+
+            if (event.key === "Escape") {
+
+                closeImageViewer();
+
+            }
+            else if (event.key === "ArrowLeft") {
+
+                showPreviousGalleryImage();
+
+            }
+            else if (event.key === "ArrowRight") {
+
+                showNextGalleryImage();
+
+            }
+
+        }
+    );
+
+}
+
+/* =========================================================
+   OPEN IMAGE VIEWER
+========================================================= */
+
+function openImageViewer(
+    imageSrc,
+    imageAlt = "",
+    index = 0,
+    images = []
+) {
+
+    let viewer =
+        document.getElementById("galleryImageViewer");
+
+
+    if (!viewer) {
+
+        viewer =
+            document.createElement("div");
+
+        viewer.id =
+            "galleryImageViewer";
+
+        viewer.innerHTML = `
+
+            <button
+                type="button"
+                class="gallery-viewer-close"
+                aria-label="Close">
+                ✕
+            </button>
+
+            <button
+                type="button"
+                class="gallery-viewer-prev"
+                aria-label="Previous Image">
+                ◀
+            </button>
+
+            <img
+                class="gallery-viewer-image"
+                src=""
+                alt="">
+
+            <button
+                type="button"
+                class="gallery-viewer-next"
+                aria-label="Next Image">
+                ▶
+            </button>
+
+        `;
+
+        document.body.appendChild(viewer);
+
+
+        const closeButton =
+            viewer.querySelector(
+                ".gallery-viewer-close"
+            );
+
+        const prevButton =
+            viewer.querySelector(
+                ".gallery-viewer-prev"
+            );
+
+        const nextButton =
+            viewer.querySelector(
+                ".gallery-viewer-next"
+            );
+
+
+        if (closeButton) {
+
+            closeButton.addEventListener(
+                "click",
+                closeImageViewer
+            );
+
+        }
+
+
+        if (prevButton) {
+
+            prevButton.addEventListener(
+                "click",
+                showPreviousGalleryImage
+            );
+
+        }
+
+
+        if (nextButton) {
+
+            nextButton.addEventListener(
+                "click",
+                showNextGalleryImage
+            );
+
+        }
+
+
+        viewer.addEventListener(
+            "click",
+            function(event) {
+
+                if (event.target === viewer) {
+
+                    closeImageViewer();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    galleryViewerImages =
+        images;
+
+    galleryViewerIndex =
+        index;
+
+
+    updateGalleryViewer();
+
+
+    viewer.classList.add("active");
+
+    viewer.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+/* =========================================================
+   UPDATE VIEWER
+========================================================= */
+
+function updateGalleryViewer() {
+
+    const viewer =
+        document.getElementById(
+            "galleryImageViewer"
+        );
+
+    if (!viewer) {
+        return;
+    }
+
+    if (!galleryViewerImages.length) {
+        return;
+    }
+
+
+    const currentImage =
+        galleryViewerImages[
+            galleryViewerIndex
+        ];
+
+
+    const viewerImage =
+        viewer.querySelector(
+            ".gallery-viewer-image"
+        );
+
+    if (!viewerImage) {
+        return;
+    }
+
+
+    viewerImage.src =
+        currentImage.src;
+
+    viewerImage.alt =
+        currentImage.alt ||
+        "Gallery Photo";
+
+
+    const prevButton =
+        viewer.querySelector(
+            ".gallery-viewer-prev"
+        );
+
+    const nextButton =
+        viewer.querySelector(
+            ".gallery-viewer-next"
+        );
+
+
+    const showNavigation =
+        galleryViewerImages.length > 1;
+
+
+    if (prevButton) {
+
+        prevButton.style.display =
+            showNavigation
+                ? "flex"
+                : "none";
+
+    }
+
+
+    if (nextButton) {
+
+        nextButton.style.display =
+            showNavigation
+                ? "flex"
+                : "none";
+
+    }
+
+}
+
+
+/* =========================================================
+   PREVIOUS IMAGE
+========================================================= */
+
+function showPreviousGalleryImage() {
+
+    if (!galleryViewerImages.length) {
+        return;
+    }
+
+
+    galleryViewerIndex--;
+
+
+    if (galleryViewerIndex < 0) {
+
+        galleryViewerIndex =
+            galleryViewerImages.length - 1;
+
+    }
+
+
+    updateGalleryViewer();
+
+}
+
+
+/* =========================================================
+   NEXT IMAGE
+========================================================= */
+
+function showNextGalleryImage() {
+
+    if (!galleryViewerImages.length) {
+        return;
+    }
+
+
+    galleryViewerIndex++;
+
+
+    if (
+        galleryViewerIndex >=
+        galleryViewerImages.length
+    ) {
+
+        galleryViewerIndex = 0;
+
+    }
+
+
+    updateGalleryViewer();
+
+}
+
+
+/* =========================================================
+   CLOSE IMAGE VIEWER
+========================================================= */
+
+function closeImageViewer() {
+
+    const viewer =
+        document.getElementById(
+            "galleryImageViewer"
+        );
+
+    if (!viewer) {
+        return;
+    }
+
+
+    viewer.classList.remove(
+        "active"
+    );
+
+
+    viewer.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+    document.body.style.overflow =
+        "";
+
+
+    galleryViewerImages =
+        [];
+
+    galleryViewerIndex =
+        0;
+
+}
 /* =========================================================
    VIDEOS
 ========================================================= */
@@ -3020,22 +3473,185 @@ function renderVideos() {
    LIVE DARSHAN
 ========================================================= */
 
-function setupLiveDarshan(
-    streamUrl = null
-) {
+async function setupLiveDarshan() {
 
     const container =
-        document.getElementById(
-            "liveContainer"
-        );
-
+        document.getElementById("liveContainer");
 
     if (!container) {
         return;
     }
 
+    try {
 
-    if (!streamUrl) {
+        const data =
+            await fetch("/api/live")
+                .then(res => res.json());
+
+        /* =========================================
+           LIVE OFF
+        ========================================= */
+
+        if (
+            !data ||
+            data.active !== true
+        ) {
+
+            container.innerHTML = `
+
+                <div class="gallery-placeholder">
+
+                    🔴
+
+                    <span>
+                        ${
+                            currentLanguage === "hi"
+                                ? "लाइव दर्शन अभी उपलब्ध नहीं है।"
+                                : "Live Darshan is currently unavailable."
+                        }
+                    </span>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        /* =========================================
+           SOURCE
+        ========================================= */
+
+        const source =
+            data.source || "youtube";
+
+
+        /* =========================================
+           YOUTUBE LIVE
+        ========================================= */
+
+        if (
+            source === "youtube" &&
+            data.youtubeUrl
+        ) {
+
+            let youtubeUrl =
+                data.youtubeUrl.trim();
+
+            let videoId = "";
+
+            /* watch?v= */
+            if (
+                youtubeUrl.includes("watch?v=")
+            ) {
+
+                videoId =
+                    youtubeUrl
+                        .split("watch?v=")[1]
+                        .split("&")[0];
+
+            }
+
+            /* youtu.be/ */
+            else if (
+                youtubeUrl.includes("youtu.be/")
+            ) {
+
+                videoId =
+                    youtubeUrl
+                        .split("youtu.be/")[1]
+                        .split("?")[0];
+
+            }
+
+            /* youtube.com/live/ */
+            else if (
+                youtubeUrl.includes("/live/")
+            ) {
+
+                videoId =
+                    youtubeUrl
+                        .split("/live/")[1]
+                        .split("?")[0];
+
+            }
+
+
+            if (!videoId) {
+
+                container.innerHTML = `
+
+                    <div class="gallery-placeholder">
+                        ❌ Invalid YouTube Live URL
+                    </div>
+
+                `;
+
+                return;
+            }
+
+
+            container.innerHTML = `
+
+                <div class="live-video">
+
+                    <iframe
+                        src="https://www.youtube.com/embed/${encodeURIComponent(videoId)}?autoplay=1"
+                        title="Live Darshan"
+                        frameborder="0"
+                        allow="autoplay; encrypted-media; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        /* =========================================
+           DIRECT CAMERA
+        ========================================= */
+
+        if (
+            source === "camera" &&
+            data.directCameraUrl
+        ) {
+
+            const cameraUrl =
+                data.directCameraUrl.trim();
+
+            container.innerHTML = `
+
+                <div class="live-video">
+
+                    <video
+                        id="directLiveVideo"
+                        controls
+                        autoplay
+                        muted
+                        playsinline>
+
+                        <source
+                            src="${escapeHTML(cameraUrl)}"
+                            type="application/x-mpegURL">
+
+                    </video>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        /* =========================================
+           NO VALID SOURCE
+        ========================================= */
 
         container.innerHTML = `
 
@@ -3044,42 +3660,45 @@ function setupLiveDarshan(
                 🔴
 
                 <span>
-
                     ${
                         currentLanguage === "hi"
-                            ? "लाइव दर्शन अभी उपलब्ध नहीं है।"
-                            : "Live Darshan is currently unavailable."
+                            ? "लाइव प्रसारण उपलब्ध नहीं है।"
+                            : "Live stream is unavailable."
                     }
-
                 </span>
 
             </div>
 
         `;
 
-        return;
+    } catch (error) {
+
+        console.error(
+            "Live Darshan Error:",
+            error
+        );
+
+        container.innerHTML = `
+
+            <div class="gallery-placeholder">
+
+                ⚠️
+
+                <span>
+                    ${
+                        currentLanguage === "hi"
+                            ? "लाइव दर्शन लोड नहीं हो सका।"
+                            : "Unable to load Live Darshan."
+                    }
+                </span>
+
+            </div>
+
+        `;
 
     }
 
-
-    container.innerHTML = `
-
-        <div class="live-video">
-
-            <iframe
-                src="${escapeHTML(streamUrl)}"
-                title="Live Darshan"
-                frameborder="0"
-                allowfullscreen>
-            </iframe>
-
-        </div>
-
-    `;
-
 }
-
-
 /* =========================================================
    SPECIAL DARSHAN POPUP
 ========================================================= */
@@ -3271,6 +3890,8 @@ function setupAmountButtons() {
 
 /* =========================================================
    DONATION FORM
+=====================================/* =========================================================
+   DONATION FORM - RAZORPAY
 ========================================================= */
 
 function setupDonationForm() {
@@ -3326,11 +3947,31 @@ function setupDonationForm() {
 
 
             const amount =
-                document
-                    .getElementById(
-                        "donationAmount"
-                    )
-                    ?.value || "";
+                Number(
+                    document
+                        .getElementById(
+                            "donationAmount"
+                        )
+                        ?.value || 0
+                );
+
+
+            /* =========================================
+               VALIDATION
+            ========================================= */
+
+            if (!name) {
+
+                showMessage(
+                    currentLanguage === "hi"
+                        ? "कृपया अपना नाम दर्ज करें।"
+                        : "Please enter your name.",
+                    "error"
+                );
+
+                return;
+
+            }
 
 
             if (
@@ -3352,8 +3993,8 @@ function setupDonationForm() {
 
 
             if (
-                !amount ||
-                Number(amount) <= 0
+                !Number.isFinite(amount) ||
+                amount <= 0
             ) {
 
                 showMessage(
@@ -3368,41 +4009,41 @@ function setupDonationForm() {
             }
 
 
-            const donationData = {
+            /* =========================================
+               CHECK RAZORPAY
+            ========================================= */
 
-                name,
+            if (
+                typeof Razorpay !==
+                "function"
+            ) {
 
-                mobile,
+                showMessage(
+                    currentLanguage === "hi"
+                        ? "Payment system अभी उपलब्ध नहीं है।"
+                        : "Payment system is currently unavailable.",
+                    "error"
+                );
 
-                email,
+                return;
 
-                address,
-
-                amount:
-                    Number(amount),
-
-                year:
-                    new Date()
-                        .getFullYear(),
-
-                paymentMethod:
-                    "Online",
-
-                status:
-                    "pending",
-
-                createdAt:
-                    new Date()
-                        .toISOString()
-
-            };
+            }
 
 
             try {
 
+                console.log(
+                    "🔄 Creating Razorpay order..."
+                );
+
+
+                /* =====================================
+                   CREATE ORDER
+                ===================================== */
+
                 const response =
                     await fetch(
-                        `${API_BASE_URL}/donations/create`,
+                        `${API_BASE_URL}/donations/create-order`,
                         {
 
                             method:
@@ -3416,59 +4057,271 @@ function setupDonationForm() {
                             },
 
                             body:
-                                JSON.stringify(
-                                    donationData
-                                )
+                                JSON.stringify({
+
+                                    name,
+
+                                    mobile,
+
+                                    email,
+
+                                    address,
+
+                                    amount
+
+                                })
 
                         }
                     );
 
 
-                if (response.ok) {
-
-                    const result =
-                        await response.json();
+                const result =
+                    await response.json();
 
 
-                    console.log(
-                        "✅ Donation created:",
-                        result
+                if (!response.ok) {
+
+                    throw new Error(
+                        result.message ||
+                        "Unable to create payment order."
                     );
-
-
-                    showMessage(
-                        currentLanguage === "hi"
-                            ? "आपकी जानकारी सफलतापूर्वक दर्ज हो गई है।"
-                            : "Your donation information has been submitted successfully.",
-                        "success"
-                    );
-
-
-                    form.reset();
-
-                    return;
 
                 }
 
 
-                throw new Error(
-                    `Donation API Error: ${response.status}`
+                console.log(
+                    "✅ Razorpay order created:",
+                    result
                 );
+
+
+                /* =====================================
+                   RAZORPAY OPTIONS
+                ===================================== */
+
+                const options = {
+
+                    key:
+                        result.keyId,
+
+                    amount:
+                        result.amount,
+
+                    currency:
+                        result.currency ||
+                        "INR",
+
+                    name:
+                        "Shree Shree Durga Puja Samiti",
+
+                    description:
+                        "Durga Puja Donation",
+
+                    order_id:
+                        result.orderId,
+
+
+                    prefill: {
+
+                        name,
+
+                        email,
+
+                        contact:
+                            mobile
+
+                    },
+
+
+                    notes: {
+
+                        address
+
+                    },
+
+
+                    theme: {
+
+                        color:
+                            "#d62828"
+
+                    },
+
+
+                    handler:
+                        async function (
+                            paymentResponse
+                        ) {
+
+                            console.log(
+                                "✅ Razorpay payment response:",
+                                paymentResponse
+                            );
+
+
+                            try {
+
+                                const verifyResponse =
+                                    await fetch(
+                                        `${API_BASE_URL}/donations/verify-payment`,
+                                        {
+
+                                            method:
+                                                "POST",
+
+                                            headers: {
+
+                                                "Content-Type":
+                                                    "application/json"
+
+                                            },
+
+                                            body:
+                                                JSON.stringify({
+
+                                                    razorpay_payment_id:
+                                                        paymentResponse
+                                                            .razorpay_payment_id,
+
+                                                    razorpay_order_id:
+                                                        paymentResponse
+                                                            .razorpay_order_id,
+
+                                                    razorpay_signature:
+                                                        paymentResponse
+                                                            .razorpay_signature
+
+                                                })
+
+                                        }
+                                    );
+
+
+                                const verifyResult =
+                                    await verifyResponse
+                                        .json();
+
+
+                                if (
+                                    verifyResponse.ok &&
+                                    verifyResult.success
+                                ) {
+
+                                    console.log(
+                                        "✅ Payment verified successfully:",
+                                        verifyResult
+                                    );
+
+
+                                    showMessage(
+                                        currentLanguage === "hi"
+                                            ? "आपका भुगतान सफल रहा। धन्यवाद! 🙏"
+                                            : "Your payment was successful. Thank you! 🙏",
+                                        "success"
+                                    );
+
+
+                                    form.reset();
+
+
+                                    return;
+
+                                }
+
+
+                                throw new Error(
+                                    verifyResult.message ||
+                                    "Payment verification failed."
+                                );
+
+
+                            } catch (
+                                verificationError
+                            ) {
+
+                                console.error(
+                                    "❌ Payment verification error:",
+                                    verificationError
+                                );
+
+
+                                showMessage(
+                                    currentLanguage === "hi"
+                                        ? "भुगतान प्राप्त हुआ, लेकिन verification पूरा नहीं हो सका। कृपया समिति से संपर्क करें।"
+                                        : "Payment was received, but verification could not be completed. Please contact the committee.",
+                                    "error"
+                                );
+
+                            }
+
+                        },
+
+
+                    modal: {
+
+                        ondismiss:
+                            function () {
+
+                                console.log(
+                                    "ℹ️ Razorpay checkout closed."
+                                );
+
+                            }
+
+                    }
+
+                };
+
+
+                /* =====================================
+                   OPEN RAZORPAY CHECKOUT
+                ===================================== */
+
+                const razorpayPayment =
+                    new Razorpay(
+                        options
+                    );
+
+
+                razorpayPayment.on(
+                    "payment.failed",
+                    function (
+                        response
+                    ) {
+
+                        console.error(
+                            "❌ Razorpay payment failed:",
+                            response.error
+                        );
+
+
+                        showMessage(
+                            currentLanguage === "hi"
+                                ? "भुगतान असफल हुआ। कृपया दोबारा प्रयास करें।"
+                                : "Payment failed. Please try again.",
+                            "error"
+                        );
+
+                    }
+                );
+
+
+                razorpayPayment.open();
 
 
             } catch (error) {
 
-                console.warn(
-                    "⚠️ Donation API unavailable:",
+                console.error(
+                    "❌ Donation payment error:",
                     error
                 );
 
 
                 showMessage(
                     currentLanguage === "hi"
-                        ? "Donation system अभी payment gateway से connect नहीं है।"
-                        : "The payment system is not connected to the payment gateway yet.",
-                    "info"
+                        ? "Payment order बनाने में समस्या हुई। कृपया दोबारा प्रयास करें।"
+                        : "Unable to create payment order. Please try again.",
+                    "error"
                 );
 
             }
@@ -3477,7 +4330,6 @@ function setupDonationForm() {
     );
 
 }
-
 
 /* =========================================================
    CONTACT FORM
@@ -3731,7 +4583,7 @@ async function loadPublicDonations() {
 
 
         console.log(
-            "✅ Public donation response:",
+            "✅ Public donation API response:",
             result
         );
 
@@ -3775,7 +4627,7 @@ async function loadPublicDonations() {
 
 
         /* =========================================
-           FILTER FUNCTION
+           RENDER FUNCTION
         ========================================= */
 
         function renderDonationRecords() {
@@ -3786,27 +4638,28 @@ async function loadPublicDonations() {
                     : "all";
 
 
-            let filteredRecords =
-                records.filter(record => {
+           let filteredRecords =
+    records.filter(record => {
 
-                    if (
-                        selectedYear === "all"
-                    ) {
-                        return true;
-                    }
+        if (selectedYear === "all") {
+            return true;
+        }
 
+        const recordYear =
+            record.year ||
+            (
+                record.createdAt
+                    ? new Date(record.createdAt).getFullYear()
+                    : ""
+            );
 
-                    return String(
-                        record.year || ""
-                    ) === String(
-                        selectedYear
-                    );
+        return String(recordYear) === String(selectedYear);
 
-                });
-
+    }
+);
 
             /* =====================================
-               TOTAL DONORS
+               TOTAL CONTRIBUTORS
             ===================================== */
 
             if (totalDonors) {
@@ -3818,7 +4671,7 @@ async function loadPublicDonations() {
 
 
             /* =====================================
-               TOTAL DONATION
+               TOTAL COLLECTION
             ===================================== */
 
             const total =
@@ -3852,7 +4705,7 @@ async function loadPublicDonations() {
 
 
             /* =====================================
-               EMPTY RECORDS
+               EMPTY STATE
             ===================================== */
 
             if (
@@ -3863,10 +4716,7 @@ async function loadPublicDonations() {
 
                     <tr>
 
-                        <td
-                            colspan="6"
-                            data-hi="अभी कोई सार्वजनिक रिकॉर्ड उपलब्ध नहीं है।"
-                            data-en="No public records available yet.">
+                        <td colspan="6">
 
                             ${
                                 currentLanguage === "hi"
@@ -3886,7 +4736,7 @@ async function loadPublicDonations() {
 
 
             /* =====================================
-               TABLE RENDER
+               TABLE
             ===================================== */
 
             tableBody.innerHTML =
@@ -3932,6 +4782,10 @@ async function loadPublicDonations() {
                             let date = "";
 
 
+                            /* =================================
+                               FORMAT CREATED DATE
+                            ================================= */
+
                             if (
                                 record.createdAt
                             ) {
@@ -3957,6 +4811,10 @@ async function loadPublicDonations() {
 
                             }
 
+
+                            /* =================================
+                               FALLBACK DATE
+                            ================================= */
 
                             if (!date) {
 
@@ -4007,6 +4865,117 @@ async function loadPublicDonations() {
 
         }
 
+                /* =========================================
+           CUSTOM YEAR DROPDOWN
+        ========================================= */
+
+        const yearDropdown =
+            document.getElementById("yearDropdown");
+
+        const yearDropdownBtn =
+            document.getElementById("yearDropdownBtn");
+
+        const yearDropdownMenu =
+            document.getElementById("yearDropdownMenu");
+
+        const selectedYearText =
+            document.getElementById("selectedYearText");
+
+        const yearOptions =
+            document.querySelectorAll(
+                "#yearDropdownMenu .year-option"
+            );
+
+
+        if (
+            yearDropdown &&
+            yearDropdownBtn &&
+            yearDropdownMenu &&
+            yearFilter
+        ) {
+
+            yearDropdownBtn.addEventListener(
+                "click",
+                function (event) {
+
+                    event.stopPropagation();
+
+                    yearDropdown.classList.toggle("open");
+
+                }
+            );
+
+
+            yearOptions.forEach(option => {
+
+                option.addEventListener(
+                    "click",
+                    function () {
+
+                        const value =
+                            this.dataset.value;
+
+                        const text =
+                            this.textContent.trim();
+
+
+                        /* Update existing hidden select */
+
+                        yearFilter.value = value;
+
+
+                        /* Update visible selected year */
+
+                        selectedYearText.textContent =
+                            text;
+
+
+                        /* Active option */
+
+                        yearOptions.forEach(item => {
+
+                            item.classList.remove(
+                                "active"
+                            );
+
+                        });
+
+                        this.classList.add("active");
+
+
+                        /* Close dropdown */
+
+                        yearDropdown.classList.remove(
+                            "open"
+                        );
+
+
+                        /* Run existing filter */
+
+                        yearFilter.dispatchEvent(
+                            new Event("change")
+                        );
+
+                    }
+                );
+
+            });
+
+
+            /* Close dropdown outside click */
+
+            document.addEventListener(
+                "click",
+                function () {
+
+                    yearDropdown.classList.remove(
+                        "open"
+                    );
+
+                }
+            );
+
+        }
 
         /* =========================================
            FIRST RENDER
@@ -4065,8 +5034,7 @@ async function loadPublicDonations() {
 
             <tr>
 
-                <td
-                    colspan="6">
+                <td colspan="6">
 
                     ${
                         currentLanguage === "hi"
