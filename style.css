@@ -69,7 +69,7 @@ a {
             #fff0c2
         );
 
-    border-bottom: 1px solid #f1d38a;
+    border-bottom: 5px solid #f1d38a;
 
     position: relative;
     z-index: 1100;
@@ -87,7 +87,7 @@ a {
     background: white;
     color: #a71919;
 
-    padding: 6px 14px;
+    padding: 6px 2px;
 
     border-radius: 25px;
 
@@ -3460,7 +3460,7 @@ MOBILE DONATION DESIGN
 /* Page starts below both bars */
 
 body {
-    padding-top: 116px;
+    padding-top: 118px !important;
 }
 
 html {
@@ -5216,8 +5216,8 @@ section {
 
 
     #galleryImageViewer .gallery-viewer-image {
-        max-width: 82vw !important;
-        max-height: 75vh !important;
+        max-width: 62vw !important;
+        max-height: 55vh !important;
     }
 
 
@@ -5643,146 +5643,156 @@ section {
         max-height: 400px;
     }
 }
+
 /* =========================================================
    FESTIVE LANGUAGE BAR
+   Desktop + Tablet + Mobile
 ========================================================= */
 
 .language-bar {
-    width: 100%;
-    height: 45px;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
 
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    width: 100% !important;
+    height: 42px !important;
 
-    position: relative;
-    overflow: hidden;
+    display: flex !important;
+    align-items: center !important;
 
-    padding: 0 2%;
+    padding: 0 10px !important;
+    box-sizing: border-box !important;
 
-    /* DARK FESTIVE BACKGROUND */
+    overflow: hidden !important;
+
     background:
+        radial-gradient(circle at 15% 50%,
+            rgba(255,215,0,.25) 0 2px,
+            transparent 4px),
+        radial-gradient(circle at 40% 25%,
+            rgba(255,255,255,.22) 0 2px,
+            transparent 4px),
+        radial-gradient(circle at 70% 70%,
+            rgba(255,215,0,.25) 0 2px,
+            transparent 4px),
         linear-gradient(
             90deg,
-            #3b005f,
-            #7b001f,
+            #35005f,
+            #72001f,
             #4b006e,
             #180047
-        );
+        ) !important;
 
-    border-bottom: 2px solid #ffd700;
+    border-bottom: 2px solid #ffd700 !important;
 
     box-shadow:
-        0 0 10px rgba(255, 215, 0, 0.7),
-        inset 0 0 15px rgba(255, 215, 0, 0.25);
+        0 0 10px rgba(255,215,0,.7),
+        inset 0 0 15px rgba(255,215,0,.2) !important;
 
-    z-index: 1100;
+    z-index: 99999 !important;
 }
 
 
 /* =========================================================
-   ROTATING FESTIVE TEXT
+   ROTATING TEXT
 ========================================================= */
 
-.language-bar::before {
+.language-marquee {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
 
-    content:
-        "✨ श्री श्री दुर्गा पूजा समिति ✨   |   "
-        "📍 ब्रह्मस्थान, केवई पुल, चंडी, नालंदा, बिहार   |   "
-        "🪔 जय माता दी 🪔   |   "
-        "✨ Shree Shree Durga Puja Samiti - 2026✨";
+    overflow: hidden !important;
+}
 
-    position: absolute;
 
-    left: -100%;
+.language-track {
+    display: flex !important;
 
-    top: 50%;
+    width: max-content !important;
 
-    white-space: nowrap;
+    white-space: nowrap !important;
 
-    font-size: 21px;
-    font-weight: 900;
+    animation:
+        languageMove 25s linear infinite !important;
+}
 
-    transform: translateY(-50%);
 
-    /* Rainbow text */
+.language-track span {
+    flex-shrink: 0 !important;
+
+    padding-right: 60px !important;
+
+    font-size: 17px !important;
+    font-weight: 900 !important;
+
+    line-height: 42px !important;
+
+    white-space: nowrap !important;
+
     background: linear-gradient(
         90deg,
-        #ff3030,
         #ffd700,
-        #00ff66,
-        #00d9ff,
-        hsl(270, 21%, 71%),
+        #ff8c00,
+        #ff3030,
         #ff4fd8,
-        #ff3030
-    );
+        #00eaff,
+        #63ff8c,
+        #fff000,
+        #ffd700
+    ) !important;
 
-    background-size: 400% 100%;
+    background-size: 400% 100% !important;
 
-    -webkit-background-clip: text;
-    background-clip: text;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
 
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color: transparent !important;
 
-    /* SLOW MOVEMENT */
     animation:
-        festiveMove 25s linear infinite,
-        festiveColor 6s linear infinite;
-
-    filter:
-        drop-shadow(0 0 4px #a0e00bcc)
-        drop-shadow(0 0 10px hsla(0, 83%, 35%, 0.8));
-
-    pointer-events: none;
-
-    z-index: 1;
+        languageShine 5s linear infinite !important;
 }
 
 
-/* =========================================================
-   SLOW MOVEMENT
-========================================================= */
+@keyframes languageMove {
 
-@keyframes festiveMove {
-
-    0% {
-        left: -100%;
+    from {
+        transform: translateX(0);
     }
 
-    100% {
-        left: 100%;
+    to {
+        transform: translateX(-50%);
     }
 
 }
 
 
-/* =========================================================
-   COLOR + BRIGHTNESS
-========================================================= */
-
-@keyframes festiveColor {
+@keyframes languageShine {
 
     0% {
         background-position: 0% 50%;
+
         filter:
-            drop-shadow(0 0 3px rgb(127, 184, 149))
-            drop-shadow(0 0 7px #a70404);
+            brightness(1.1)
+            drop-shadow(0 0 3px #ffd700);
     }
 
     50% {
         background-position: 100% 50%;
-       filter:
-    brightness(.25)
-    drop-shadow(0 0 4px white)
-    drop-shadow(0 0 9px hsl(73, 92%, 48%));
+
+        filter:
+            brightness(1.55)
+            drop-shadow(0 0 5px #fff)
+            drop-shadow(0 0 12px #ffd700)
+            drop-shadow(0 0 16px #ff4fd8);
     }
 
     100% {
         background-position: 0% 50%;
-       filter:
-    brightness(.05)
-    drop-shadow(0 0 2px white)
-    drop-shadow(0 0 5px lab(87.93% -51.92 83.72));
+
+        filter:
+            brightness(1.1)
+            drop-shadow(0 0 3px #ffd700);
     }
 
 }
@@ -5792,7 +5802,2585 @@ section {
    LANGUAGE BUTTONS
 ========================================================= */
 
-.language-bar button {
+.language-buttons {
+    flex: 0 0 auto !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+
+    align-items: center !important;
+
+    gap: 6px !important;
+
+    margin-left: 8px !important;
+
+    z-index: 20 !important;
+}
+
+
+.language-buttons button {
+    display: inline-flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    min-width: 70px !important;
+    height: 28px !important;
+
+    margin: 0 !important;
+    padding: 3px 8px !important;
+
+    border: 1px solid #ffd700 !important;
+    border-radius: 16px !important;
+
+    background: linear-gradient(
+        135deg,
+        #fff8dc,
+        #ffd700
+    ) !important;
+
+    color: #72001f !important;
+
+    font-size: 10px !important;
+    font-weight: 800 !important;
+
+    line-height: normal !important;
+
+    white-space: nowrap !important;
+
+    cursor: pointer !important;
+
+    box-shadow:
+        0 0 6px rgba(255,215,0,.7) !important;
+}
+
+
+.language-buttons button:hover,
+.language-buttons button.active {
+
+    background: linear-gradient(
+        135deg,
+        #ff3030,
+        #ff8c00
+    ) !important;
+
+    color: #fff !important;
+
+    box-shadow:
+        0 0 8px #ffd700,
+        0 0 14px rgba(255,140,0,.8) !important;
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+    position: fixed !important;
+
+    top: 42px !important;
+    left: 0 !important;
+    right: 0 !important;
+
+    width: 100% !important;
+
+    z-index: 9998 !important;
+}
+
+
+/* CONTENT POSITION */
+
+body {
+    padding-top: 123px !important;
+}
+
+html {
+    scroll-padding-top: 123px !important;
+}
+
+section {
+    scroll-margin-top: 123px !important;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (min-width: 601px) and (max-width: 900px) {
+
+    .language-bar {
+        height: 40px !important;
+        padding: 0 8px !important;
+    }
+
+    .language-track {
+        animation-duration: 23s !important;
+    }
+
+    .language-track span {
+        font-size: 14px !important;
+        line-height: 40px !important;
+        padding-right: 50px !important;
+    }
+
+    .language-buttons {
+        gap: 5px !important;
+        margin-left: 6px !important;
+    }
+
+    .language-buttons button {
+        min-width: 62px !important;
+        height: 27px !important;
+
+        padding: 3px 6px !important;
+        font-size: 9px !important;
+    }
+
+    .navbar {
+        top: 40px !important;
+    }
+
+    body {
+        padding-top: 116px !important;
+    }
+
+    html {
+        scroll-padding-top: 116px !important;
+    }
+
+    section {
+        scroll-margin-top: 116px !important;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .language-bar {
+        height: 38px !important;
+        padding: 0 5px !important;
+    }
+
+    .language-track {
+        animation-duration: 10s !important;
+    }
+
+    .language-track span {
+        font-size: 10px !important;
+        line-height: 38px !important;
+        padding-right: 35px !important;
+    }
+
+    .language-buttons {
+        gap: 4px !important;
+        margin-left: 4px !important;
+    }
+
+    .language-buttons button {
+        min-width: 55px !important;
+        height: 25px !important;
+
+        padding: 2px 5px !important;
+        font-size: 8px !important;
+    }
+
+    .navbar {
+        top: 38px !important;
+    }
+
+    body {
+        padding-top: 110px !important;
+    }
+
+    html {
+        scroll-padding-top: 110px !important;
+    }
+
+    section {
+        scroll-margin-top: 110px !important;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .language-track span {
+        font-size: 9px !important;
+    }
+
+    .language-buttons {
+        gap: 3px !important;
+    }
+
+    .language-buttons button {
+        min-width: 51px !important;
+        height: 24px !important;
+
+        padding: 2px 4px !important;
+        font-size: 7px !important;
+    }
+}
+
+/* =========================================================
+   FINAL MOBILE + TABLET RESPONSIVE FIX
+   Desktop design untouched
+========================================================= */
+
+@media (max-width: 900px) {
+
+    /* ---------- GLOBAL ---------- */
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        max-width: 100%;
+        overflow-x: hidden !important;
+    }
+
+    .section {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    .section > * {
+        max-width: 100%;
+    }
+
+
+    /* ---------- SECTION TITLE ---------- */
+
+    .section-title {
+        width: 100%;
+        max-width: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .section-title h2 {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+
+    /* ---------- GALLERY ---------- */
+
+    #galleryContainer {
+        width: 100%;
+        max-width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    #galleryContainer .gallery-item {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        height: auto;
+        overflow: hidden;
+        border-radius: 14px;
+    }
+
+    #galleryContainer .gallery-item img {
+        display: block;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 220px !important;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+
+    .gallery-placeholder {
+        width: 100%;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        text-align: center;
+    }
+
+
+    /* ---------- VIDEOS ---------- */
+
+    #videoContainer,
+    .video-container {
+        width: 100%;
+        max-width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    #videoContainer .video-item,
+    .video-container .video-item,
+    .video-card {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    #videoContainer video,
+    #videoContainer iframe,
+    .video-container video,
+    .video-container iframe {
+        display: block;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto;
+    }
+
+
+    /* ---------- SPECIAL DARSHAN ---------- */
+
+    .darshan-card {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+
+        display: grid;
+        grid-template-columns: 1fr;
+
+        padding: 16px;
+        overflow: hidden;
+
+        text-align: center;
+    }
+
+    .darshan-card img {
+        display: block;
+
+        width: 100% !important;
+        max-width: 100% !important;
+
+        height: auto !important;
+        max-height: 520px;
+
+        object-fit: contain;
+
+        margin: 0 auto;
+        border-radius: 14px;
+    }
+
+    .darshan-content {
+        width: 100%;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* ---------- CONTRIBUTORS ---------- */
+
+    .contributors-container {
+        width: 100%;
+        max-width: 100%;
+
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .contributor-card {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+
+        overflow: hidden;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .contributor-card img {
+        max-width: 100%;
+        height: auto;
+    }
+
+
+    /* ---------- DONATION RECORDS ---------- */
+
+    .donation-card {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .donation-card * {
+        max-width: 100%;
+    }
+
+    .year-selector {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .custom-year-dropdown {
+        width: min(100%, 320px) !important;
+        max-width: 100%;
+    }
+
+    .year-dropdown-button {
+        width: 100% !important;
+        min-width: 0;
+        white-space: nowrap;
+    }
+
+    .year-dropdown-menu {
+        width: 100% !important;
+        max-width: 100%;
+    }
+
+    .year-option {
+        white-space: nowrap;
+    }
+
+
+    /* ---------- DONATION TABLE ---------- */
+
+    .donation-table-wrapper,
+    .table-wrapper {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .donation-table,
+    .donation-card table {
+        width: 100%;
+        min-width: 600px;
+    }
+
+
+    /* ---------- CONTACT ---------- */
+
+    .contact-card {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+
+        overflow: hidden;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .contact-card h3,
+    .contact-card p {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .contact-card a {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    #contactForm {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    #contactForm input,
+    #contactForm textarea,
+    #contactForm button {
+        width: 100%;
+        max-width: 100%;
+    }
+
+
+    /* ---------- LOCATION ---------- */
+
+    .location-card {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow: hidden;
+        overflow-wrap: anywhere;
+    }
+    /* =========================================================
+   TABLET
+   601px – 900px
+========================================================= */
+
+@media (min-width: 601px) and (max-width: 900px) {
+
+    .about-card {
+        padding: 30px 25px !important;
+        border-radius: 16px;
+
+        border-top-width: 6px;
+        border-right-width: 5px;
+        border-bottom-width: 6px;
+        border-left-width: 6px;
+
+        box-shadow:
+            0 8px 22px rgba(105, 40, 0, 0.12),
+            0 0 0 2px rgba(255, 215, 0, 0.15);
+
+        overflow: hidden;
+    }
+
+    .about-card h2,
+    .about-card h3 {
+        font-size: 26px;
+        line-height: 1.35;
+    }
+
+    .about-card p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+}
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .section {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+
+    /* Gallery: one clean column on phone */
+
+    #galleryContainer {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    #galleryContainer .gallery-item img {
+        height: 240px !important;
+        object-fit: cover;
+    }
+
+
+    /* Darshan */
+
+    .darshan-card {
+        padding: 12px;
+        border-radius: 18px;
+    }
+
+    .darshan-card img {
+        max-height: 460px;
+    }
+
+
+    /* Contributor empty message */
+
+    .contributors-container {
+        padding: 0;
+    }
+
+
+    /* Contact */
+
+    .contact-card {
+        padding: 22px 16px !important;
+    }
+
+    .contact-card h3 {
+        font-size: 24px;
+        line-height: 1.3;
+    }
+
+    .contact-card p {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+
+    /* Donation */
+
+    .donation-card {
+        padding: 20px 14px !important;
+    }
+
+    .custom-year-dropdown {
+        width: 100% !important;
+        max-width: 100%;
+    }
+        /* About Section */
+
+    .about-card {
+        padding: 25px 18px !important;
+        border-radius: 15px;
+
+        border-top-width: 5px;
+        border-right-width: 4px;
+        border-bottom-width: 5px;
+        border-left-width: 5px;
+
+        box-shadow:
+            0 7px 18px rgba(105, 40, 0, 0.12),
+            0 0 0 2px rgba(255, 215, 0, 0.12);
+
+        overflow: hidden;
+    }
+
+    .about-card h2,
+    .about-card h3 {
+        font-size: 22px;
+        line-height: 1.3;
+    }
+
+    .about-card p {
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .section {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    #galleryContainer .gallery-item img {
+        height: 220px !important;
+    }
+
+    .darshan-card {
+        padding: 10px;
+    }
+
+    .contact-card {
+        padding: 18px 12px !important;
+    }
+
+    .contact-card h3 {
+        font-size: 21px;
+    }
+
+}
+/* =========================================================
+   HOME PAGE - DURGA PUJA DESIGN
+   ONLY #home SECTION
+========================================================= */
+
+#home.hero {
+    position: relative;
+    width: 100%;
+    min-height: 1000px;
+
+    padding: 45px 15px 55px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 42%,
+            rgba(255, 215, 60, 0.45),
+            transparent 35%
+        ),
+        linear-gradient(
+            110deg,
+            #7d170d 0%,
+            #c85b08 25%,
+            #e8b500 50%,
+            #b8d400 75%,
+            #5d9200 100%
+        );
+}
+
+
+/* =========================================================
+   SOFT BACKGROUND GLOW
+========================================================= */
+
+#home.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            rgba(255,255,255,0.25),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 15% 55%,
+            rgba(255,120,0,0.20),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 55%,
+            rgba(180,255,0,0.20),
+            transparent 30%
+        );
+
+    pointer-events: none;
+    z-index: 0;
+}
+
+
+/* =========================================================
+   OLD HERO CONTENT HIDE
+   In case old content is still present
+========================================================= */
+
+#home .hero-content {
+    display: none !important;
+}
+
+#home .hero-overlay {
+    display: none !important;
+}
+
+#home .hero-glow,
+#home .hero-particles {
+    display: none !important;
+}
+
+
+/* =========================================================
+   DURGA AREA
+========================================================= */
+
+#home .home-durga-area {
+
+    position: relative;
+
+    z-index: 5;
+
+    width: min(760px, 92vw);
+
+    margin: 0 auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+/* =========================================================
+   HALF CIRCLE / SAMITI TITLE
+========================================================= */
+
+#home .home-half-circle {
+
+    position: relative;
+
+    width: 94%;
+
+    min-height: 145px;
+
+    margin-bottom: -20px;
+
+    padding: 38px 35px 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fff7c7 0%,
+            #ffe68a 50%,
+            #ffc928 100%
+        );
+
+    border: 7px solid #9b111e;
+
+    border-bottom: 0;
+
+    border-radius: 50% 50% 0 0;
+
+    box-shadow:
+        0 0 8px #fff,
+        0 0 18px #ffd700,
+        0 0 35px rgba(255,180,0,0.85),
+        inset 0 0 18px rgba(255,255,255,0.7);
+
+    z-index: 10;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+#home .home-half-circle span {
+
+    position: relative;
+
+    z-index: 5;
+
+    color: #8e1018;
+
+    font-size: clamp(25px, 4vw, 42px);
+
+    font-weight: 900;
+
+    text-align: center;
+
+    line-height: 1.2;
+
+    text-shadow:
+        0 2px 0 #fff3a0,
+        0 0 6px rgba(255,255,255,0.9),
+        0 0 15px rgba(255,190,0,0.8);
+
+    animation: homeTitleGlow 2.5s ease-in-out infinite alternate;
+}
+
+
+@keyframes homeTitleGlow {
+
+    from {
+        text-shadow:
+            0 2px 0 #fff3a0,
+            0 0 5px #fff,
+            0 0 10px #ffd700;
+    }
+
+    to {
+        text-shadow:
+            0 2px 0 #fff3a0,
+            0 0 10px #fff,
+            0 0 25px #ffd700,
+            0 0 40px rgba(255,150,0,0.8);
+    }
+
+}
+
+
+/* =========================================================
+   LIGHT ROW
+========================================================= */
+
+#home .home-light-row {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-around;
+
+    gap: 8px;
+
+    position: relative;
+
+    z-index: 8;
+}
+
+
+#home .home-light-row i {
+
+    width: 12px;
+
+    height: 12px;
+
+    min-width: 12px;
+
+    border-radius: 50%;
+
+    display: block;
+
+    background: #fff;
+
+    box-shadow:
+        0 0 5px #fff,
+        0 0 12px currentColor,
+        0 0 22px currentColor;
+
+    animation:
+        homeBulbGlow 1.2s infinite alternate;
+}
+
+
+/* Different bulb colors */
+
+#home .home-light-row i:nth-child(1) {
+    color: red;
+    background: #ff2525;
+}
+
+#home .home-light-row i:nth-child(2) {
+    color: #00aaff;
+    background: #00aaff;
+    animation-delay: .15s;
+}
+
+#home .home-light-row i:nth-child(3) {
+    color: #00ff55;
+    background: #00ff55;
+    animation-delay: .3s;
+}
+
+#home .home-light-row i:nth-child(4) {
+    color: #ff8c00;
+    background: #ff8c00;
+    animation-delay: .45s;
+}
+
+#home .home-light-row i:nth-child(5) {
+    color: #ff1493;
+    background: #ff1493;
+    animation-delay: .6s;
+}
+
+#home .home-light-row i:nth-child(6) {
+    color: #00aaff;
+    background: #00aaff;
+    animation-delay: .75s;
+}
+
+#home .home-light-row i:nth-child(7) {
+    color: #00ff55;
+    background: #00ff55;
+    animation-delay: .9s;
+}
+
+#home .home-light-row i:nth-child(8) {
+    color: red;
+    background: #ff2525;
+    animation-delay: 1.05s;
+}
+
+#home .home-light-row i:nth-child(9) {
+    color: #ff8c00;
+    background: #ff8c00;
+    animation-delay: 1.2s;
+}
+
+#home .home-light-row i:nth-child(10) {
+    color: #00aaff;
+    background: #00aaff;
+    animation-delay: .25s;
+}
+
+#home .home-light-row i:nth-child(11) {
+    color: #00ff55;
+    background: #00ff55;
+    animation-delay: .4s;
+}
+
+#home .home-light-row i:nth-child(12) {
+    color: #ff1493;
+    background: #ff1493;
+    animation-delay: .55s;
+}
+
+#home .home-light-row i:nth-child(13) {
+    color: #ff8c00;
+    background: #ff8c00;
+    animation-delay: .7s;
+}
+
+
+@keyframes homeBulbGlow {
+
+    0% {
+        opacity: .45;
+
+        transform: scale(.85);
+
+        box-shadow:
+            0 0 3px #fff,
+            0 0 7px currentColor;
+    }
+
+    100% {
+        opacity: 1;
+
+        transform: scale(1.25);
+
+        box-shadow:
+            0 0 6px #fff,
+            0 0 15px currentColor,
+            0 0 28px currentColor,
+            0 0 40px currentColor;
+    }
+
+}
+
+
+/* =========================================================
+   DURGA IMAGE
+========================================================= */
+
+#home .home-durga-image {
+
+    position: relative;
+
+    z-index: 7;
+
+    width: min(650px, 82vw);
+
+    aspect-ratio: 1 / 1;
+
+    margin-top: 0;
+
+    padding: 17px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffd700,
+            #8b0000,
+            #ffae00,
+            #ffd700
+        );
+
+    border: 7px solid #8f1111;
+
+    box-shadow:
+
+        /* outer golden glow */
+        0 0 0 7px rgba(255,215,0,.55),
+
+        /* main glow */
+        0 0 20px #ffd700,
+        0 0 40px #ffb000,
+        0 0 70px rgba(255,180,0,.85),
+
+        /* shadow */
+        0 18px 45px rgba(80,20,0,.45);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: visible;
+}
+
+
+/* =========================================================
+   MULTICOLOR LIGHT RING AROUND IMAGE
+========================================================= */
+
+#home .home-durga-image::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -17px;
+
+    border-radius: 50%;
+
+    background:
+        conic-gradient(
+            red,
+            #ff7a00,
+            #ffe600,
+            #00ff55,
+            #00aaff,
+            #8a2be2,
+            #ff1493,
+            red
+        );
+
+    z-index: -2;
+
+    filter: blur(1px);
+
+    animation: homeLightRing 5s linear infinite;
+}
+
+
+/* =========================================================
+   LIGHT GLOW OUTSIDE RING
+========================================================= */
+
+#home .home-durga-image::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -25px;
+
+    border-radius: 50%;
+
+    background:
+        conic-gradient(
+            red,
+            transparent 8%,
+            #00aaff,
+            transparent 18%,
+            #00ff55,
+            transparent 30%,
+            #ff8c00,
+            transparent 45%,
+            #ff1493,
+            transparent 60%,
+            red
+        );
+
+    z-index: -3;
+
+    filter: blur(14px);
+
+    opacity: .85;
+
+    animation:
+        homeLightRing 7s linear infinite reverse;
+}
+
+
+@keyframes homeLightRing {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+#home .home-durga-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    border-radius: 50%;
+
+    border: 5px solid #ffd700;
+
+    box-shadow:
+        inset 0 0 20px rgba(255,215,0,.8),
+        0 0 12px #fff,
+        0 0 25px rgba(255,215,0,.9);
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+/* =========================================================
+   BOTTOM WELCOME PANEL
+========================================================= */
+
+#home .home-bottom-welcome {
+
+    position: relative;
+
+    z-index: 8;
+
+    width: min(700px, 88vw);
+
+    margin-top: 45px;
+
+    padding: 25px 35px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            180deg,
+            #9f1017,
+            #650009
+        );
+
+    border: 5px solid #ffd43b;
+
+    border-radius: 60px;
+
+    box-shadow:
+        0 0 8px #fff,
+        0 0 18px #ffd700,
+        0 0 35px rgba(255,170,0,.9),
+        inset 0 0 20px rgba(255,215,0,.25);
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+#home .home-divider {
+
+    color: #ffd84a;
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    letter-spacing: 4px;
+
+    line-height: 1;
+
+    text-shadow:
+        0 0 5px #fff,
+        0 0 12px #ffd700;
+
+    animation: homeDividerGlow 2s infinite alternate;
+}
+
+
+@keyframes homeDividerGlow {
+
+    from {
+        opacity: .65;
+        text-shadow:
+            0 0 4px #ffd700;
+    }
+
+    to {
+        opacity: 1;
+        text-shadow:
+            0 0 8px #fff,
+            0 0 18px #ffd700;
+    }
+
+}
+
+
+/* =========================================================
+   BLESSING TEXT
+========================================================= */
+
+#home .home-bottom-welcome p {
+
+    margin: 15px 0;
+
+    color: #fff2a0;
+
+    font-size: clamp(18px, 3vw, 30px);
+
+    font-weight: 800;
+
+    line-height: 1.5;
+
+    text-align: center;
+
+    text-shadow:
+        0 0 5px #fff,
+        0 0 12px #ffd700,
+        0 0 20px rgba(255,180,0,.8);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    #home.hero {
+
+        min-height: auto;
+
+        padding: 25px 10px 40px;
+
+    }
+
+
+    #home .home-durga-area {
+
+        width: 96vw;
+
+        max-width: 440px;
+
+    }
+
+
+    /* Half circle */
+
+    #home .home-half-circle {
+
+        width: 94%;
+
+        min-height: 95px;
+
+        padding: 22px 12px 20px;
+
+        gap: 8px;
+
+        border-width: 5px;
+
+        margin-bottom: -12px;
+
+    }
+
+
+    #home .home-half-circle span {
+
+        font-size: clamp(18px, 5vw, 25px);
+
+    }
+
+
+    /* Bulbs */
+
+    #home .home-light-row {
+
+        gap: 3px;
+
+    }
+
+
+    #home .home-light-row i {
+
+        width: 7px;
+
+        height: 7px;
+
+        min-width: 7px;
+
+    }
+
+
+    /* Image */
+
+    #home .home-durga-image {
+
+        width: 88vw;
+
+        max-width: 410px;
+
+        padding: 9px;
+
+        border-width: 5px;
+
+        box-shadow:
+            0 0 0 5px rgba(255,215,0,.5),
+            0 0 15px #ffd700,
+            0 0 30px #ffae00,
+            0 12px 30px rgba(80,20,0,.4);
+
+    }
+
+
+    #home .home-durga-image::before {
+
+        inset: -11px;
+
+    }
+
+
+    #home .home-durga-image::after {
+
+        inset: -17px;
+
+        filter: blur(9px);
+
+    }
+
+
+    #home .home-durga-image img {
+
+        border-width: 3px;
+
+    }
+
+
+    /* Bottom panel */
+
+    #home .home-bottom-welcome {
+
+        width: 91vw;
+
+        margin-top: 30px;
+
+        padding: 18px 14px;
+
+        border-width: 4px;
+
+        border-radius: 40px;
+
+    }
+
+
+    #home .home-bottom-welcome p {
+
+        font-size: 17px;
+
+        line-height: 1.45;
+
+        margin: 11px 0;
+
+    }
+
+
+    #home .home-divider {
+
+        font-size: 14px;
+
+        letter-spacing: 2px;
+
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    #home.hero {
+
+        padding-left: 6px;
+
+        padding-right: 6px;
+
+    }
+
+
+    #home .home-half-circle {
+
+        min-height: 82px;
+
+        padding: 18px 8px 15px;
+
+    }
+
+
+    #home .home-half-circle span {
+
+        font-size: 18px;
+
+    }
+
+
+    #home .home-durga-image {
+
+        width: 90vw;
+
+        padding: 7px;
+
+    }
+
+
+    #home .home-bottom-welcome {
+
+        width: 94vw;
+
+        padding: 15px 9px;
+
+    }
+
+
+    #home .home-bottom-welcome p {
+
+        font-size: 15px;
+
+    }
+
+
+    #home .home-divider {
+
+        font-size: 12px;
+
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (min-width: 601px) and (max-width: 1024px) {
+
+    #home.hero {
+
+        min-height: auto;
+
+        padding-top: 35px;
+
+    }
+
+
+    #home .home-durga-area {
+
+        width: min(680px, 90vw);
+
+    }
+
+
+    #home .home-half-circle {
+
+        min-height: 125px;
+
+    }
+
+
+    #home .home-half-circle span {
+
+        font-size: 30px;
+
+    }
+
+
+    #home .home-durga-image {
+
+        width: min(600px, 78vw);
+
+    }
+
+
+    #home .home-bottom-welcome {
+
+        width: min(620px, 85vw);
+
+    }
+
+}
+/* =========================================================
+   WELCOME TEXT
+========================================================= */
+
+.home-welcome {
     position: relative;
     z-index: 5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 18px;
+    margin: 5px 0 22px;
+
+    text-align: center;
+}
+
+
+/* ✦ Decoration */
+
+.home-decoration {
+    color: #8ff6ff;
+
+    font-size: 26px;
+    font-weight: 900;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 12px #5eefff,
+        0 0 24px #00d9ff,
+        0 0 40px rgba(0, 220, 255, 0.9);
+
+    animation: welcomeSparkle 1.8s ease-in-out infinite alternate;
+}
+
+
+/* 🙏 Welcome */
+
+.home-welcome p {
+    margin: 0;
+
+    color: #eaffff;
+
+    font-size: 27px;
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+
+    text-shadow:
+        0 0 4px #ffffff,
+        0 0 10px #8ff6ff,
+        0 0 20px #00d9ff,
+        0 0 35px rgba(0, 220, 255, 0.85);
+
+    animation: welcomeGlow 2s ease-in-out infinite alternate;
+}
+
+
+/* =========================================================
+   WELCOME ANIMATION
+========================================================= */
+
+@keyframes welcomeGlow {
+
+    from {
+        text-shadow:
+            0 0 4px #ffffff,
+            0 0 8px #8ff6ff,
+            0 0 16px #00d9ff;
+    }
+
+    to {
+        text-shadow:
+            0 0 6px #ffffff,
+            0 0 14px #bfffff,
+            0 0 28px #00d9ff,
+            0 0 45px rgba(0, 220, 255, 0.9);
+    }
+
+}
+
+
+@keyframes welcomeSparkle {
+
+    from {
+        transform: scale(0.9);
+        opacity: 0.65;
+    }
+
+    to {
+        transform: scale(1.15);
+        opacity: 1;
+    }
+
+}
+
+
+/* =========================================================
+   BOTTOM BLESSING BOX
+========================================================= */
+
+.home-bottom-welcome {
+
+    position: relative;
+    z-index: 5;
+
+    width: min(720px, 90%);
+
+    margin: 35px auto 20px;
+
+    padding: 22px 30px;
+
+    text-align: center;
+
+    border: 2px solid rgba(130, 245, 255, 0.9);
+
+    border-radius: 50px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(30, 95, 115, 0.35),
+            rgba(5, 45, 65, 0.30)
+        );
+
+    box-shadow:
+        0 0 8px #ffffff,
+        0 0 18px #6eefff,
+        0 0 35px #00d9ff,
+        inset 0 0 18px rgba(100, 240, 255, 0.35);
+
+    animation: blessingGlow 2.5s ease-in-out infinite alternate;
+}
+
+
+/* =========================================================
+   ───── ❖ ─────
+========================================================= */
+
+.home-divider {
+
+    color: #aaf8ff;
+
+    font-size: 22px;
+    font-weight: 700;
+
+    letter-spacing: 4px;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 12px #8ff6ff,
+        0 0 25px #00d9ff;
+
+    animation: dividerGlow 2s ease-in-out infinite alternate;
+}
+
+
+/* =========================================================
+   BLESSING TEXT
+========================================================= */
+
+.home-bottom-welcome p {
+
+    margin: 10px 0;
+
+    color: #eaffff;
+
+    font-size: 25px;
+    font-weight: 800;
+
+    line-height: 1.5;
+
+    text-align: center;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 12px #8ff6ff,
+        0 0 22px #00d9ff,
+        0 0 35px rgba(0, 220, 255, 0.8);
+
+    animation: blessingTextGlow 2.2s ease-in-out infinite alternate;
+}
+
+
+/* =========================================================
+   BLESSING ANIMATION
+========================================================= */
+
+@keyframes blessingGlow {
+
+    from {
+        box-shadow:
+            0 0 6px #ffffff,
+            0 0 14px #6eefff,
+            0 0 25px #00d9ff,
+            inset 0 0 12px rgba(100, 240, 255, 0.25);
+    }
+
+    to {
+        box-shadow:
+            0 0 10px #ffffff,
+            0 0 25px #8ff6ff,
+            0 0 50px #00d9ff,
+            inset 0 0 25px rgba(100, 240, 255, 0.45);
+    }
+
+}
+
+
+@keyframes dividerGlow {
+
+    from {
+        opacity: 0.7;
+        text-shadow:
+            0 0 4px #ffffff,
+            0 0 10px #5eefff;
+    }
+
+    to {
+        opacity: 1;
+        text-shadow:
+            0 0 8px #ffffff,
+            0 0 18px #8ff6ff,
+            0 0 30px #00d9ff;
+    }
+
+}
+
+
+@keyframes blessingTextGlow {
+
+    from {
+        text-shadow:
+            0 0 4px #ffffff,
+            0 0 9px #8ff6ff,
+            0 0 16px #00d9ff;
+    }
+
+    to {
+        text-shadow:
+            0 0 7px #ffffff,
+            0 0 15px #aaffff,
+            0 0 30px #00d9ff,
+            0 0 42px rgba(0, 220, 255, 0.8);
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .home-welcome {
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+
+    .home-welcome p {
+        font-size: 20px;
+    }
+
+    .home-decoration {
+        font-size: 19px;
+    }
+
+    .home-bottom-welcome {
+        width: 92%;
+        margin-top: 28px;
+        padding: 17px 14px;
+        border-radius: 35px;
+    }
+
+    .home-divider {
+        font-size: 16px;
+        letter-spacing: 2px;
+    }
+
+    .home-bottom-welcome p {
+        font-size: 18px;
+        line-height: 1.45;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .home-welcome p {
+        font-size: 18px;
+    }
+
+    .home-decoration {
+        font-size: 17px;
+    }
+
+    .home-bottom-welcome {
+        width: 94%;
+        padding: 15px 10px;
+    }
+
+    .home-divider {
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+
+    .home-bottom-welcome p {
+        font-size: 16px;
+    }
+
+}
+/* =========================================================
+   EXISTING WEBSITE BACKGROUND VIDEO
+   Do not change the video path
+========================================================= */
+
+.website-background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    object-fit: cover;
+
+    z-index: -10;
+
+    pointer-events: none;
+}
+
+.website-video-overlay {
+    position: fixed;
+    inset: 0;
+
+    z-index: -9;
+
+    pointer-events: none;
+
+    background: rgba(0, 0, 0, 0.12);
+}
+
+/* =========================================================
+   MOBILE + TABLET FINAL SAFE RESPONSIVE OVERRIDES
+   Paste at the END of style.css
+   Does NOT change JS/API/data loading.
+========================================================= */
+
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+img, video, iframe {
+    max-width: 100%;
+}
+
+/* Keep dynamic record containers visible */
+#officeBearersContainer,
+#generalMembersContainer,
+#programContainer,
+#noticeContainer,
+#galleryContainer,
+#videoContainer,
+#contributorsList,
+#donationRecords {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+@media (min-width: 601px) and (max-width: 1024px) {
+
+    .section {
+        width: 100%;
+        max-width: 100%;
+        padding-left: 24px !important;
+        padding-right: 24px !important;
+    }
+
+    #galleryContainer {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 18px;
+    }
+
+    #galleryContainer > *,
+    #officeBearersContainer > *,
+    #generalMembersContainer > *,
+    #programContainer > *,
+    #noticeContainer > *,
+    #videoContainer > *,
+    #contributorsList > * {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .table-responsive,
+    .table-wrapper,
+    .records-table-wrapper,
+    .donation-table-wrapper {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+@media (max-width: 600px) {
+
+    .section {
+        width: 100%;
+        max-width: 100%;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+        overflow: visible;
+    }
+
+    /* ---------- Dynamic sections ---------- */
+
+    #officeBearersContainer,
+    #generalMembersContainer,
+    #programContainer,
+    #noticeContainer,
+    #galleryContainer,
+    #videoContainer,
+    #contributorsList,
+    #donationRecords {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        overflow: visible !important;
+    }
+
+    #officeBearersContainer > *,
+    #generalMembersContainer > *,
+    #programContainer > *,
+    #noticeContainer > *,
+    #galleryContainer > *,
+    #videoContainer > *,
+    #contributorsList > *,
+    #donationRecords > * {
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    /* ---------- Common cards ---------- */
+
+    .card,
+    .member-card,
+    .program-card,
+    .notice-card,
+    .gallery-item,
+    .video-card,
+    .contributor-card,
+    .donation-card,
+    .about-card,
+    .contact-card,
+    .darshan-card {
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    /* ---------- Gallery ---------- */
+
+    #galleryContainer {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    #galleryContainer img {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto;
+        object-fit: cover;
+    }
+
+    /* ---------- Tables / records ----------
+       Horizontal scroll is preferable to hiding records.
+    ---------- */
+
+    .table-responsive,
+    .table-wrapper,
+    .records-table-wrapper,
+    .donation-table-wrapper,
+    #donationRecords {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        max-width: none;
+    }
+
+    /* ---------- Year dropdowns ----------
+       Do NOT alter JS classes or IDs.
+    ---------- */
+
+    .custom-year-dropdown,
+    .year-dropdown {
+        position: relative;
+        max-width: 100%;
+        z-index: 100;
+    }
+
+    .custom-year-dropdown .year-dropdown-menu,
+    .year-dropdown .year-dropdown-menu {
+        max-width: 100%;
+        max-height: 220px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        z-index: 9999;
+    }
+
+    /* ---------- Home ---------- */
+
+    .home-hero,
+    .home-durga-area {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .home-durga-area {
+        width: min(94vw, 430px);
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .home-durga-image {
+        max-width: 100%;
+    }
+
+    .home-durga-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .home-bottom-welcome {
+        width: 100%;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    /* ---------- Forms ---------- */
+
+    input,
+    textarea,
+    select,
+    button {
+        max-width: 100%;
+    }
+
+    /* ---------- Long text / links ---------- */
+
+    p,
+    a,
+    span,
+    h1,
+    h2,
+    h3,
+    h4 {
+        overflow-wrap: anywhere;
+    }
+
+    /* ---------- Prevent accidental horizontal overflow ---------- */
+
+    .row,
+    .grid,
+    .flex-row {
+        max-width: 100%;
+    }
+}
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+@media (max-width: 380px) {
+
+    .section {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    #galleryContainer {
+        gap: 12px !important;
+    }
+
+    .home-durga-area {
+        width: 96vw;
+    }
+
+    .custom-year-dropdown,
+    .year-dropdown {
+        max-width: 100%;
+    }
+}
+/* =========================================================
+   FINAL MOBILE LAYOUT FIX
+   Existing JS / API / HTML functionality untouched
+========================================================= */
+
+@media (max-width: 600px) {
+
+    /* Prevent horizontal overflow */
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden !important;
+    }
+
+    /* =====================================================
+       ALL DYNAMIC RECORD CONTAINERS
+    ===================================================== */
+
+    #officeBearersContainer,
+    #generalMembersContainer,
+    #programContainer,
+    #noticeContainer,
+    #galleryContainer,
+    #videoContainer,
+    #contributorsList,
+    #donationRecords {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+
+    /* =====================================================
+       RECORD CARDS
+       Mobile = ONE CARD PER ROW
+    ===================================================== */
+
+    #officeBearersContainer,
+    #generalMembersContainer,
+    #programContainer,
+    #noticeContainer,
+    #galleryContainer,
+    #videoContainer,
+    #contributorsList,
+    #donationRecords {
+
+        grid-template-columns: 1fr !important;
+
+    }
+
+
+    #officeBearersContainer > *,
+    #generalMembersContainer > *,
+    #programContainer > *,
+    #noticeContainer > *,
+    #galleryContainer > *,
+    #videoContainer > *,
+    #contributorsList > *,
+    #donationRecords > * {
+
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+
+    }
+
+
+    /* =====================================================
+       TEXT INSIDE CARDS
+    ===================================================== */
+
+    #officeBearersContainer *,
+    #generalMembersContainer *,
+    #programContainer *,
+    #noticeContainer *,
+    #galleryContainer *,
+    #videoContainer *,
+    #contributorsList *,
+    #donationRecords * {
+
+        max-width: 100%;
+        box-sizing: border-box;
+
+    }
+
+
+    /* =====================================================
+       IMAGES
+    ===================================================== */
+
+    #officeBearersContainer img,
+    #generalMembersContainer img,
+    #programContainer img,
+    #noticeContainer img,
+    #galleryContainer img,
+    #videoContainer img,
+    #contributorsList img,
+    #donationRecords img {
+
+        max-width: 100%;
+        height: auto;
+
+    }
+
+
+    /* =====================================================
+       TABLES
+       Don't hide records — allow horizontal scroll
+    ===================================================== */
+
+    #donationRecords,
+    #donationRecords table {
+
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+
+    }
+
+
+    /* =====================================================
+       SELECT / YEAR DROPDOWN
+    ===================================================== */
+
+    select {
+
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 42px;
+        box-sizing: border-box;
+
+        font-size: 15px;
+
+    }
+
+
+    /* =====================================================
+       CUSTOM DROPDOWN
+    ===================================================== */
+
+    .year-dropdown,
+    .custom-year-dropdown {
+
+        width: 100%;
+        max-width: 100%;
+        position: relative;
+        z-index: 100;
+
+    }
+
+
+    .year-dropdown-menu,
+    .custom-year-dropdown .year-dropdown-menu {
+
+        max-width: 100%;
+        max-height: 230px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        z-index: 9999;
+
+    }
+
+
+    /* =====================================================
+       HOME
+    ===================================================== */
+
+    .home-hero {
+
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+
+    }
+
+    .home-durga-area {
+
+        width: 94vw;
+        max-width: 430px;
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+
+
+    /* =====================================================
+       SECTION HEADINGS
+    ===================================================== */
+
+    .section h1,
+    .section h2,
+    .section h3 {
+
+        max-width: 100%;
+        overflow-wrap: break-word;
+
+    }
+
+
+    /* =====================================================
+       LONG CONTENT
+    ===================================================== */
+
+    p,
+    span,
+    a,
+    td,
+    th {
+
+        overflow-wrap: break-word;
+        word-break: normal;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+    #officeBearersContainer,
+    #generalMembersContainer,
+    #programContainer,
+    #noticeContainer,
+    #galleryContainer,
+    #videoContainer,
+    #contributorsList,
+    #donationRecords {
+
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+
+    }
+
+    select {
+
+        font-size: 14px !important;
+
+    }
+
+}
+/* =========================================================
+   PUJA PROGRAM - MOBILE YEAR DROPDOWN
+========================================================= */
+
+@media (max-width: 600px) {
+
+    #program .program-year-selector {
+        width: 180px !important;
+        max-width: 180px !important;
+        margin: 10px auto 20px !important;
+        padding: 0 !important;
+    }
+
+    #program .program-year-selector label {
+        display: block;
+        width: 100%;
+        margin-bottom: 5px;
+        text-align: center;
+        font-size: 13px;
+    }
+
+    #program .custom-year-dropdown {
+        position: relative;
+        width: 180px !important;
+        max-width: 180px !important;
+        margin: 0 auto;
+    }
+
+    #program .year-dropdown-button {
+        width: 180px !important;
+        height: 38px !important;
+        min-height: 38px !important;
+        padding: 6px 10px !important;
+        font-size: 14px !important;
+        border-radius: 7px;
+        box-sizing: border-box;
+    }
+
+    /* Dropdown options */
+    #program .year-dropdown-menu {
+        position: absolute !important;
+        left: 0 !important;
+        top: calc(100% + 3px) !important;
+
+        width: 180px !important;
+        max-width: 180px !important;
+
+        max-height: 160px !important;
+
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+
+        z-index: 99999 !important;
+
+        box-sizing: border-box;
+    }
+
+    #program .year-option {
+        width: 100% !important;
+        min-height: 32px !important;
+        padding: 7px 10px !important;
+
+        font-size: 13px !important;
+        line-height: 18px;
+
+        box-sizing: border-box;
+    }
+}
+@media screen and (max-width: 600px) {
+
+    #programContainer {
+        grid-template-columns: 1fr !important;
+        width: 100% !important;
+        padding: 0 10px !important;
+        box-sizing: border-box !important;
+    }
+
+    #programContainer .program-card {
+        width: 100% !important;
+        aspect-ratio: 1 / 1 !important;
+
+        max-width: none !important;
+        min-width: 0 !important;
+
+        margin: 0 !important;
+        padding: 20px !important;
+
+        box-sizing: border-box !important;
+
+        border-radius: 18px !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+
+        overflow: hidden !important;
+    }
+
+}/* =========================================================
+   PUJA PROGRAM - FULL MOBILE WIDTH
+========================================================= */
+
+@media screen and (max-width: 600px) {
+
+    #programContainer {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+
+        width: 100vw !important;
+        max-width: 100vw !important;
+
+       margin-left: 0 !important;
+        margin-right: 0 !important;
+
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+
+        box-sizing: border-box !important;
+
+        gap: 16px !important;
+    }
+
+    #programContainer .program-card {
+        display: flex !important;
+        flex-direction: column !important;
+
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+
+        margin: 0 !important;
+
+        box-sizing: border-box !important;
+
+        padding: 20px 15px !important;
+
+        aspect-ratio: auto !important;
+
+        overflow: hidden !important;
+    }
+
 }

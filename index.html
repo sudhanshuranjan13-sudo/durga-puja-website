@@ -50,38 +50,59 @@
 <div class="website-video-overlay"></div>
 
    
- <!-- FESTIVE NAME -->
-<div class="festive-name">
-    <div class="festive-track">
-        <span>✨ श्री श्री दुर्गा पूजा समिति ✨</span>
-        <span>🌸 Shree Shree Durga Puja Samiti 🌸</span>
-        <span>🪔 जय माता दी 🪔</span>
-        <span>✨ श्री श्री दुर्गा पूजा समिति ✨</span>
+
+<!-- =====================================================
+     FESTIVE LANGUAGE BAR
+===================================================== -->
+<div class="language-bar">
+
+    <!-- ROTATING FESTIVE TEXT -->
+    <div class="language-marquee">
+        <div class="language-track">
+
+            <span>
+                ✨ श्री श्री दुर्गा पूजा समिति ✨
+                &nbsp;&nbsp; | &nbsp;&nbsp;
+                📍 ब्रह्मस्थान, केवई पुल, चंडी, नालंदा, बिहार
+                &nbsp;&nbsp; | &nbsp;&nbsp;
+                🪔 जय माता दी 🪔
+                &nbsp;&nbsp; | &nbsp;&nbsp;
+                ✨ Shree Shree Durga Puja Samiti - 2026 ✨
+            </span>
+
+            <!-- Duplicate for seamless rotation -->
+            <span>
+                ✨ श्री श्री दुर्गा पूजा समिति ✨
+                &nbsp;&nbsp; | &nbsp;&nbsp;
+                📍 ब्रह्मस्थान, केवई पुल, चंडी, नालंदा, बिहार
+                &nbsp;&nbsp; | &nbsp;&nbsp;
+                🪔 जय माता दी 🪔
+                &nbsp;&nbsp; | &nbsp;&nbsp;
+                ✨ Shree Shree Durga Puja Samiti - 2026 ✨
+            </span>
+
+        </div>
     </div>
-</div>
-<!-- LANGUAGE BAR -->
-    <div class="language-bar">
+
+
+    <!-- LANGUAGE BUTTONS -->
+    <div class="language-buttons">
 
         <button
             id="hindiBtn"
             onclick="changeLanguage('hi')">
-
             🇮🇳 हिंदी
-
         </button>
 
         <button
             id="englishBtn"
             onclick="changeLanguage('en')">
-
             🇬🇧 English
-
         </button>
 
     </div>
 
-
-
+</div>
     <!-- =====================================================
          HEADER / NAVBAR
     ====================================================== -->
@@ -566,143 +587,101 @@
 
 
 
-        <!-- =================================================
-             HOME / HERO
-        ================================================== -->
+       <!-- =================================================
+     HOME / HERO
+================================================= -->
 
-        <section
-            id="home"
-            class="hero">
+<section id="home" class="hero home-hero">
 
+    <!-- Decorative background -->
+    <div class="home-hero-glow"></div>
 
-            
+    <!-- =============================================
+         TOP WELCOME TEXT
+    ============================================== -->
 
+    <div class="home-welcome">
 
-            <!-- DARK / DEVOTIONAL OVERLAY -->
+        <span class="home-decoration">✦</span>
 
-            <div class="hero-overlay"></div>
+        <p
+            data-hi="🙏 आप सभी का हार्दिक स्वागत है"
+            data-en="🙏 A warm welcome to everyone">
 
+            🙏 आप सभी का हार्दिक स्वागत है
 
-            <!-- LIGHT GLOW -->
+        </p>
 
-            <div class="hero-glow hero-glow-one"></div>
+        <span class="home-decoration">✦</span>
 
-            <div class="hero-glow hero-glow-two"></div>
-
-
-            <!-- FLOATING DECORATION -->
-
-            <div class="hero-particles">
-
-                <span>✦</span>
-                <span>✧</span>
-                <span>🪔</span>
-                <span>✦</span>
-                <span>🌸</span>
-                <span>✧</span>
-
-            </div>
+    </div>
 
 
-            <!-- HERO CONTENT -->
+    <!-- =============================================
+         MAIN DURGA IMAGE AREA
+         IMAGE WILL COME FROM GALLERY
+    ============================================== -->
 
-            <div class="hero-content">
+    <div class="home-durga-area">
 
+        <!-- Half-circle Samiti title -->
 
-                <div class="hero-text">
+        <div class="home-half-circle">
 
+            <span
+                data-hi="श्री श्री दुर्गा पूजा समिति"
+                data-en="Shree Shree Durga Puja Samiti">
 
-                    <p
-                        class="welcome"
-                        data-hi="🙏 आप सभी का हार्दिक स्वागत है"
-                        data-en="🙏 A warm welcome to everyone">
+                श्री श्री दुर्गा पूजा समिति
 
-                        🙏 आप सभी का हार्दिक स्वागत है
+            </span>
 
-                    </p>
-
-
-                    <h1
-                        data-hi="श्री श्री दुर्गा पूजा समिति"
-                        data-en="Shree Shree Durga Puja Samiti">
-
-                        श्री श्री दुर्गा पूजा समिति
-
-                    </h1>
+        </div>
 
 
-                    <h2
-                        data-hi="ब्रह्मस्थान, केवई पुल, चंडी, नालंदा, बिहार"
-                        data-en="Brahmasthan, Kevai Pul, Chandi, Nalanda, Bihar">
+        <!-- Durga Maa Image -->
 
-                        ब्रह्मस्थान, केवई पुल, चंडी,
-                        नालंदा, बिहार
+        <div
+            id="homeGalleryImage"
+            class="home-durga-image">
 
-                    </h2>
+    <img
+        src="images/mata-rani.jpg"
+        alt="माँ दुर्गा">
 
-
-                    <p
-                        class="tagline"
-                        data-hi="🔱 जय माता दी 🔱"
-                        data-en="🔱 Jai Mata Di 🔱">
-
-                        🔱 जय माता दी 🔱
-
-                    </p>
+</div>
 
 
-                    <div class="hero-buttons">
+        </div>
+
+    </div>
 
 
-                        <a
-                            href="#program"
-                            class="btn primary"
-                            data-hi="🪔 पूजा कार्यक्रम"
-                            data-en="🪔 Puja Program">
+    <!-- =============================================
+         BOTTOM WELCOME
+    ============================================== -->
 
-                            🪔 पूजा कार्यक्रम
+    <div class="home-bottom-welcome">
 
-                        </a>
+        <div class="home-divider">
+            ───── ❖ ─────
+        </div>
 
+        <p
+            data-hi="|| माँ दुर्गा का आशीर्वाद सभी पर बना रहे ||"
+            data-en="|| May Maa Durga's blessings be with everyone ||">
 
-                        <a
-                            href="#donation"
-                            class="btn secondary"
-                            data-hi="🙏 सहयोग करें"
-                            data-en="Support Us">
+            || माँ दुर्गा का आशीर्वाद सभी पर बना रहे ||
 
-                            🙏 सहयोग करें
+        </p>
 
-                        </a>
+        <div class="home-divider">
+            ───── ❖ ─────
+        </div>
 
+    </div>
 
-                    </div>
-
-
-                </div>
-
-
-                
-
-                <div class="hero-image">
-
-                    <div class="image-frame">
-
-                        <img
-                            src="images/mata-rani.jpg"
-                            alt="माँ दुर्गा">
-
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
-        </section>
-
-
+</section>
 
 
         <!-- =================================================
