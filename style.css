@@ -5216,8 +5216,8 @@ section {
 
 
     #galleryImageViewer .gallery-viewer-image {
-        max-width: 62vw !important;
-        max-height: 55vh !important;
+        max-width: 82vw !important;
+        max-height: 75vh !important;
     }
 
 
@@ -8384,3 +8384,343 @@ img, video, iframe {
     }
 
 }
+/* =========================================================
+   CLEAN RESPONSIVE MOBILE/TABLET OVERRIDES
+   Desktop styling is intentionally untouched.
+   Existing background video is untouched.
+========================================================= */
+
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+img, video, iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Keep every section inside its own desktop-style boundary */
+.section {
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+@media (min-width: 601px) and (max-width: 1024px) {
+
+    .section {
+        width: 100%;
+        max-width: 100%;
+        padding-left: 24px !important;
+        padding-right: 24px !important;
+        box-sizing: border-box;
+    }
+
+    #galleryContainer {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 18px;
+    }
+
+    #officeBearersContainer > *,
+    #generalMembersContainer > *,
+    #programContainer > *,
+    #noticeContainer > *,
+    #galleryContainer > *,
+    #videoContainer > *,
+    #contributorsList > * {
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .table-responsive,
+    .table-wrapper,
+    .records-table-wrapper,
+    .donation-table-wrapper {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* =========================================================
+   MOBILE
+   Same visual sections/boundaries as desktop.
+   Only dimensions and wrapping are changed.
+========================================================= */
+@media (max-width: 600px) {
+
+    .section {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+        box-sizing: border-box !important;
+        overflow: visible !important;
+    }
+
+    /* ---------- HOME ---------- */
+
+    #home.hero,
+    #home.home-hero,
+    .home-hero {
+        width: 100% !important;
+        min-height: auto !important;
+        height: auto !important;
+        padding: 32px 10px 42px !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    #home .home-welcome,
+    .home-welcome {
+        width: 100% !important;
+        max-width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        margin: 5px auto 20px !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+    }
+
+    #home .home-welcome p,
+    .home-welcome p {
+        max-width: calc(100% - 50px) !important;
+        margin: 0 !important;
+        font-size: clamp(17px, 5vw, 21px) !important;
+        line-height: 1.35 !important;
+        text-align: center !important;
+    }
+    #home .home-decoration,
+    .home-decoration {
+        flex-shrink: 0 !important;
+        font-size: 19px !important;
+    }
+
+    #home .home-durga-area,
+    .home-durga-area {
+        position: relative !important;
+        width: 100% !important;
+        max-width: 430px !important;
+        margin: 0 auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        box-sizing: border-box !important;
+    }
+
+    #home .home-half-circle,
+    .home-half-circle {
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+        transform: none !important;
+
+        width: 92% !important;
+        max-width: 390px !important;
+        min-height: 78px !important;
+        height: auto !important;
+
+        margin: 0 auto -8px !important;
+        padding: 18px 10px !important;
+        box-sizing: border-box !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        overflow: hidden !important;
+        text-align: center !important;
+    }
+
+    #home .home-half-circle span,
+    .home-half-circle span {
+        width: 100% !important;
+        font-size: clamp(18px, 5.5vw, 24px) !important;
+        line-height: 1.25 !important;
+        text-align: center !important;
+        white-space: normal !important;
+        word-break: normal !important;
+    }
+
+    #home .home-durga-image,
+    .home-durga-image {
+        position: relative !important;
+        width: min(82vw, 350px) !important;
+        max-width: 350px !important;
+        height: auto !important;
+        aspect-ratio: 1 / 1 !important;
+        margin: 28px auto 0 !important;
+        padding: 8px !important;
+        box-sizing: border-box !important;
+        flex-shrink: 0 !important;
+    }
+
+    #home .home-durga-image img,
+    .home-durga-image img {
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
+        object-fit: cover !important;
+        border-radius: 50% !important;
+    }
+
+    #home .home-bottom-welcome,
+    .home-bottom-welcome {
+        width: 92% !important;
+        max-width: 390px !important;
+        margin: 28px auto 0 !important;
+        padding: 16px 12px !important;
+        box-sizing: border-box !important;
+        text-align: center !important;
+        overflow: hidden !important;
+    }
+
+    #home .home-bottom-welcome p,
+    .home-bottom-welcome p {
+        width: 100% !important;
+        margin: 10px 0 !important;
+        font-size: clamp(15px, 4.5vw, 18px) !important;
+        line-height: 1.45 !important;
+        text-align: center !important;
+    }
+
+    #home .home-divider,
+    .home-divider {
+        font-size: clamp(12px, 3.5vw, 16px) !important;
+        letter-spacing: 1.5px !important;
+        text-align: center !important;
+    }
+
+    /* ---------- ALL DYNAMIC SECTIONS ---------- */
+
+    #officeBearersContainer,
+    #generalMembersContainer,
+    #programContainer,
+    #noticeContainer,
+    #galleryContainer,
+    #videoContainer,
+    #contributorsList,
+    #donationRecords {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        overflow: visible !important;
+    }
+
+    #officeBearersContainer > *,
+    #generalMembersContainer > *,
+    #programContainer > *,
+    #noticeContainer > *,
+    #galleryContainer > *,
+    #videoContainer > *,
+    #contributorsList > * {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Keep cards looking like desktop cards, but fit mobile width */
+    .card,
+    .member-card,
+    .program-card,
+    .notice-card,
+    .gallery-card,
+    .video-card,
+    .contributor-card {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Gallery: one full-width card at a time on phones */
+    #galleryContainer {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+    }
+
+    /* Tables: retain their structure; scroll only when genuinely wider */
+    .table-responsive,
+    .table-wrapper,
+    .records-table-wrapper,
+    .donation-table-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        box-sizing: border-box !important;
+    }
+
+    /* Year selectors stay compact instead of stretching into huge panels */
+    .year-filter,
+    .year-dropdown,
+    select {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Program/notice content must wrap inside the mobile boundary */
+    #programContainer img,
+    #noticeContainer img,
+    #galleryContainer img,
+    #videoContainer video,
+    #videoContainer iframe {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+}
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+@media (max-width: 380px) {
+
+    #home.hero,
+    #home.home-hero,
+    .home-hero {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+
+    #home .home-welcome p,
+    .home-welcome p {
+        font-size: 17px !important;
+    }
+
+    #home .home-half-circle,
+    .home-half-circle {
+        width: 94% !important;
+        min-height: 74px !important;
+        padding: 16px 8px !important;
+    }
+
+    #home .home-half-circle span,
+    .home-half-circle span {
+        font-size: 18px !important;
+    }
+
+    #home .home-durga-image,
+    .home-durga-image {
+        width: 88vw !important;
+        max-width: 330px !important;
+    }
+
+    #home .home-bottom-welcome,
+    .home-bottom-welcome {
+        width: 94% !important;
+        padding: 14px 9px !important;
+    }
+
+    #home .home-bottom-welcome p,
+    .home-bottom-welcome p {
+        font-size: 15px !important;
+    }
+}
+
