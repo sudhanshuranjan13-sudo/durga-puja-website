@@ -2614,28 +2614,28 @@ function setupMediaViewer() {
 
     document.addEventListener("click", function(event) {
 
-        const image =
-            event.target.closest(
-                "#galleryContainer .gallery-item img"
-            );
+       const image =
+    event.target.closest(
+        ".gallery-item img"
+    );
 
         if (!image) {
             return;
         }
 
-        const galleryContainer =
-            document.getElementById("galleryContainer");
+        const gallerySection =
+    image.closest(".gallery-section");
 
-        if (!galleryContainer) {
-            return;
-        }
+if (!gallerySection) {
+    return;
+}
 
-        const images =
-            Array.from(
-                galleryContainer.querySelectorAll(
-                    ".gallery-item img"
-                )
-            );
+const images =
+    Array.from(
+        gallerySection.querySelectorAll(
+            ".gallery-item img"
+        )
+    );
 
         const currentIndex =
             images.indexOf(image);
