@@ -47,7 +47,9 @@ async function initializeWebsite() {
         setupSmoothNavigation();
         setupDarshanPopup();
         setupLiveDarshan();
-        setupDonationForm();
+      //  setupDonationForm();
+      setupUPIDonation();
+      
         setupContactForm();
         setupAmountButtons();
         setupMediaViewer();
@@ -3891,14 +3893,11 @@ function setupAmountButtons() {
 
 }
 
-
 /* =========================================================
-   DONATION FORM
-=====================================/* =========================================================
    DONATION FORM - RAZORPAY
 ========================================================= */
 
-function setupDonationForm() {
+function setupDonationForm_DISABLED() {
 
     const form =
         document.getElementById(
@@ -4333,6 +4332,81 @@ function setupDonationForm() {
         }
     );
 
+}
+
+
+function setupUPIDonation() {
+    console.log("UPI DONATION SETUP LOADED");
+
+    const form = document.getElementById("donationForm");
+
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+        console.log("DONATION BUTTON CLICKED");
+
+        const name =
+            document.getElementById("donorName")?.value.trim() || "";
+
+        const mobile =
+            document.getElementById("donorMobile")?.value.trim() || "";
+
+        const amount =
+            Number(
+                document.getElementById("donationAmount")?.value || 0
+            );
+
+        // Name mandatory
+        if (!name) {
+            showMessage(
+                currentLanguage === "hi"
+                    ? "कृपया अपना नाम दर्ज करें।"
+                    : "Please enter your name.",
+                "error"
+            );
+            return;
+        }
+
+        // Mobile mandatory
+        if (!/^[6-9]\d{9}$/.test(mobile)) {
+            showMessage(
+                currentLanguage === "hi"
+                    ? "कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।"
+                    : "Please enter a valid 10-digit mobile number.",
+                "error"
+            );
+            return;
+        }
+
+        // Amount mandatory
+        if (!Number.isFinite(amount) || amount <= 0) {
+            showMessage(
+                currentLanguage === "hi"
+                    ? "कृपया सहयोग राशि दर्ज करें।"
+                    : "Please enter a valid donation amount.",
+                "error"
+            );
+            return;
+        }
+
+        const upiId = "7488585355@ybl";
+        const payeeName = "Sudhanshu Ranjan";
+
+        const upiUrl =
+            "upi://pay" +
+            "?pa=" + encodeURIComponent(upiId) +
+            "&pn=" + encodeURIComponent(payeeName) +
+            "&am=" + encodeURIComponent(amount.toFixed(2)) +
+            "&cu=INR";
+
+        console.log("Opening UPI:", upiUrl);
+
+        window.location.href = upiUrl;
+    });
 }
 
 /* =========================================================

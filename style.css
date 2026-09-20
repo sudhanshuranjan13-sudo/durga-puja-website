@@ -8769,3 +8769,127 @@ img, video, iframe {
     }
 
 }
+/* =================================================
+   DIRECT DONATION
+================================================= */
+
+.direct-donation {
+    margin-top: 30px;
+    padding: 25px;
+    border-radius: 16px;
+    background: rgba(255, 248, 235, 0.95);
+    border: 1px solid rgba(180, 100, 30, 0.25);
+}
+
+.direct-donation h3 {
+    margin-bottom: 12px;
+}
+
+.temporary-notice {
+    padding: 12px 15px;
+    border-radius: 10px;
+    background: #fff3cd;
+    line-height: 1.6;
+}
+
+.bank-details {
+    margin-top: 20px;
+}
+
+.bank-details p {
+    margin: 10px 0;
+}
+
+.bank-details strong {
+    display: inline-block;
+    min-width: 145px;
+}
+
+.donation-qr {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.donation-qr img {
+    width: 220px;
+    max-width: 80%;
+    height: auto;
+    border-radius: 12px;
+    padding: 8px;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+}
+
+/* =========================================================
+   FINAL PUJA PROGRAM MOBILE FIX
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    #program .program-container {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+
+        padding: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    #program .program-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+
+        margin: 0 !important;
+        padding: 18px 14px !important;
+
+        box-sizing: border-box !important;
+
+        border-radius: 16px !important;
+        border-top-width: 6px !important;
+        border-bottom-width: 6px !important;
+        border-left-width: 4px !important;
+        border-right-width: 4px !important;
+
+        text-align: center !important;
+
+        overflow: hidden !important;
+    }
+
+    #program .program-card h3 {
+        font-size: 19px !important;
+        line-height: 1.35 !important;
+
+        margin: 0 0 8px !important;
+
+        overflow-wrap: break-word !important;
+        word-break: normal !important;
+    }
+
+    #program .program-card p {
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+
+        overflow-wrap: break-word !important;
+        word-break: normal !important;
+    }
+
+    #program .program-card .day,
+    #program .program-card .date,
+    #program .program-card .time {
+        max-width: 100% !important;
+
+        overflow-wrap: break-word !important;
+        word-break: normal !important;
+    }
+
+    #program .program-card img {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
