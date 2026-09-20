@@ -8309,81 +8309,8 @@ img, video, iframe {
         box-sizing: border-box;
     }
 }
-@media screen and (max-width: 600px) {
 
-    #programContainer {
-        grid-template-columns: 1fr !important;
-        width: 100% !important;
-        padding: 0 10px !important;
-        box-sizing: border-box !important;
-    }
 
-    #programContainer .program-card {
-        width: 100% !important;
-        aspect-ratio: 1 / 1 !important;
-
-        max-width: none !important;
-        min-width: 0 !important;
-
-        margin: 0 !important;
-        padding: 20px !important;
-
-        box-sizing: border-box !important;
-
-        border-radius: 18px !important;
-
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
-
-        overflow: hidden !important;
-    }
-
-}/* =========================================================
-   PUJA PROGRAM - FULL MOBILE WIDTH
-========================================================= */
-
-@media screen and (max-width: 600px) {
-
-    #programContainer {
-        display: grid !important;
-        grid-template-columns: minmax(0, 1fr) !important;
-
-        width: 100vw !important;
-        max-width: 100vw !important;
-
-       margin-left: 0 !important;
-        margin-right: 0 !important;
-
-        padding-left: 10px !important;
-        padding-right: 10px !important;
-
-        box-sizing: border-box !important;
-
-        gap: 16px !important;
-    }
-
-    #programContainer .program-card {
-        display: flex !important;
-        flex-direction: column !important;
-
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-
-        margin: 0 !important;
-
-        box-sizing: border-box !important;
-
-        padding: 20px 15px !important;
-
-        aspect-ratio: auto !important;
-
-        overflow: hidden !important;
-    }
-
-}
 /* =========================================================
    CLEAN RESPONSIVE MOBILE/TABLET OVERRIDES
    Desktop styling is intentionally untouched.
@@ -8834,5 +8761,140 @@ img, video, iframe {
         opacity: 1 !important;
 
         z-index: 1000000 !important;
+    }
+}
+/* =========================================================
+   MOBILE NOTICE ICON
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .notice-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        padding: 20px 16px;
+    }
+
+    .notice-icon {
+        width: 46px;
+        height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 24px;
+        border-radius: 10px;
+
+        margin-bottom: 12px;
+    }
+
+    .notice-card h3 {
+        margin-top: 0;
+    }
+
+}
+/* =========================================================
+   PUJA PROGRAM - FINAL MOBILE RESPONSIVE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    #programContainer {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+
+        width: 100% !important;
+        max-width: 100% !important;
+
+        margin: 0 !important;
+        padding: 0 12px !important;
+
+        gap: 18px !important;
+
+        box-sizing: border-box !important;
+    }
+
+    #programContainer .program-card {
+
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+
+        margin: 0 !important;
+
+        padding: 25px 18px !important;
+
+        box-sizing: border-box !important;
+
+        /* Square/fixed height completely removed */
+        aspect-ratio: auto !important;
+        height: auto !important;
+        min-height: 0 !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+
+        text-align: center !important;
+
+        overflow: visible !important;
+
+        border-radius: 22px !important;
+    }
+
+    #programContainer .program-card .day {
+
+        width: 100% !important;
+
+        font-size: 28px !important;
+        line-height: 1.3 !important;
+
+        text-align: center !important;
+
+        margin: 0 0 15px 0 !important;
+    }
+
+    #programContainer .program-card .program-date,
+    #programContainer .program-card .program-time {
+
+        width: 100% !important;
+
+        font-size: 19px !important;
+        line-height: 1.5 !important;
+
+        text-align: center !important;
+
+        margin: 6px 0 !important;
+    }
+
+    #programContainer .program-card h3 {
+
+        width: 100% !important;
+
+        font-size: 25px !important;
+        line-height: 1.4 !important;
+
+        text-align: center !important;
+
+        margin: 14px 0 !important;
+    }
+
+    #programContainer .program-card p {
+
+        width: 100% !important;
+
+        font-size: 18px !important;
+        line-height: 1.8 !important;
+
+        text-align: center !important;
+
+        margin: 8px 0 !important;
+
+        overflow-wrap: anywhere !important;
+        word-break: normal !important;
     }
 }

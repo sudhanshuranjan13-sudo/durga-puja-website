@@ -4119,12 +4119,26 @@ function resetVideoForm() {
 ========================================================= */
 
 
+// ============================================================
+// DIRECT CLOUDINARY VIDEO UPLOAD
+// Mobile + Desktop
+// ============================================================
 
-    async function uploadVideoFile() {
+async function uploadVideoFile() {
 
-    const titleHi = value("uploadVideoTitleHi");
-    const titleEn = value("uploadVideoTitleEn");
-    const fileInput = document.getElementById("uploadVideoFile");
+    const titleHi =
+        value("uploadVideoTitleHi").trim();
+
+    const titleEn =
+        value("uploadVideoTitleEn").trim();
+
+    const fileInput =
+        document.getElementById("uploadVideoFile");
+
+
+    // --------------------------------------------------------
+    // VALIDATION
+    // --------------------------------------------------------
 
     if (!titleHi) {
         alert(
@@ -4135,6 +4149,7 @@ function resetVideoForm() {
         return;
     }
 
+
     if (!titleEn) {
         alert(
             currentLanguage === "hi"
@@ -4144,7 +4159,12 @@ function resetVideoForm() {
         return;
     }
 
-    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+
+    if (
+        !fileInput ||
+        !fileInput.files ||
+        !fileInput.files.length
+    ) {
         alert(
             currentLanguage === "hi"
                 ? "कृपया Video File चुनें।"
@@ -4153,58 +4173,28 @@ function resetVideoForm() {
         return;
     }
 
-    // ⬇️ YAHAN SE AAPKA EXISTING DIRECT VIDEO UPLOAD CODE SAME RAHEGA
+
+    const file =
+        fileInput.files[0];
+
+
+    // --------------------------------------------------------
+    // MAX SIZE = 100 MB
+    // --------------------------------------------------------
+
+    if (file.size > 100 * 1024 * 1024) {
+
+        alert(
+            currentLanguage === "hi"
+                ? "वीडियो का आकार 100 MB से अधिक नहीं होना चाहिए।"
+                : "Video size must not exceed 100 MB."
+        );
+
+        return;
+    }
+
+
     try {
-
-        const fileInput =
-            document.getElementById(
-                "uploadVideoFile"
-            );
-
-
-        if (
-            !fileInput ||
-            !fileInput.files.length
-        ) {
-
-            alert(
-                "Please select a video file."
-            );
-
-            return;
-
-        }
-
-
-        const file =
-            fileInput.files[0];
-
-
-        const formData =
-            new FormData();
-
-
-        formData.append(
-            "videoFile",
-            file
-        );
-
-
-        formData.append(
-            "titleHi",
-            value(
-                "uploadVideoTitleHi"
-            )
-        );
-
-
-        formData.append(
-            "titleEn",
-            value(
-                "uploadVideoTitleEn"
-            )
-        );
-
 
         const token =
             localStorage.getItem(
@@ -4212,46 +4202,225 @@ function resetVideoForm() {
             );
 
 
-        const response =
-            await fetch(
-                "/api/admin/videos/upload",
-                {
+        if (!token) {
+            alert("Admin session expired. Please login again.");
+            return;
+        }
 
-                    method: "POST",
+
+        // ====================================================
+        // STEP 1: GET CLOUDINARY SIGNATURE FROM SERVER
+        // ====================================================
+
+        console.log(
+            "Getting Cloudinary upload signature..."
+        );
+
+
+        const signatureResponse =
+            await fetch(
+                "/api/admin/cloudinary/video-signature",
+                {
+                    method: "GET",
 
                     headers: {
-
                         Authorization:
-                            "Bearer " +
-                            token
-
-                    },
-
-                    body: formData
-
+                            "Bearer " + token
+                    }
                 }
             );
 
 
-        const result =
-            await response.json();
+        const signatureData =
+            await signatureResponse.json();
 
 
-        if (!response.ok) {
+        if (
+            !signatureResponse.ok ||
+            !signatureData.success
+        ) {
 
-            throw new Error(
-                result.message ||
-                "Video upload failed."
+            console.error(
+                "Signature error:",
+                signatureData
             );
 
+            throw new Error(
+                signatureData.message ||
+                "Unable to prepare video upload."
+            );
         }
 
 
-        alert(
-            result.message ||
-            "Video uploaded successfully."
+        console.log(
+            "Cloudinary signature received."
         );
 
+
+        // ====================================================
+        // STEP 2: DIRECT UPLOAD TO CLOUDINARY
+        // ====================================================
+
+        const cloudinaryUploadUrl =
+            "https://api.cloudinary.com/v1_1/" +
+            signatureData.cloudName +
+            "/video/upload";
+
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "file",
+            file
+        );
+
+        formData.append(
+            "api_key",
+            signatureData.apiKey
+        );
+
+        formData.append(
+            "timestamp",
+            signatureData.timestamp
+        );
+
+        formData.append(
+            "signature",
+            signatureData.signature
+        );
+
+        formData.append(
+            "folder",
+            signatureData.folder
+        );
+
+
+        console.log(
+            "Starting direct Cloudinary upload:",
+            file.name,
+            file.size
+        );
+
+
+        // ----------------------------------------------------
+        // UPLOAD DIRECTLY TO CLOUDINARY
+        // ----------------------------------------------------
+
+        const uploadResponse =
+            await fetch(
+                cloudinaryUploadUrl,
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+
+        const uploadResult =
+            await uploadResponse.json();
+
+
+        console.log(
+            "Cloudinary response:",
+            uploadResult
+        );
+
+
+        if (
+            !uploadResponse.ok ||
+            !uploadResult.secure_url
+        ) {
+
+            throw new Error(
+                uploadResult.error?.message ||
+                "Cloudinary video upload failed."
+            );
+        }
+
+
+        console.log(
+            "Cloudinary upload successful:",
+            uploadResult.secure_url
+        );
+
+
+        // ====================================================
+        // STEP 3: SAVE CLOUDINARY URL TO MONGODB
+        // ====================================================
+
+        const saveResponse =
+            await fetch(
+                "/api/admin/videos/direct-save",
+                {
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        Authorization:
+                            "Bearer " + token
+                    },
+
+                    body: JSON.stringify({
+
+                        titleHi:
+                            titleHi,
+
+                        titleEn:
+                            titleEn,
+
+                        secureUrl:
+                            uploadResult.secure_url,
+
+                        publicId:
+                            uploadResult.public_id,
+
+                        originalName:
+                            file.name
+
+                    })
+                }
+            );
+
+
+        const saveResult =
+            await saveResponse.json();
+
+
+        console.log(
+            "MongoDB save response:",
+            saveResult
+        );
+
+
+        if (
+            !saveResponse.ok ||
+            !saveResult.success
+        ) {
+
+            throw new Error(
+                saveResult.message ||
+                "Video uploaded but database save failed."
+            );
+        }
+
+
+        // ====================================================
+        // SUCCESS
+        // ====================================================
+
+        alert(
+            currentLanguage === "hi"
+                ? "वीडियो सफलतापूर्वक अपलोड हो गया।"
+                : "Video uploaded successfully."
+        );
+
+
+        // Clear form
 
         document.getElementById(
             "uploadVideoTitleHi"
@@ -4268,13 +4437,15 @@ function resetVideoForm() {
         ).value = "";
 
 
-        loadVideos();
+        // Refresh video list
+
+        await loadVideos();
 
 
     } catch (error) {
 
         console.error(
-            "Video upload error:",
+            "Direct Cloudinary video upload error:",
             error
         );
 
@@ -4283,9 +4454,7 @@ function resetVideoForm() {
             error.message ||
             "Video upload failed."
         );
-
     }
-
 }
 async function deleteVideo(id) {
 

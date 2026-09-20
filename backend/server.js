@@ -8,6 +8,8 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const multer = require("multer");
+const { v2: cloudinary } = require("cloudinary");
+
 const fs = require("fs");
 const XLSX = require("xlsx");
 const bcrypt = require("bcryptjs");
@@ -31,6 +33,12 @@ const crypto = require("crypto");
 // CONFIGURATION
 // ============================================================
 
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+}
+);
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -287,8 +295,8 @@ const ADMIN_PASSWORD =
     process.env.ADMIN_PASSWORD ||
     "Admin@2016";
     // ============================================================
-// RAZORPAY CONFIGURATION
-// ============================================================
+   // RAZORPAY CONFIGURATION
+   // ============================================================
 
 
 
@@ -2229,9 +2237,8 @@ app.get(
     }
 );
 // ============================================================
-// DIRECT GALLERY PHOTO UPLOAD
+// DIRECT GALLERY PHOTO UPLOAD - CLOUDINARY
 // ============================================================
-
 
 app.post(
     "/api/admin/gallery/upload",
@@ -2244,32 +2251,41 @@ app.post(
             if (!req.file) {
 
                 return res.status(400).json({
-
                     success: false,
-
-                    message:
-                        "Please select a photo file."
-
+                    message: "Please select a photo file."
                 });
 
             }
 
+            console.log("Cloudinary config check:", {
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    apiKey: process.env.CLOUDINARY_API_KEY,
+    secretLoaded: !!process.env.CLOUDINARY_API_SECRET
+});
 
+console.log("Uploading file:", req.file.path);
+
+            // Upload local file to Cloudinary
+     const uploadResult =
+    await cloudinary.uploader.upload(
+        req.file.path,
+        {
+            folder: "durga-puja/gallery",
+            resource_type: "image",
+            timeout: 120000
+        }
+    );
             const item = {
 
                 titleHi:
-                    safeString(
-                        req.body.titleHi
-                    ),
+                    safeString(req.body.titleHi),
 
                 titleEn:
-                    safeString(
-                        req.body.titleEn
-                    ),
+                    safeString(req.body.titleEn),
 
+                // Permanent Cloudinary URL
                 image:
-                    "/uploads/gallery/" +
-                    req.file.filename,
+                    uploadResult.secure_url,
 
                 year:
                     toNumber(
@@ -2278,26 +2294,25 @@ app.post(
                     ),
 
                 category:
-                    safeString(
-                        req.body.category
-                    ) || "puja",
+                    safeString(req.body.category) || "puja",
 
                 date:
-                    safeString(
-                        req.body.date
-                    ) ||
+                    safeString(req.body.date) ||
                     new Date()
                         .toISOString()
                         .slice(0, 10),
 
-                active:
-                    true,
+                active: true,
 
                 originalName:
                     req.file.originalname,
 
                 fileName:
                     req.file.filename,
+
+                // Cloudinary information
+                cloudinaryPublicId:
+                    uploadResult.public_id,
 
                 createdAt:
                     new Date(),
@@ -2307,13 +2322,24 @@ app.post(
 
             };
 
-
             const result =
-                await collections.gallery
-                    .insertOne(
-                        item
-                    );
+                await collections.gallery.insertOne(item);
 
+            // Delete temporary local file
+            try {
+
+                if (fs.existsSync(req.file.path)) {
+                    fs.unlinkSync(req.file.path);
+                }
+
+            } catch (deleteError) {
+
+                console.error(
+                    "Temporary file delete error:",
+                    deleteError
+                );
+
+            }
 
             res.status(201).json({
 
@@ -2332,46 +2358,49 @@ app.post(
 
         } catch (error) {
 
-            console.error(
-                "Gallery photo upload error:",
-                error
-            );
+           console.error(
+    "Gallery photo Cloudinary upload error:",
+    error
+);
 
+console.error(
+    "Cloudinary message:",
+    error?.message
+);
 
-            // Delete uploaded file if MongoDB insert fails
+console.error(
+    "Cloudinary HTTP code:",
+    error?.http_code
+);
+
+console.error(
+    "Cloudinary name:",
+    error?.name
+);
+
+console.error(
+    "Cloudinary full details:",
+    JSON.stringify(error, null, 2)
+);
+            // Delete temporary file if upload/database fails
             if (req.file) {
-
-                const uploadedFile =
-                    path.join(
-                        PHOTO_UPLOAD_DIR,
-                        req.file.filename
-                    );
 
                 try {
 
-                    if (
-                        fs.existsSync(
-                            uploadedFile
-                        )
-                    ) {
-
-                        fs.unlinkSync(
-                            uploadedFile
-                        );
-
+                    if (fs.existsSync(req.file.path)) {
+                        fs.unlinkSync(req.file.path);
                     }
 
                 } catch (deleteError) {
 
                     console.error(
-                        "Failed to delete uploaded gallery photo:",
+                        "Failed to delete temporary file:",
                         deleteError
                     );
 
                 }
 
             }
-
 
             res.status(500).json({
 
@@ -2387,7 +2416,6 @@ app.post(
 
     }
 );
-
 
 // ADD
 app.post(
@@ -5973,8 +6001,136 @@ app.post(
    
 
 // ============================================================
-// DIRECT VIDEO UPLOAD
+// DIRECT VIDEO UPLOAD - CLOUDINARY
 // ============================================================
+
+// ============================================================
+// CLOUDINARY SIGNATURE FOR DIRECT VIDEO UPLOAD
+// ============================================================
+
+app.get(
+  "/api/admin/cloudinary/video-signature",
+  requireAdmin,
+  (req, res) => {
+    try {
+      const timestamp = Math.round(Date.now() / 1000);
+
+      const folder = "durga-puja/videos";
+
+      const signature =
+        cloudinary.utils.api_sign_request(
+          {
+            timestamp,
+            folder
+          },
+          process.env.CLOUDINARY_API_SECRET
+        );
+
+      res.json({
+        success: true,
+        cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+        apiKey: process.env.CLOUDINARY_API_KEY,
+        timestamp,
+        folder,
+        signature
+      });
+
+    } catch (error) {
+      console.error(
+        "Cloudinary signature error:",
+        error
+      );
+
+      res.status(500).json({
+        success: false,
+        message: "Failed to generate Cloudinary upload signature."
+      });
+    }
+  }
+);
+// ============================================================
+// SAVE DIRECT CLOUDINARY VIDEO IN MONGODB
+// ============================================================
+
+app.post(
+  "/api/admin/videos/direct-save",
+  requireAdmin,
+  async (req, res) => {
+    try {
+
+      const {
+        titleHi,
+        titleEn,
+        secureUrl,
+        publicId,
+        originalName
+      } = req.body;
+
+      if (
+        !titleHi ||
+        !titleEn ||
+        !secureUrl ||
+        !publicId
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: "Missing video information."
+        });
+      }
+
+      const video = {
+        titleHi: safeString(titleHi),
+        titleEn: safeString(titleEn),
+
+        youtubeUrl: "",
+
+        thumbnail: "",
+
+        videoType: "upload",
+
+        videoUrl: secureUrl,
+
+        originalName: safeString(originalName),
+
+        fileName: "",
+
+        cloudinaryPublicId: publicId,
+
+        active: true,
+
+        date: new Date(),
+
+        createdAt: new Date(),
+
+        updatedAt: new Date()
+      };
+
+      const result =
+        await collections.videos.insertOne(video);
+
+      return res.status(201).json({
+        success: true,
+        message: "Video uploaded successfully.",
+        videoId: result.insertedId,
+        videoUrl: secureUrl
+      });
+
+    } catch (error) {
+
+      console.error(
+        "Direct video MongoDB save error:",
+        error
+      );
+
+      return res.status(500).json({
+        success: false,
+        message:
+          error.message ||
+          "Failed to save video."
+      });
+    }
+  }
+);
 
 app.post(
     "/api/admin/videos/upload",
@@ -5987,49 +6143,101 @@ app.post(
             if (!req.file) {
 
                 return res.status(400).json({
-
                     success: false,
-
-                    message:
-                        "Please select a video file."
-
+                    message: "Please select a video file."
                 });
 
+           
+ }
+// ============================================================
+// UPLOAD VIDEO TO CLOUDINARY - LARGE / CHUNKED
+// ============================================================
+
+const uploadResult = await new Promise((resolve, reject) => {
+
+    cloudinary.uploader.upload_large(
+        req.file.path,
+        {
+            folder: "durga-puja/videos",
+            resource_type: "video",
+            chunk_size: 6 * 1024 * 1024
+        },
+        (error, result) => {
+
+            if (error) {
+
+                console.error(
+                    "Cloudinary video upload error:",
+                    error
+                );
+
+                reject(error);
+                return;
             }
 
+            console.log(
+                "========== CLOUDINARY CALLBACK RESULT =========="
+            );
 
-            const video = {
+            console.log(
+                "Secure URL:",
+                result && result.secure_url
+            );
+
+            console.log(
+                "Public ID:",
+                result && result.public_id
+            );
+
+            console.log(
+                "Resource Type:",
+                result && result.resource_type
+            );
+
+            console.log(
+                "FULL RESULT:",
+                result
+            );
+
+            console.log(
+                "================================================"
+            );
+
+            resolve(result);
+        }
+    );
+
+});
+
+const video = {
 
                 titleHi:
-                    safeString(
-                        req.body.titleHi
-                    ),
+                    safeString(req.body.titleHi),
 
                 titleEn:
-                    safeString(
-                        req.body.titleEn
-                    ),
+                    safeString(req.body.titleEn),
 
-                youtubeUrl:
-                    "",
+                youtubeUrl: "",
 
                 thumbnail:
-                    safeString(
-                        req.body.thumbnail
-                    ),
+                    safeString(req.body.thumbnail),
 
                 videoType:
                     "upload",
 
+                // Permanent Cloudinary URL
                 videoUrl:
-                    "/uploads/videos/" +
-                    req.file.filename,
+                    uploadResult.secure_url,
 
                 originalName:
                     req.file.originalname,
 
                 fileName:
                     req.file.filename,
+
+                // Cloudinary information
+                cloudinaryPublicId:
+                    uploadResult.public_id,
 
                 active:
                     true,
@@ -6045,13 +6253,24 @@ app.post(
 
             };
 
-
             const result =
-                await collections.videos
-                    .insertOne(
-                        video
-                    );
+                await collections.videos.insertOne(video);
 
+            // Delete temporary local file
+            try {
+
+                if (fs.existsSync(req.file.path)) {
+                    fs.unlinkSync(req.file.path);
+                }
+
+            } catch (deleteError) {
+
+                console.error(
+                    "Temporary video delete error:",
+                    deleteError
+                );
+
+            }
 
             res.status(201).json({
 
@@ -6071,44 +6290,29 @@ app.post(
         } catch (error) {
 
             console.error(
-                "Video upload error:",
+                "Video Cloudinary upload error:",
                 error
             );
 
-
+            // Delete temporary file if upload fails
             if (req.file) {
-
-                const uploadedFile =
-                    path.join(
-                        VIDEO_UPLOAD_DIR,
-                        req.file.filename
-                    );
 
                 try {
 
-                    if (
-                        fs.existsSync(
-                            uploadedFile
-                        )
-                    ) {
-
-                        fs.unlinkSync(
-                            uploadedFile
-                        );
-
+                    if (fs.existsSync(req.file.path)) {
+                        fs.unlinkSync(req.file.path);
                     }
 
                 } catch (deleteError) {
 
                     console.error(
-                        "Failed to delete uploaded video:",
+                        "Failed to delete temporary video:",
                         deleteError
                     );
 
                 }
 
             }
-
 
             res.status(500).json({
 
@@ -6124,8 +6328,6 @@ app.post(
 
     }
 );
-
-
 
 
 // ============================================================
@@ -7266,6 +7468,28 @@ app.use(
 
 connectMongoDB()
     .then(() => {
+        app.get("/test-cloudinary", async (req, res) => {
+    try {
+        const result = await cloudinary.api.ping();
+
+        res.json({
+            success: true,
+            message: "Cloudinary API connection successful",
+            result
+        });
+
+    } catch (error) {
+
+        console.error("CLOUDINARY PING ERROR:", error);
+
+        res.status(500).json({
+            success: false,
+            message: error.message,
+            http_code: error.http_code,
+            name: error.name
+        });
+    }
+});
 
         app.listen(
             PORT,

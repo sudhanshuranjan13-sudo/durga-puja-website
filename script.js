@@ -3353,6 +3353,7 @@ function renderVideos() {
         /* =================================================
            DIRECT UPLOADED VIDEO
         ================================================== */
+   
 
         if (
             video.videoType === "upload" &&
@@ -3360,6 +3361,7 @@ function renderVideos() {
         ) {
 
             wrapper.innerHTML = `
+            
 
                 <div class="video-frame">
 
