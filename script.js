@@ -685,6 +685,8 @@ async function loadMembers() {
 
     if (!officeContainer && !generalContainer) {
 
+
+
         console.error(
             "❌ Members containers NOT FOUND"
         );
@@ -2574,21 +2576,33 @@ function filterGallery() {
                 "div"
             );
 
-
-        galleryItem.className =
-            "gallery-item";
+galleryItem.className = "gallery-item";
 
 galleryItem.innerHTML = `
-
     <img
         src="${escapeHTML(imageUrl)}"
         alt="${escapeHTML(title)}"
-        loading="lazy"
-        onerror="this.parentElement.remove();">
-
+        loading="lazy">
 `;
 
+galleryItem.addEventListener("click", function () {
 
+    const images = Array.from(
+        document.querySelectorAll("#galleryContainer .gallery-item img")
+    );
+
+    const currentIndex = images.indexOf(
+        galleryItem.querySelector("img")
+    );
+
+    openImageViewer(
+        imageUrl,
+        title,
+        currentIndex,
+        images
+    );
+
+});
 
 container.appendChild(
     galleryItem
@@ -2608,52 +2622,40 @@ let galleryViewerIndex = 0;
 
 function setupMediaViewer() {
 
-    /* =====================================================
-       GALLERY IMAGE CLICK
-    ===================================================== */
+   /* =====================================================
+   GALLERY IMAGE CLICK
+===================================================== */
 
-    document.addEventListener("click", function(event) {
+document.addEventListener("click", function (event) {
 
-       const image =
-    event.target.closest(
-        ".gallery-item img"
+    const image = event.target.closest(".gallery-item img");
+
+    if (!image) {
+        return;
+    }
+    console.log("GALLERY CLICK DETECTED", image.src);
+
+    const images = Array.from(
+        document.querySelectorAll(".gallery-item img")
     );
 
-        if (!image) {
-            return;
-        }
+    const currentIndex = images.indexOf(image);
 
-        const gallerySection =
-    image.closest(".gallery-section");
+    if (currentIndex < 0) {
+        return;
+    }
 
-if (!gallerySection) {
-    return;
-}
+    galleryViewerImages = images;
+    galleryViewerIndex = currentIndex;
 
-const images =
-    Array.from(
-        gallerySection.querySelectorAll(
-            ".gallery-item img"
-        )
+    openImageViewer(
+        image.currentSrc || image.src,
+        image.alt || "Gallery Photo",
+        currentIndex,
+        images
     );
 
-        const currentIndex =
-            images.indexOf(image);
-
-        if (currentIndex === -1) {
-            return;
-        }
-
-        openImageViewer(
-            image.currentSrc || image.src,
-            image.alt || "Gallery Photo",
-            currentIndex,
-            images
-        );
-
-    });
-
-
+});
     /* =====================================================
        UPLOADED VIDEO CLICK
     ===================================================== */
@@ -2915,9 +2917,9 @@ function updateGalleryViewer() {
         return;
     }
 
-
-    viewerImage.src =
-        currentImage.src;
+viewerImage.src =
+    currentImage.currentSrc ||
+    currentImage.src;
 
     viewerImage.alt =
         currentImage.alt ||
@@ -5445,4 +5447,13 @@ document.addEventListener("touchstart", () => {
         console.log("Mobile background video blocked:", error);
     });
 
-}, { once: true });
+}, 
+{ once: true }
+);
+/* =========================================================
+   INITIALIZE MEDIA VIEWER
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+    setupMediaViewer();
+});
