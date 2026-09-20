@@ -8893,3 +8893,62 @@ img, video, iframe {
         height: auto !important;
     }
 }
+/* =========================================================
+   PUJA PROGRAM - CONTAINER WIDTH FIX
+   ========================================================= */
+
+#program {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+}
+
+#program .program-container {
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box;
+}
+
+/* Year dropdown should NOT control program container width */
+#program .program-year-selector {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+}
+
+#program .custom-year-dropdown {
+    width: 220px !important;
+    max-width: 100% !important;
+}
+
+/* Desktop */
+@media (min-width: 601px) {
+
+    #program .program-container {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 20px !important;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    #program .program-container {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        gap: 14px !important;
+    }
+
+    #program .custom-year-dropdown {
+        width: 220px !important;
+        max-width: 100% !important;
+    }
+}
