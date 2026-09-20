@@ -8661,22 +8661,6 @@ img, video, iframe {
         box-sizing: border-box !important;
     }
 
-    #programContainer .program-card {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-
-        margin: 0 !important;
-        padding: 20px 15px !important;
-
-        box-sizing: border-box !important;
-
-        /* fixed/square size remove */
-        aspect-ratio: auto !important;
-        height: auto !important;
-
-        overflow: hidden !important;
-    }
 }
 /* =========================================================
    GALLERY PHOTO - FULL SIZE VIEWER MOBILE FIX
@@ -8796,6 +8780,7 @@ img, video, iframe {
     }
 
 }
+
 /* =========================================================
    PUJA PROGRAM - FINAL MOBILE RESPONSIVE
 ========================================================= */
@@ -8897,4 +8882,239 @@ img, video, iframe {
         overflow-wrap: anywhere !important;
         word-break: normal !important;
     }
+}
+
+/* =========================================================
+   GALLERY IMAGE VIEWER / LIGHTBOX
+========================================================= */
+
+#galleryImageViewer {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: rgba(0, 0, 0, 0.92);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+    opacity: 0;
+    visibility: hidden;
+
+    pointer-events: none;
+
+    z-index: 999999;
+
+    transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease;
+}
+
+
+/* ACTIVE */
+
+#galleryImageViewer.active {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+#galleryImageViewer .gallery-viewer-image {
+
+    display: block;
+
+    max-width: 90vw;
+    max-height: 88vh;
+
+    width: auto;
+    height: auto;
+
+    object-fit: contain;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.45);
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+#galleryImageViewer .gallery-viewer-close {
+
+    position: absolute;
+
+    top: 20px;
+    right: 25px;
+
+    width: 45px;
+    height: 45px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.18);
+
+    color: #ffffff;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 10;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+#galleryImageViewer .gallery-viewer-close:hover {
+
+    background: rgba(255, 255, 255, 0.35);
+
+    transform: scale(1.08);
+}
+
+
+/* =========================================================
+   PREVIOUS / NEXT
+========================================================= */
+
+#galleryImageViewer .gallery-viewer-prev,
+#galleryImageViewer .gallery-viewer-next {
+
+    position: absolute;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 50px;
+    height: 50px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.20);
+
+    color: #ffffff;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 10;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+#galleryImageViewer .gallery-viewer-prev {
+
+    left: 20px;
+}
+
+
+#galleryImageViewer .gallery-viewer-next {
+
+    right: 20px;
+}
+
+
+#galleryImageViewer .gallery-viewer-prev:hover,
+#galleryImageViewer .gallery-viewer-next:hover {
+
+    background: rgba(255, 255, 255, 0.35);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    #galleryImageViewer {
+
+        padding: 10px;
+    }
+
+
+    #galleryImageViewer .gallery-viewer-image {
+
+        max-width: 94vw;
+
+        max-height: 82vh;
+
+        border-radius: 8px;
+    }
+
+
+    #galleryImageViewer .gallery-viewer-close {
+
+        top: 12px;
+        right: 12px;
+
+        width: 40px;
+        height: 40px;
+
+        font-size: 20px;
+    }
+
+
+    #galleryImageViewer .gallery-viewer-prev,
+    #galleryImageViewer .gallery-viewer-next {
+
+        width: 42px;
+        height: 42px;
+
+        font-size: 18px;
+    }
+
+
+    #galleryImageViewer .gallery-viewer-prev {
+
+        left: 8px;
+    }
+
+
+    #galleryImageViewer .gallery-viewer-next {
+
+        right: 8px;
+    }
+
 }
