@@ -47,9 +47,9 @@ async function initializeWebsite() {
         setupSmoothNavigation();
         setupDarshanPopup();
         setupLiveDarshan();
-      //  setupDonationForm();
-      setupUPIDonation();
-      
+        //  setupDonationForm();
+        setupUPIDonation();
+
         setupContactForm();
         setupAmountButtons();
         setupMediaViewer();
@@ -201,18 +201,18 @@ function changeLanguage(language) {
     ----------------------------------------- */
     if (membersData.length) {
 
-    const officeBearers = membersData.filter(
-        member => getMemberType(member) === "office"
-    );
+        const officeBearers = membersData.filter(
+            member => getMemberType(member) === "office"
+        );
 
-    const generalMembers = membersData.filter(
-        member => getMemberType(member) === "general"
-    );
+        const generalMembers = membersData.filter(
+            member => getMemberType(member) === "general"
+        );
 
-    renderOfficeBearers(officeBearers);
+        renderOfficeBearers(officeBearers);
 
-    renderGeneralMembers(generalMembers);
-}
+        renderGeneralMembers(generalMembers);
+    }
 
     if (programData.length) {
         renderProgram();
@@ -230,8 +230,8 @@ function changeLanguage(language) {
         filterGallery();
     }
     if (videosData.length) {
-    renderVideos();
-}
+        renderVideos();
+    }
 
 }
 
@@ -589,9 +589,9 @@ function startCountdown() {
     );
 
 }
-  /* =========================================================
-   NORMALIZE MEMBER TYPE
-  ========================================================= */
+/* =========================================================
+ NORMALIZE MEMBER TYPE
+========================================================= */
 
 function getMemberType(member) {
 
@@ -601,8 +601,8 @@ function getMemberType(member) {
             member.type ||
             ""
         )
-        .trim()
-        .toLowerCase();
+            .trim()
+            .toLowerCase();
 
     /* -----------------------------------------
        OFFICE BEARERS
@@ -611,13 +611,13 @@ function getMemberType(member) {
     if (
         type.includes("office") ||
         type.includes("bearer") ||
-        type.includes("पदाधिकारी") 
-       
-      )    {
+        type.includes("पदाधिकारी")
+
+    ) {
 
         return "office";
 
-        }
+    }
 
 
     /* -----------------------------------------
@@ -646,8 +646,8 @@ function getMemberType(member) {
             member.position ||
             ""
         )
-        .trim()
-        .toLowerCase();
+            .trim()
+            .toLowerCase();
 
 
     if (
@@ -895,11 +895,10 @@ async function loadMembers() {
 
                     <span>
 
-                        ${
-                            currentLanguage === "hi"
-                                ? "पदाधिकारियों की जानकारी लोड नहीं हो सकी।"
-                                : "Office bearers could not be loaded."
-                        }
+                        ${currentLanguage === "hi"
+                    ? "पदाधिकारियों की जानकारी लोड नहीं हो सकी।"
+                    : "Office bearers could not be loaded."
+                }
 
                     </span>
 
@@ -924,11 +923,10 @@ async function loadMembers() {
 
                     <span>
 
-                        ${
-                            currentLanguage === "hi"
-                                ? "सदस्यों की जानकारी लोड नहीं हो सकी।"
-                                : "General members could not be loaded."
-                        }
+                        ${currentLanguage === "hi"
+                    ? "सदस्यों की जानकारी लोड नहीं हो सकी।"
+                    : "General members could not be loaded."
+                }
 
                     </span>
 
@@ -969,11 +967,10 @@ function renderOfficeBearers(members) {
                 🏛️
 
                 <span>
-                    ${
-                        currentLanguage === "hi"
-                            ? "अभी कोई पदाधिकारी उपलब्ध नहीं है।"
-                            : "No office bearers available yet."
-                    }
+                    ${currentLanguage === "hi"
+                ? "अभी कोई पदाधिकारी उपलब्ध नहीं है।"
+                : "No office bearers available yet."
+            }
                 </span>
 
             </div>
@@ -1137,11 +1134,10 @@ function renderGeneralMembers(members) {
                 👥
 
                 <span>
-                    ${
-                        currentLanguage === "hi"
-                            ? "अभी कोई सामान्य सदस्य उपलब्ध नहीं है।"
-                            : "No general members available yet."
-                    }
+                    ${currentLanguage === "hi"
+                ? "अभी कोई सामान्य सदस्य उपलब्ध नहीं है।"
+                : "No general members available yet."
+            }
                 </span>
 
             </div>
@@ -1192,7 +1188,6 @@ function renderGeneralMembers(members) {
                         member.position ||
                         "Member"
                     );
-
 
             let imageHTML = `
 
@@ -1277,7 +1272,7 @@ function renderGeneralMembers(members) {
         }).join("");
 
 }
-    
+
 /* =========================================================
    LOAD PUJA PROGRAM
 ========================================================= */
@@ -1304,11 +1299,10 @@ async function loadProgram(year = null) {
 
                 <span>
 
-                    ${
-                        currentLanguage === "hi"
-                            ? "पूजा कार्यक्रम लोड हो रहा है..."
-                            : "Loading Puja Program..."
-                    }
+                    ${currentLanguage === "hi"
+                ? "पूजा कार्यक्रम लोड हो रहा है..."
+                : "Loading Puja Program..."
+            }
 
                 </span>
 
@@ -1541,13 +1535,12 @@ function renderProgram() {
 
                 <span>
 
-                    ${
-                        currentLanguage === "hi"
+                    ${currentLanguage === "hi"
 
-                            ? `${selectedProgramYear} का पूजा कार्यक्रम अभी उपलब्ध नहीं है।`
+                ? `${selectedProgramYear} का पूजा कार्यक्रम अभी उपलब्ध नहीं है।`
 
-                            : `Puja program for ${selectedProgramYear} is not available yet.`
-                    }
+                : `Puja program for ${selectedProgramYear} is not available yet.`
+            }
 
                 </span>
 
@@ -1640,31 +1633,29 @@ function renderProgram() {
             </div>
 
 
-            ${
-                date
+            ${date
 
-                    ? `
+                ? `
 
                         <div class="program-date">
 
                             📅
 
                             ${escapeHTML(
-                                formatProgramDate(date)
-                            )}
+                    formatProgramDate(date)
+                )}
 
                         </div>
 
                     `
 
-                    : ""
+                : ""
             }
 
 
-            ${
-                time
+            ${time
 
-                    ? `
+                ? `
 
                         <div class="program-time">
 
@@ -1676,7 +1667,7 @@ function renderProgram() {
 
                     `
 
-                    : ""
+                : ""
             }
 
 
@@ -1775,7 +1766,7 @@ function setupProgramYear() {
 
     button.addEventListener(
         "click",
-        function(event) {
+        function (event) {
 
             event.stopPropagation();
 
@@ -1800,16 +1791,16 @@ function setupProgramYear() {
 
         option.addEventListener(
             "click",
-            async function(event) {
+            async function (event) {
 
                 event.stopPropagation();
 
                 const selectedYear =
                     this.dataset.year;
 
-                    /* Save selected year */
-                      selectedProgramYear =
-                      String(selectedYear);
+                /* Save selected year */
+                selectedProgramYear =
+                    String(selectedYear);
 
                 /* Update button */
                 selectedText.textContent =
@@ -1865,7 +1856,7 @@ function setupProgramYear() {
 
     document.addEventListener(
         "click",
-        function() {
+        function () {
 
             dropdown.classList.remove(
                 "open"
@@ -1921,11 +1912,10 @@ async function loadNotices() {
 
                 <span>
 
-                    ${
-                        currentLanguage === "hi"
-                            ? "सूचना लोड हो रही है..."
-                            : "Loading notices..."
-                    }
+                    ${currentLanguage === "hi"
+                ? "सूचना लोड हो रही है..."
+                : "Loading notices..."
+            }
 
                 </span>
 
@@ -2029,11 +2019,10 @@ function renderNotices() {
 
                 <span>
 
-                    ${
-                        currentLanguage === "hi"
-                            ? "अभी कोई सूचना उपलब्ध नहीं है।"
-                            : "No notices available."
-                    }
+                    ${currentLanguage === "hi"
+                ? "अभी कोई सूचना उपलब्ध नहीं है।"
+                : "No notices available."
+            }
 
                 </span>
 
@@ -2085,7 +2074,7 @@ function renderNotices() {
                     notice.message ||
                     ""
                 );
-                const date = notice.date || "";
+        const date = notice.date || "";
 
 
         const card =
@@ -2109,15 +2098,14 @@ function renderNotices() {
             ${escapeHTML(title)}
         </h3>
 
-        ${
-            date
+        ${date
                 ? `
                     <div class="notice-date">
                         📅 ${escapeHTML(formatNoticeDate(date))}
                     </div>
                 `
                 : ""
-        }
+            }
 
         <p>
             ${escapeHTML(description)}
@@ -2184,11 +2172,10 @@ async function loadGallery() {
 
                 <span>
 
-                    ${
-                        currentLanguage === "hi"
-                            ? "फोटो लोड हो रही हैं..."
-                            : "Loading photos..."
-                    }
+                    ${currentLanguage === "hi"
+                ? "फोटो लोड हो रही हैं..."
+                : "Loading photos..."
+            }
 
                 </span>
 
@@ -2267,11 +2254,10 @@ async function loadGallery() {
 
                 <span>
 
-                    ${
-                        currentLanguage === "hi"
-                            ? "फोटो लोड नहीं हो सकीं।"
-                            : "Photos could not be loaded."
-                    }
+                    ${currentLanguage === "hi"
+                ? "फोटो लोड नहीं हो सकीं।"
+                : "Photos could not be loaded."
+            }
 
                 </span>
 
@@ -2333,20 +2319,20 @@ function setupGalleryFilters() {
        CUSTOM YEAR DROPDOWN
     ===================================================== */
 
-  if (
-    yearButton &&
-    yearMenu &&
-    yearDropdown
-) {
+    if (
+        yearButton &&
+        yearMenu &&
+        yearDropdown
+    ) {
 
-    yearButton.onclick = function (event) {
+        yearButton.onclick = function (event) {
 
-        event.preventDefault();
-        event.stopPropagation();
+            event.preventDefault();
+            event.stopPropagation();
 
-        yearDropdown.classList.toggle("open");
+            yearDropdown.classList.toggle("open");
 
-    };
+        };
 
         const yearOptions =
             yearMenu.querySelectorAll(
@@ -2516,11 +2502,10 @@ function filterGallery() {
 
                 <span>
 
-                    ${
-                        currentLanguage === "hi"
-                            ? "इस श्रेणी में अभी कोई फोटो उपलब्ध नहीं है।"
-                            : "No photos available in this category yet."
-                    }
+                    ${currentLanguage === "hi"
+                ? "इस श्रेणी में अभी कोई फोटो उपलब्ध नहीं है।"
+                : "No photos available in this category yet."
+            }
 
                 </span>
 
@@ -2537,18 +2522,18 @@ function filterGallery() {
 
         const imageUrl =
             item.image &&
-            (
-                item.image.startsWith("http://") ||
-                item.image.startsWith("https://")
-            )
+                (
+                    item.image.startsWith("http://") ||
+                    item.image.startsWith("https://")
+                )
                 ? item.image
                 : item.image
                     ? window.location.origin +
-                      (
-                          item.image.startsWith("/")
-                              ? item.image
-                              : "/" + item.image
-                      )
+                    (
+                        item.image.startsWith("/")
+                            ? item.image
+                            : "/" + item.image
+                    )
                     : "";
 
 
@@ -2578,37 +2563,37 @@ function filterGallery() {
                 "div"
             );
 
-galleryItem.className = "gallery-item";
+        galleryItem.className = "gallery-item";
 
-galleryItem.innerHTML = `
+        galleryItem.innerHTML = `
     <img
         src="${escapeHTML(imageUrl)}"
         alt="${escapeHTML(title)}"
         loading="lazy">
 `;
 
-galleryItem.addEventListener("click", function () {
+        galleryItem.addEventListener("click", function () {
 
-    const images = Array.from(
-        document.querySelectorAll("#galleryContainer .gallery-item img")
-    );
+            const images = Array.from(
+                document.querySelectorAll("#galleryContainer .gallery-item img")
+            );
 
-    const currentIndex = images.indexOf(
-        galleryItem.querySelector("img")
-    );
+            const currentIndex = images.indexOf(
+                galleryItem.querySelector("img")
+            );
 
-    openImageViewer(
-        imageUrl,
-        title,
-        currentIndex,
-        images
-    );
+            openImageViewer(
+                imageUrl,
+                title,
+                currentIndex,
+                images
+            );
 
-});
+        });
 
-container.appendChild(
-    galleryItem
-);
+        container.appendChild(
+            galleryItem
+        );
 
     });
 
@@ -2624,40 +2609,40 @@ let galleryViewerIndex = 0;
 
 function setupMediaViewer() {
 
-   /* =====================================================
-   GALLERY IMAGE CLICK
-===================================================== */
+    /* =====================================================
+    GALLERY IMAGE CLICK
+ ===================================================== */
 
-document.addEventListener("click", function (event) {
+    document.addEventListener("click", function (event) {
 
-    const image = event.target.closest(".gallery-item img");
+        const image = event.target.closest(".gallery-item img");
 
-    if (!image) {
-        return;
-    }
-    console.log("GALLERY CLICK DETECTED", image.src);
+        if (!image) {
+            return;
+        }
+        console.log("GALLERY CLICK DETECTED", image.src);
 
-    const images = Array.from(
-        document.querySelectorAll(".gallery-item img")
-    );
+        const images = Array.from(
+            document.querySelectorAll(".gallery-item img")
+        );
 
-    const currentIndex = images.indexOf(image);
+        const currentIndex = images.indexOf(image);
 
-    if (currentIndex < 0) {
-        return;
-    }
+        if (currentIndex < 0) {
+            return;
+        }
 
-    galleryViewerImages = images;
-    galleryViewerIndex = currentIndex;
+        galleryViewerImages = images;
+        galleryViewerIndex = currentIndex;
 
-    openImageViewer(
-        image.currentSrc || image.src,
-        image.alt || "Gallery Photo",
-        currentIndex,
-        images
-    );
+        openImageViewer(
+            image.currentSrc || image.src,
+            image.alt || "Gallery Photo",
+            currentIndex,
+            images
+        );
 
-});
+    });
     /* =====================================================
        UPLOADED VIDEO CLICK
     ===================================================== */
@@ -2669,7 +2654,7 @@ document.addEventListener("click", function (event) {
 
         videoContainer.addEventListener(
             "click",
-            function(event) {
+            function (event) {
 
                 const video =
                     event.target.closest(
@@ -2687,7 +2672,7 @@ document.addEventListener("click", function (event) {
                 if (video.requestFullscreen) {
 
                     video.requestFullscreen()
-                        .catch(() => {});
+                        .catch(() => { });
 
                 }
                 else if (video.webkitEnterFullscreen) {
@@ -2708,7 +2693,7 @@ document.addEventListener("click", function (event) {
 
     document.addEventListener(
         "keydown",
-        function(event) {
+        function (event) {
 
             const viewer =
                 document.getElementById(
@@ -2847,7 +2832,7 @@ function openImageViewer(
 
         viewer.addEventListener(
             "click",
-            function(event) {
+            function (event) {
 
                 if (event.target === viewer) {
 
@@ -2906,7 +2891,7 @@ function updateGalleryViewer() {
 
     const currentImage =
         galleryViewerImages[
-            galleryViewerIndex
+        galleryViewerIndex
         ];
 
 
@@ -2919,9 +2904,9 @@ function updateGalleryViewer() {
         return;
     }
 
-viewerImage.src =
-    currentImage.currentSrc ||
-    currentImage.src;
+    viewerImage.src =
+        currentImage.currentSrc ||
+        currentImage.src;
 
     viewerImage.alt =
         currentImage.alt ||
@@ -3164,11 +3149,10 @@ async function loadVideos() {
 
                 <p>
 
-                    ${
-                        currentLanguage === "hi"
-                            ? "वीडियो लोड हो रहे हैं..."
-                            : "Loading videos..."
-                    }
+                    ${currentLanguage === "hi"
+                ? "वीडियो लोड हो रहे हैं..."
+                : "Loading videos..."
+            }
 
                 </p>
 
@@ -3275,11 +3259,10 @@ async function loadVideos() {
 
                 <p>
 
-                    ${
-                        currentLanguage === "hi"
-                            ? "वीडियो लोड नहीं हो सके।"
-                            : "Videos could not be loaded."
-                    }
+                    ${currentLanguage === "hi"
+                ? "वीडियो लोड नहीं हो सके।"
+                : "Videos could not be loaded."
+            }
 
                 </p>
 
@@ -3314,11 +3297,10 @@ function renderVideos() {
                 🎥
 
                 <p>
-                    ${
-                        currentLanguage === "hi"
-                            ? "अभी कोई वीडियो उपलब्ध नहीं है।"
-                            : "No videos available yet."
-                    }
+                    ${currentLanguage === "hi"
+                ? "अभी कोई वीडियो उपलब्ध नहीं है।"
+                : "No videos available yet."
+            }
                 </p>
 
             </div>
@@ -3357,7 +3339,7 @@ function renderVideos() {
         /* =================================================
            DIRECT UPLOADED VIDEO
         ================================================== */
-   
+
 
         if (
             video.videoType === "upload" &&
@@ -3460,11 +3442,10 @@ function renderVideos() {
                 🎥
 
                 <p>
-                    ${
-                        currentLanguage === "hi"
-                            ? "कोई मान्य वीडियो उपलब्ध नहीं है।"
-                            : "No valid videos available."
-                    }
+                    ${currentLanguage === "hi"
+                ? "कोई मान्य वीडियो उपलब्ध नहीं है।"
+                : "No valid videos available."
+            }
                 </p>
 
             </div>
@@ -3510,11 +3491,10 @@ async function setupLiveDarshan() {
                     🔴
 
                     <span>
-                        ${
-                            currentLanguage === "hi"
-                                ? "लाइव दर्शन अभी उपलब्ध नहीं है।"
-                                : "Live Darshan is currently unavailable."
-                        }
+                        ${currentLanguage === "hi"
+                    ? "लाइव दर्शन अभी उपलब्ध नहीं है।"
+                    : "Live Darshan is currently unavailable."
+                }
                     </span>
 
                 </div>
@@ -3666,11 +3646,10 @@ async function setupLiveDarshan() {
                 🔴
 
                 <span>
-                    ${
-                        currentLanguage === "hi"
-                            ? "लाइव प्रसारण उपलब्ध नहीं है।"
-                            : "Live stream is unavailable."
-                    }
+                    ${currentLanguage === "hi"
+                ? "लाइव प्रसारण उपलब्ध नहीं है।"
+                : "Live stream is unavailable."
+            }
                 </span>
 
             </div>
@@ -3691,11 +3670,10 @@ async function setupLiveDarshan() {
                 ⚠️
 
                 <span>
-                    ${
-                        currentLanguage === "hi"
-                            ? "लाइव दर्शन लोड नहीं हो सका।"
-                            : "Unable to load Live Darshan."
-                    }
+                    ${currentLanguage === "hi"
+                ? "लाइव दर्शन लोड नहीं हो सका।"
+                : "Unable to load Live Darshan."
+            }
                 </span>
 
             </div>
@@ -4239,7 +4217,7 @@ function setupDonationForm_DISABLED() {
 
 
                             } catch (
-                                verificationError
+                            verificationError
                             ) {
 
                                 console.error(
@@ -4716,25 +4694,25 @@ async function loadPublicDonations() {
                     : "all";
 
 
-           let filteredRecords =
-    records.filter(record => {
+            let filteredRecords =
+                records.filter(record => {
 
-        if (selectedYear === "all") {
-            return true;
-        }
+                    if (selectedYear === "all") {
+                        return true;
+                    }
 
-        const recordYear =
-            record.year ||
-            (
-                record.createdAt
-                    ? new Date(record.createdAt).getFullYear()
-                    : ""
-            );
+                    const recordYear =
+                        record.year ||
+                        (
+                            record.createdAt
+                                ? new Date(record.createdAt).getFullYear()
+                                : ""
+                        );
 
-        return String(recordYear) === String(selectedYear);
+                    return String(recordYear) === String(selectedYear);
 
-    }
-);
+                }
+                );
 
             /* =====================================
                TOTAL CONTRIBUTORS
@@ -4796,11 +4774,10 @@ async function loadPublicDonations() {
 
                         <td colspan="6">
 
-                            ${
-                                currentLanguage === "hi"
-                                    ? "अभी कोई सार्वजनिक रिकॉर्ड उपलब्ध नहीं है।"
-                                    : "No public records available yet."
-                            }
+                            ${currentLanguage === "hi"
+                        ? "अभी कोई सार्वजनिक रिकॉर्ड उपलब्ध नहीं है।"
+                        : "No public records available yet."
+                    }
 
                         </td>
 
@@ -4942,10 +4919,9 @@ async function loadPublicDonations() {
                     .join("");
 
         }
-
-                /* =========================================
-           CUSTOM YEAR DROPDOWN
-        ========================================= */
+ /* =========================================
+   CUSTOM YEAR DROPDOWN
+   ========================================= */
 
         const yearDropdown =
             document.getElementById("yearDropdown");
@@ -5056,8 +5032,8 @@ async function loadPublicDonations() {
         }
 
         /* =========================================
-           FIRST RENDER
-        ========================================= */
+                   FIRST RENDER
+         ========================================= */
 
         renderDonationRecords();
 
@@ -5069,7 +5045,7 @@ async function loadPublicDonations() {
         if (
             yearFilter &&
             yearFilter.dataset.listenerAttached !==
-                "true"
+            "true"
         ) {
 
             yearFilter.addEventListener(
@@ -5114,11 +5090,10 @@ async function loadPublicDonations() {
 
                 <td colspan="6">
 
-                    ${
-                        currentLanguage === "hi"
-                            ? "सहयोग रिकॉर्ड लोड नहीं हो सका।"
-                            : "Donation records could not be loaded."
-                    }
+                    ${currentLanguage === "hi"
+                ? "सहयोग रिकॉर्ड लोड नहीं हो सका।"
+                : "Donation records could not be loaded."
+            }
 
                 </td>
 
@@ -5220,6 +5195,10 @@ async function loadContributors() {
    RENDER CONTRIBUTORS
 ========================================================= */
 
+/* =========================================================
+   RENDER CONTRIBUTORS
+========================================================= */
+
 function renderContributors() {
 
     const container =
@@ -5227,16 +5206,15 @@ function renderContributors() {
             "contributorsContainer"
         );
 
-
     if (!container) {
         return;
     }
 
 
+    /* NO CONTRIBUTORS */
+
     if (
-        !Array.isArray(
-            contributorsData
-        ) ||
+        !Array.isArray(contributorsData) ||
         contributorsData.length === 0
     ) {
 
@@ -5261,25 +5239,79 @@ function renderContributors() {
         `;
 
         return;
-
     }
 
 
-    container.innerHTML = "";
+    /* =====================================================
+       TABLE
+    ===================================================== */
 
+    let html = `
+
+        <table class="contributors-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>S.No.</th>
+
+                    <th>
+                        ${currentLanguage === "hi"
+                            ? "नाम"
+                            : "Name"
+                        }
+                    </th>
+
+                    <th>
+                        ${currentLanguage === "hi"
+                            ? "मोबाइल"
+                            : "Mobile"
+                        }
+                    </th>
+
+                    <th>
+                        Organization
+                    </th>
+
+                    <th>
+                        ${
+                            currentLanguage === "hi"
+                                ? "योगदान विवरण"
+                                : "Contribution Details"
+                        }
+                    </th>
+
+                    <th>
+                        ${
+                            currentLanguage === "hi"
+                                ? "दिनांक"
+                                : "Date"
+                        }
+                    </th>
+
+                    <th>
+                        ${
+                            currentLanguage === "hi"
+                                ? "कार्यवाही"
+                                : "Action"
+                        }
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+    `;
+
+
+    /* =====================================================
+       CONTRIBUTORS ROWS
+    ===================================================== */
 
     contributorsData.forEach(
-        donor => {
-
-            const card =
-                document.createElement(
-                    "div"
-                );
-
-
-            card.className =
-                "member-card";
-
+        (donor, index) => {
 
             const name =
                 donor.name ||
@@ -5288,43 +5320,76 @@ function renderContributors() {
                 "Anonymous";
 
 
-            card.innerHTML = `
+            const mobile =
+                donor.mobile || "";
 
-                <div class="member-photo">
 
-                    <div class="default-icon">
+            const organization =
+                donor.organization || "";
 
-                        🙏
 
-                    </div>
+            const contributionDetails =
+                donor.contributionDetails || "";
 
-                </div>
 
-                <h3>
+            const date =
+                donor.date ||
+                donor.createdAt ||
+                "";
 
-                    ${escapeHTML(name)}
 
-                </h3>
+            html += `
 
-                <p>
+                <tr>
 
-                    ${
-                        currentLanguage === "hi"
-                            ? "सहयोगकर्ता"
-                            : "Contributor"
-                    }
+                    <td>
+                        ${index + 1}
+                    </td>
 
-                </p>
+                    <td>
+                        ${escapeHTML(name)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(mobile)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(organization)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            contributionDetails
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(date)}
+                    </td>
+
+                    <td>
+                        —
+                    </td>
+
+                </tr>
 
             `;
 
-
-            container.appendChild(
-                card
-            );
-
         }
     );
+
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+    `;
+
+
+    container.innerHTML = html;
 
 }
 
@@ -5521,8 +5586,8 @@ document.addEventListener("touchstart", () => {
         console.log("Mobile background video blocked:", error);
     });
 
-}, 
-{ once: true }
+},
+    { once: true }
 );
 /* =========================================================
    INITIALIZE MEDIA VIEWER

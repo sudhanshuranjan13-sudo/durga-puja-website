@@ -1030,8 +1030,8 @@ a {
 ========================================================= */
 
 .program-year-selector {
-    margin-top: -30px;
-    margin-bottom: 30px;
+    margin-top: -40px;
+    margin-bottom: 50px;
     text-align: center;
 }
 
@@ -1420,6 +1420,72 @@ a {
     color: #4a4a4a;
 }
 
+
+/* =========================================================
+   MEMBERS - TABLET
+========================================================= */
+
+@media (max-width: 1024px) {
+
+    .members-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .member-photo {
+        width: 170px;
+        height: 170px;
+    }
+}
+
+
+/* =========================================================
+   MEMBERS - MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .members-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .member-card {
+        padding: 10px 6px;
+    }
+
+    .member-photo {
+        width: 120px;
+        height: 120px;
+        padding: 4px;
+    }
+
+    .member-photo img {
+        border-width: 3px;
+    }
+
+    .default-icon {
+        font-size: 35px;
+    }
+
+    .member-card h3 {
+        margin-top: 8px;
+        font-size: 15px;
+        line-height: 1.2;
+    }
+
+    .member-card h4 {
+        margin-top: 5px;
+        font-size: 12px;
+        line-height: 1.2;
+    }
+
+    .member-card p {
+        font-size: 11px;
+        line-height: 1.3;
+        margin: 4px 0;
+    }
+}
 
 /* =========================================================
    NOTICE
@@ -2112,9 +2178,9 @@ a {
 @media (max-width: 768px) {
 
     .video-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
 
-        gap: 18px;
+        gap: 8px;
     }
 
     .video-title {
@@ -2129,6 +2195,7 @@ a {
 @media (max-width: 480px) {
 
     .video-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         gap: 15px;
     }
 
@@ -3134,47 +3201,111 @@ MOBILE DONATION DESIGN
 
 }
 
-
-
 /* =========================================================
    CONTRIBUTORS
 ========================================================= */
 
 .contributors-container {
-    display: grid;
+    width: 100%;
 
-    grid-template-columns: repeat(3, 1fr);
+    max-height: 400px;
 
-    gap: 20px;
-}
+    overflow-x: auto;
+    overflow-y: auto;
 
-.contributor-card {
+    margin-top: 20px;
+
     background: white;
 
-    padding: 25px;
-
-    text-align: center;
-
-    border-radius: 18px;
-
-    border-top: 4px solid #f4a300;
+    border-radius: 12px;
 
     box-shadow:
         0 8px 22px rgba(0, 0, 0, 0.08);
+
+    -webkit-overflow-scrolling: touch;
 }
 
-.contributor-card h3 {
-    color: #a71919;
+/* Contributors Table */
+
+.contributors-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 850px;
+    background: white;
 }
 
-.contributor-card strong {
-    display: block;
+.contributors-table th {
+    background: #a71919;
+    color: white;
 
-    margin-top: 8px;
+    padding: 12px 10px;
 
-    color: #d28a00;
+    text-align: center;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    white-space: nowrap;
 }
 
+.contributors-table td {
+    padding: 11px 10px;
+
+    border-bottom: 1px solid #ddd;
+
+    color: #333;
+
+    font-size: 14px;
+
+    text-align: center;
+
+    vertical-align: middle;
+}
+
+.contributors-table tbody tr:nth-child(even) {
+    background: #fff8e7;
+}
+
+.contributors-table tbody tr:hover {
+    background: #fff0c2;
+}
+
+/* S.No. */
+
+.contributors-table th:first-child,
+.contributors-table td:first-child {
+    width: 60px;
+    text-align: center;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .contributors-container {
+        width: 100%;
+
+        overflow-x: auto;
+
+        border-radius: 10px;
+
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .contributors-table {
+        min-width: 850px;
+    }
+
+    .contributors-table th {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+
+    .contributors-table td {
+        padding: 9px 8px;
+        font-size: 12px;
+    }
+}
 
 /* =========================================================
    CONTACT
@@ -6066,8 +6197,8 @@ section {
         width: 100%;
         max-width: 100%;
         display: grid;
-        grid-template-columns: 1fr;
-        gap: 16px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
     }
 
     #videoContainer .video-item,
@@ -6135,8 +6266,8 @@ section {
         max-width: 100%;
 
         display: grid;
-        grid-template-columns: 1fr;
-        gap: 15px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
     }
 
     .contributor-card {
@@ -8183,7 +8314,7 @@ iframe {
     #program .program-year-selector {
         width: 180px !important;
         max-width: 180px !important;
-        margin: 10px auto 60px !important;
+        margin: -10px auto 80px !important;
         padding: 0 !important;
     }
 
