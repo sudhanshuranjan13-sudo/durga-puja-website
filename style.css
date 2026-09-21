@@ -8950,3 +8950,59 @@ iframe {
         max-width: 100% !important;
     }
 }
+/* =========================================================
+   FINAL MOBILE FIX - MEMBERS + VIDEOS
+   Keep existing design, only restore mobile columns
+========================================================= */
+
+@media (max-width: 600px) {
+
+    /* ---------- MEMBERS ---------- */
+
+    #generalMembersContainer {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+    }
+
+    #generalMembersContainer .member-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        padding: 10px 6px !important;
+    }
+
+    #generalMembersContainer .member-photo {
+        width: 120px !important;
+        height: 120px !important;
+        max-width: 100% !important;
+    }
+
+
+    /* ---------- VIDEOS ---------- */
+
+    #videoContainer {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 15px !important;
+    }
+
+    #videoContainer > * {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    #videoContainer .video-card,
+    #videoContainer .video-item {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    #videoContainer video,
+    #videoContainer iframe {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
