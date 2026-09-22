@@ -9006,3 +9006,19 @@ iframe {
         max-width: 100% !important;
     }
 }
+.instagram-link {
+    text-align: center;
+    margin-top: 18px;
+    padding-bottom: 10px;
+}
+
+.instagram-link a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+}
+
+.instagram-link a:hover {
+    opacity: 0.75;
+}
