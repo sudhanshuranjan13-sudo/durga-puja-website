@@ -5640,7 +5640,7 @@ setTimeout(function () {
     invitationPopup.style.visibility = "hidden";
     invitationPopup.style.pointerEvents = "none";
 
-}, 20000);
+}, 8000);
 
 });
 
@@ -5693,9 +5693,9 @@ console.log("DANDIYA JS LOADED");
 // Registration शुरू होने पर सिर्फ false को true करना है.
 // ============================================================
 
-//const DANDIYA_REGISTRATION_OPEN = false;
+const DANDIYA_REGISTRATION_OPEN = false;
 
-                                              const DANDIYA_REGISTRATION_OPEN = true;
+               //                            const DANDIYA_REGISTRATION_OPEN = true;
 
 
 /* =========================================================
