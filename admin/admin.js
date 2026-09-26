@@ -7,7 +7,7 @@ const API = "";
 let token = localStorage.getItem("durgaAdminToken");
 
 let currentLanguage =
-localStorage.getItem("adminLanguage") || "hi";
+    localStorage.getItem("adminLanguage") || "hi";
 
 //let noticeLanguage = "hi";
 
@@ -17,279 +17,279 @@ TRANSLATIONS
 
 const translations = {
 
-hi: {
+    hi: {
 
-    adminLogin: "एडमिन लॉगिन",
-    username: "यूज़रनेम",
-    password: "पासवर्ड",
-    login: "लॉगिन",
+        adminLogin: "एडमिन लॉगिन",
+        username: "यूज़रनेम",
+        password: "पासवर्ड",
+        login: "लॉगिन",
 
-    dashboard: "डैशबोर्ड",
-    members: "सदस्य",
-    programs: "कार्यक्रम",
-    notices: "सूचनाएँ",
-    gallery: "गैलरी",
-    videos: "वीडियो",
-    liveDarshan: "लाइव दर्शन",
-    specialDarshan: "विशेष दर्शन",
-    donations: "दान",
-    contributors: "योगदानकर्ता",
-    contactMessages: "संपर्क संदेश",
-    logout: "लॉगआउट",
+        dashboard: "डैशबोर्ड",
+        members: "सदस्य",
+        programs: "कार्यक्रम",
+        notices: "सूचनाएँ",
+        gallery: "गैलरी",
+        videos: "वीडियो",
+        liveDarshan: "लाइव दर्शन",
+        specialDarshan: "विशेष दर्शन",
+        donations: "दान",
+        contributors: "योगदानकर्ता",
+        contactMessages: "संपर्क संदेश",
+        logout: "लॉगआउट",
 
-    totalMembers: "कुल सदस्य",
-    totalDonations: "कुल दान",
-    totalAmount: "कुल राशि",
-    newMessages: "नए संदेश",
-    recentDonations: "हाल के दान",
+        totalMembers: "कुल सदस्य",
+        totalDonations: "कुल दान",
+        totalAmount: "कुल राशि",
+        newMessages: "नए संदेश",
+        recentDonations: "हाल के दान",
 
-    committeeMembers: "👥 समिति सदस्य",
-    memberType: "सदस्य प्रकार",
-    officeBearer: "🏛️ Office Bearer",
-    generalMember: "👥 General Member",
-    positionHindi: "पद - हिंदी",
-    positionEnglish: "पद - English",
-    nameHindi: "नाम - हिंदी",
-    nameEnglish: "नाम - English",
-    imageUrl: "Image URL",
-    order: "क्रम",
-    addMember: "+ सदस्य जोड़ें",
-    membersList: "सदस्य सूची",
+        committeeMembers: "👥 समिति सदस्य",
+        memberType: "सदस्य प्रकार",
+        officeBearer: "🏛️ Office Bearer",
+        generalMember: "👥 General Member",
+        positionHindi: "पद - हिंदी",
+        positionEnglish: "पद - English",
+        nameHindi: "नाम - हिंदी",
+        nameEnglish: "नाम - English",
+        imageUrl: "Image URL",
+        order: "क्रम",
+        addMember: "+ सदस्य जोड़ें",
+        membersList: "सदस्य सूची",
 
-    pujaProgram: "📅 पूजा कार्यक्रम",
-    year: "वर्ष",
-    date: "दिनांक",
-    dayHindi: "दिन - हिंदी",
-    dayEnglish: "Day - English",
-    titleHindi: "शीर्षक - हिंदी",
-    titleEnglish: "Title - English",
-    descriptionHindi: "विवरण - हिंदी",
-    descriptionEnglish: "Description - English",
-    time: "समय",
-    addProgram: "+ कार्यक्रम जोड़ें",
-    programList: "कार्यक्रम सूची",
+        pujaProgram: "📅 पूजा कार्यक्रम",
+        year: "वर्ष",
+        date: "दिनांक",
+        dayHindi: "दिन - हिंदी",
+        dayEnglish: "Day - English",
+        titleHindi: "शीर्षक - हिंदी",
+        titleEnglish: "Title - English",
+        descriptionHindi: "विवरण - हिंदी",
+        descriptionEnglish: "Description - English",
+        time: "समय",
+        addProgram: "+ कार्यक्रम जोड़ें",
+        programList: "कार्यक्रम सूची",
 
-    notice: "📢 सूचना",
-    messageHindi: "संदेश - हिंदी",
-    messageEnglish: "Message - English",
-    addNotice: "+ सूचना जोड़ें",
-    noticeList: "सूचना सूची",
+        notice: "📢 सूचना",
+        messageHindi: "संदेश - हिंदी",
+        messageEnglish: "Message - English",
+        addNotice: "+ सूचना जोड़ें",
+        noticeList: "सूचना सूची",
 
-    category: "श्रेणी",
-    puja: "पूजा",
-    event: "कार्यक्रम",
-    committee: "समिति",
-    other: "अन्य",
-    addGallery: "+ गैलरी जोड़ें",
-    galleryList: "गैलरी सूची",
+        category: "श्रेणी",
+        puja: "पूजा",
+        event: "कार्यक्रम",
+        committee: "समिति",
+        other: "अन्य",
+        addGallery: "+ गैलरी जोड़ें",
+        galleryList: "गैलरी सूची",
 
-    youtubeVideo: "🎥 YouTube वीडियो",
-    youtubeUrl: "YouTube URL",
-    thumbnailUrl: "Thumbnail URL",
-    addVideo: "+ वीडियो जोड़ें",
-    videoList: "वीडियो सूची",
+        youtubeVideo: "🎥 YouTube वीडियो",
+        youtubeUrl: "YouTube URL",
+        thumbnailUrl: "Thumbnail URL",
+        addVideo: "+ वीडियो जोड़ें",
+        videoList: "वीडियो सूची",
 
-    streamUrl: "Stream URL",
-    active: "सक्रिय",
-    saveLive: "लाइव दर्शन सेव करें",
+        streamUrl: "Stream URL",
+        active: "सक्रिय",
+        saveLive: "लाइव दर्शन सेव करें",
 
-    saveDarshan: "विशेष दर्शन सेव करें",
+        saveDarshan: "विशेष दर्शन सेव करें",
 
-    donationManagement: "💰 दान प्रबंधन",
-    donorName: "दाता का नाम *",
-    fatherName: "पिता का नाम",
-    designation: "पद",
-    organization: "कंपनी / संस्था",
-    mobile: "मोबाइल",
-    email: "ईमेल",
-    amount: "राशि",
-    address: "पता",
-    receivedBy: "प्राप्तकर्ता",
-    paymentMode: "भुगतान का माध्यम",
-    select: "चुनें",
-    cash: "नकद",
-    bankTransfer: "बैंक ट्रांसफर",
-    cheque: "चेक",
-    remarks: "टिप्पणी",
-    addDonation: "+ दान जोड़ें",
-    exportExcel: "📥 Excel Export",
-    donationRecords: "दान रिकॉर्ड",
+        donationManagement: "💰 दान प्रबंधन",
+        donorName: "दाता का नाम *",
+        fatherName: "पिता का नाम",
+        designation: "पद",
+        organization: "कंपनी / संस्था",
+        mobile: "मोबाइल",
+        email: "ईमेल",
+        amount: "राशि",
+        address: "पता",
+        receivedBy: "प्राप्तकर्ता",
+        paymentMode: "भुगतान का माध्यम",
+        select: "चुनें",
+        cash: "नकद",
+        bankTransfer: "बैंक ट्रांसफर",
+        cheque: "चेक",
+        remarks: "टिप्पणी",
+        addDonation: "+ दान जोड़ें",
+        exportExcel: "📥 Excel Export",
+        donationRecords: "दान रिकॉर्ड",
 
-    message: "संदेश",
-    approved: "स्वीकृत",
-    addContributor: "+ योगदानकर्ता जोड़ें",
-    contributorList: "योगदानकर्ता सूची",
+        message: "संदेश",
+        approved: "स्वीकृत",
+        addContributor: "+ योगदानकर्ता जोड़ें",
+        contributorList: "योगदानकर्ता सूची",
 
-    name: "नाम",
-    loading: "लोड हो रहा है...",
-    action: "कार्यवाही",
-    delete: "हटाएँ",
-    edit: "संपादित करें",
-    read: "पढ़ा गया",
+        name: "नाम",
+        loading: "लोड हो रहा है...",
+        action: "कार्यवाही",
+        delete: "हटाएँ",
+        edit: "संपादित करें",
+        read: "पढ़ा गया",
 
-    noRecords: "कोई रिकॉर्ड नहीं मिला.",
+        noRecords: "कोई रिकॉर्ड नहीं मिला.",
 
-    programAdded: "कार्यक्रम सफलतापूर्वक जोड़ा गया।",
-    memberAdded: "सदस्य सफलतापूर्वक जोड़ा गया।",
-    noticeAdded: "सूचना सफलतापूर्वक जोड़ी गई।",
-    galleryAdded: "गैलरी आइटम सफलतापूर्वक जोड़ा गया।",
-    videoAdded: "वीडियो सफलतापूर्वक जोड़ा गया।",
-    liveUpdated: "लाइव दर्शन अपडेट हो गया।",
-    darshanUpdated: "विशेष दर्शन अपडेट हो गया।",
-    donationAdded: "दान सफलतापूर्वक जोड़ा गया।",
-    contributorAdded: "योगदानकर्ता सफलतापूर्वक जोड़ा गया।",
+        programAdded: "कार्यक्रम सफलतापूर्वक जोड़ा गया।",
+        memberAdded: "सदस्य सफलतापूर्वक जोड़ा गया।",
+        noticeAdded: "सूचना सफलतापूर्वक जोड़ी गई।",
+        galleryAdded: "गैलरी आइटम सफलतापूर्वक जोड़ा गया।",
+        videoAdded: "वीडियो सफलतापूर्वक जोड़ा गया।",
+        liveUpdated: "लाइव दर्शन अपडेट हो गया।",
+        darshanUpdated: "विशेष दर्शन अपडेट हो गया।",
+        donationAdded: "दान सफलतापूर्वक जोड़ा गया।",
+        contributorAdded: "योगदानकर्ता सफलतापूर्वक जोड़ा गया।",
 
-    deleteMemberConfirm: "क्या आप इस सदस्य को हटाना चाहते हैं?",
-    deleteProgramConfirm: "क्या आप इस कार्यक्रम को हटाना चाहते हैं?",
-    deleteGalleryConfirm: "क्या आप इस गैलरी आइटम को हटाना चाहते हैं?",
-    deleteVideoConfirm: "क्या आप इस वीडियो को हटाना चाहते हैं?",
-    deleteDonationConfirm: "क्या आप इस दान रिकॉर्ड को हटाना चाहते हैं?",
-    deleteMessageConfirm: "क्या आप इस संदेश को हटाना चाहते हैं?",
+        deleteMemberConfirm: "क्या आप इस सदस्य को हटाना चाहते हैं?",
+        deleteProgramConfirm: "क्या आप इस कार्यक्रम को हटाना चाहते हैं?",
+        deleteGalleryConfirm: "क्या आप इस गैलरी आइटम को हटाना चाहते हैं?",
+        deleteVideoConfirm: "क्या आप इस वीडियो को हटाना चाहते हैं?",
+        deleteDonationConfirm: "क्या आप इस दान रिकॉर्ड को हटाना चाहते हैं?",
+        deleteMessageConfirm: "क्या आप इस संदेश को हटाना चाहते हैं?",
 
-    donorRequired: "दाता का नाम आवश्यक है।",
-    amountRequired: "सही दान राशि दर्ज करें।",
+        donorRequired: "दाता का नाम आवश्यक है।",
+        amountRequired: "सही दान राशि दर्ज करें।",
 
-    yes: "हाँ",
-    no: "नहीं"
+        yes: "हाँ",
+        no: "नहीं"
 
-},
+    },
 
-en: {
+    en: {
 
-    adminLogin: "Admin Login",
-    username: "Username",
-    password: "Password",
-    login: "Login",
+        adminLogin: "Admin Login",
+        username: "Username",
+        password: "Password",
+        login: "Login",
 
-    dashboard: "Dashboard",
-    members: "Members",
-    programs: "Programs",
-    notices: "Notices",
-    gallery: "Gallery",
-    videos: "Videos",
-    liveDarshan: "Live Darshan",
-    specialDarshan: "Special Darshan",
-    donations: "Donations",
-    contributors: "Contributors",
-    contactMessages: "Contact Messages",
-    logout: "Logout",
+        dashboard: "Dashboard",
+        members: "Members",
+        programs: "Programs",
+        notices: "Notices",
+        gallery: "Gallery",
+        videos: "Videos",
+        liveDarshan: "Live Darshan",
+        specialDarshan: "Special Darshan",
+        donations: "Donations",
+        contributors: "Contributors",
+        contactMessages: "Contact Messages",
+        logout: "Logout",
 
-    totalMembers: "Total Members",
-    totalDonations: "Total Donations",
-    totalAmount: "Total Amount",
-    newMessages: "New Messages",
-    recentDonations: "Recent Donations",
+        totalMembers: "Total Members",
+        totalDonations: "Total Donations",
+        totalAmount: "Total Amount",
+        newMessages: "New Messages",
+        recentDonations: "Recent Donations",
 
-    committeeMembers: "👥 Committee Members",
-    memberType: "Member Type",
-    officeBearer: "🏛️ Office Bearer",
-     generalMember: "👥 General Member",
-    positionHindi: "Position - Hindi",
-    positionEnglish: "Position - English",
-    nameHindi: "Name - Hindi",
-    nameEnglish: "Name - English",
-    imageUrl: "Image URL",
-    order: "Order",
-    addMember: "+ Add Member",
-    membersList: "Members List",
+        committeeMembers: "👥 Committee Members",
+        memberType: "Member Type",
+        officeBearer: "🏛️ Office Bearer",
+        generalMember: "👥 General Member",
+        positionHindi: "Position - Hindi",
+        positionEnglish: "Position - English",
+        nameHindi: "Name - Hindi",
+        nameEnglish: "Name - English",
+        imageUrl: "Image URL",
+        order: "Order",
+        addMember: "+ Add Member",
+        membersList: "Members List",
 
-    pujaProgram: "📅 Puja Program",
-    year: "Year",
-    date: "Date",
-    dayHindi: "Day - Hindi",
-    dayEnglish: "Day - English",
-    titleHindi: "Title - Hindi",
-    titleEnglish: "Title - English",
-    descriptionHindi: "Description - Hindi",
-    descriptionEnglish: "Description - English",
-    time: "Time",
-    addProgram: "+ Add Program",
-    programList: "Program List",
+        pujaProgram: "📅 Puja Program",
+        year: "Year",
+        date: "Date",
+        dayHindi: "Day - Hindi",
+        dayEnglish: "Day - English",
+        titleHindi: "Title - Hindi",
+        titleEnglish: "Title - English",
+        descriptionHindi: "Description - Hindi",
+        descriptionEnglish: "Description - English",
+        time: "Time",
+        addProgram: "+ Add Program",
+        programList: "Program List",
 
-    notice: "📢 Notice",
-    messageHindi: "Message - Hindi",
-    messageEnglish: "Message - English",
-    addNotice: "+ Add Notice",
-    noticeList: "Notice List",
+        notice: "📢 Notice",
+        messageHindi: "Message - Hindi",
+        messageEnglish: "Message - English",
+        addNotice: "+ Add Notice",
+        noticeList: "Notice List",
 
-    category: "Category",
-    puja: "Puja",
-    event: "Event",
-    committee: "Committee",
-    other: "Other",
-    addGallery: "+ Add Gallery Item",
-    galleryList: "Gallery List",
+        category: "Category",
+        puja: "Puja",
+        event: "Event",
+        committee: "Committee",
+        other: "Other",
+        addGallery: "+ Add Gallery Item",
+        galleryList: "Gallery List",
 
-    youtubeVideo: "🎥 YouTube Video",
-    youtubeUrl: "YouTube URL",
-    thumbnailUrl: "Thumbnail URL",
-    addVideo: "+ Add Video",
-    videoList: "Video List",
+        youtubeVideo: "🎥 YouTube Video",
+        youtubeUrl: "YouTube URL",
+        thumbnailUrl: "Thumbnail URL",
+        addVideo: "+ Add Video",
+        videoList: "Video List",
 
-    streamUrl: "Stream URL",
-    active: "Active",
-    saveLive: "Save Live Darshan",
+        streamUrl: "Stream URL",
+        active: "Active",
+        saveLive: "Save Live Darshan",
 
-    saveDarshan: "Save Special Darshan",
+        saveDarshan: "Save Special Darshan",
 
-    donationManagement: "💰 Donation Management",
-    donorName: "Donor Name *",
-    fatherName: "Father's Name",
-    designation: "Designation",
-    organization: "Company / Organization",
-    mobile: "Mobile",
-    email: "Email",
-    amount: "Amount",
-    address: "Address",
-    receivedBy: "Received By",
-    paymentMode: "Payment Mode",
-    select: "Select",
-    cash: "Cash",
-    bankTransfer: "Bank Transfer",
-    cheque: "Cheque",
-    remarks: "Remarks",
-    addDonation: "+ Add Donation",
-    exportExcel: "📥 Export Excel",
-    donationRecords: "Donation Records",
+        donationManagement: "💰 Donation Management",
+        donorName: "Donor Name *",
+        fatherName: "Father's Name",
+        designation: "Designation",
+        organization: "Company / Organization",
+        mobile: "Mobile",
+        email: "Email",
+        amount: "Amount",
+        address: "Address",
+        receivedBy: "Received By",
+        paymentMode: "Payment Mode",
+        select: "Select",
+        cash: "Cash",
+        bankTransfer: "Bank Transfer",
+        cheque: "Cheque",
+        remarks: "Remarks",
+        addDonation: "+ Add Donation",
+        exportExcel: "📥 Export Excel",
+        donationRecords: "Donation Records",
 
-    message: "Message",
-    approved: "Approved",
-    addContributor: "+ Add Contributor",
-    contributorList: "Contributor List",
+        message: "Message",
+        approved: "Approved",
+        addContributor: "+ Add Contributor",
+        contributorList: "Contributor List",
 
-    name: "Name",
-    loading: "Loading...",
-    action: "Action",
-    delete: "Delete",
-    edit: "Edit",
-    read: "Read",
+        name: "Name",
+        loading: "Loading...",
+        action: "Action",
+        delete: "Delete",
+        edit: "Edit",
+        read: "Read",
 
-    noRecords: "No records found.",
+        noRecords: "No records found.",
 
-    programAdded: "Program added successfully.",
-    memberAdded: "Member added successfully.",
-    noticeAdded: "Notice added successfully.",
-    galleryAdded: "Gallery item added successfully.",
-    videoAdded: "Video added successfully.",
-    liveUpdated: "Live Darshan updated.",
-    darshanUpdated: "Special Darshan updated.",
-    donationAdded: "Donation added successfully.",
-    contributorAdded: "Contributor added successfully.",
+        programAdded: "Program added successfully.",
+        memberAdded: "Member added successfully.",
+        noticeAdded: "Notice added successfully.",
+        galleryAdded: "Gallery item added successfully.",
+        videoAdded: "Video added successfully.",
+        liveUpdated: "Live Darshan updated.",
+        darshanUpdated: "Special Darshan updated.",
+        donationAdded: "Donation added successfully.",
+        contributorAdded: "Contributor added successfully.",
 
-    deleteMemberConfirm: "Delete this member?",
-    deleteProgramConfirm: "Delete this program?",
-    deleteGalleryConfirm: "Delete this gallery item?",
-    deleteVideoConfirm: "Delete this video?",
-    deleteDonationConfirm: "Delete this donation record?",
-    deleteMessageConfirm: "Delete this message?",
+        deleteMemberConfirm: "Delete this member?",
+        deleteProgramConfirm: "Delete this program?",
+        deleteGalleryConfirm: "Delete this gallery item?",
+        deleteVideoConfirm: "Delete this video?",
+        deleteDonationConfirm: "Delete this donation record?",
+        deleteMessageConfirm: "Delete this message?",
 
-    donorRequired: "Donor name is required.",
-    amountRequired: "Valid donation amount is required.",
+        donorRequired: "Donor name is required.",
+        amountRequired: "Valid donation amount is required.",
 
-    yes: "Yes",
-    no: "No"
+        yes: "Yes",
+        no: "No"
 
-}
+    }
 
 
 };
@@ -300,9 +300,9 @@ LANGUAGE SYSTEM
 
 function t(key) {
 
-return translations[currentLanguage]?.[key]
-    || translations.en[key]
-    || key;
+    return translations[currentLanguage]?.[key]
+        || translations.en[key]
+        || key;
 
 
 }
@@ -310,111 +310,111 @@ return translations[currentLanguage]?.[key]
 function applyLanguage() {
 
 
-document.documentElement.lang =
-    currentLanguage === "hi" ? "hi" : "en";
+    document.documentElement.lang =
+        currentLanguage === "hi" ? "hi" : "en";
 
-document
-    .querySelectorAll("[data-i18n]")
-    .forEach(element => {
+    document
+        .querySelectorAll("[data-i18n]")
+        .forEach(element => {
 
-        const key =
-            element.dataset.i18n;
+            const key =
+                element.dataset.i18n;
 
-        if (translations[currentLanguage][key]) {
+            if (translations[currentLanguage][key]) {
 
-            element.textContent =
-                translations[currentLanguage][key];
+                element.textContent =
+                    translations[currentLanguage][key];
 
-        }
+            }
 
-    });
-
-
-document
-    .querySelectorAll("[data-placeholder-hi]")
-    .forEach(input => {
-
-        input.placeholder =
-            currentLanguage === "hi"
-                ? input.dataset.placeholderHi
-                : input.dataset.placeholderEn;
-
-    });
+        });
 
 
-document
-    .querySelectorAll(".language-btn")
-    .forEach(button => {
+    document
+        .querySelectorAll("[data-placeholder-hi]")
+        .forEach(input => {
 
-        button.classList.toggle(
-            "active",
-            button.dataset.lang === currentLanguage
-        );
+            input.placeholder =
+                currentLanguage === "hi"
+                    ? input.dataset.placeholderHi
+                    : input.dataset.placeholderEn;
 
-    });
+        });
 
 
-updatePageTitle();
+    document
+        .querySelectorAll(".language-btn")
+        .forEach(button => {
 
-localStorage.setItem(
-    "adminLanguage",
-    currentLanguage
-);
+            button.classList.toggle(
+                "active",
+                button.dataset.lang === currentLanguage
+            );
+
+        });
+
+
+    updatePageTitle();
+
+    localStorage.setItem(
+        "adminLanguage",
+        currentLanguage
+    );
 
 }
 
 function updatePageTitle() {
 
 
-const activeButton =
-    document.querySelector(
-        ".nav-btn.active[data-section]"
-    );
+    const activeButton =
+        document.querySelector(
+            ".nav-btn.active[data-section]"
+        );
 
-if (!activeButton) return;
+    if (!activeButton) return;
 
-const span =
-    activeButton.querySelector("[data-i18n]");
+    const span =
+        activeButton.querySelector("[data-i18n]");
 
-if (!span) return;
+    if (!span) return;
 
-document.getElementById("pageTitle")
-    .textContent =
-    t(span.dataset.i18n);
+    document.getElementById("pageTitle")
+        .textContent =
+        t(span.dataset.i18n);
 
 
 }
 
 document
-.querySelectorAll(".language-btn")
-.forEach(button => {
+    .querySelectorAll(".language-btn")
+    .forEach(button => {
 
-    button.addEventListener(
-        "click",
-        () => {
+        button.addEventListener(
+            "click",
+            () => {
 
-            currentLanguage =
-                button.dataset.lang;
+                currentLanguage =
+                    button.dataset.lang;
 
-            applyLanguage();
+                applyLanguage();
 
-            const activeSection =
-                document.querySelector(
-                    ".content-section.active"
-                );
+                const activeSection =
+                    document.querySelector(
+                        ".content-section.active"
+                    );
 
-            if (activeSection) {
+                if (activeSection) {
 
-                loadSection(
-                    activeSection.id
-                );
+                    loadSection(
+                        activeSection.id
+                    );
+
+                }
 
             }
+        );
 
-        }
-    );
-
-});
+    });
 /* =========================================================
    NOTICE LANGUAGE
 ========================================================= */
@@ -428,55 +428,55 @@ API REQUEST
 async function apiRequest(url, options = {}) {
 
 
-options.headers =
-    options.headers || {};
+    options.headers =
+        options.headers || {};
 
-options.headers["Content-Type"] =
-    "application/json";
+    options.headers["Content-Type"] =
+        "application/json";
 
-if (token) {
+    if (token) {
 
-    options.headers["Authorization"] =
-        "Bearer " + token;
+        options.headers["Authorization"] =
+            "Bearer " + token;
 
-}
+    }
 
-const response =
-    await fetch(API + url, {
-        ...options,
-        cache: "no-store"
-    });
+    const response =
+        await fetch(API + url, {
+            ...options,
+            cache: "no-store"
+        });
 
-const data =
-    await response.json()
-        .catch(() => ({}));
+    const data =
+        await response.json()
+            .catch(() => ({}));
 
-if (response.status === 401) {
+    if (response.status === 401) {
 
-    logout();
+        logout();
 
-    throw new Error(
-        currentLanguage === "hi"
-            ? "लॉगिन सेशन समाप्त हो गया।"
-            : "Login session expired."
-    );
-
-}
-
-if (!response.ok) {
-
-    throw new Error(
-        data.message ||
-        (
+        throw new Error(
             currentLanguage === "hi"
-                ? "रिक्वेस्ट असफल रही।"
-                : "Request failed."
-        )
-    );
+                ? "लॉगिन सेशन समाप्त हो गया।"
+                : "Login session expired."
+        );
 
-}
+    }
 
-return data;
+    if (!response.ok) {
+
+        throw new Error(
+            data.message ||
+            (
+                currentLanguage === "hi"
+                    ? "रिक्वेस्ट असफल रही।"
+                    : "Request failed."
+            )
+        );
+
+    }
+
+    return data;
 
 }
 
@@ -485,86 +485,86 @@ LOGIN
 ========================================================= */
 
 document
-.getElementById("loginForm")
-.addEventListener(
-"submit",
-async function(e) {
+    .getElementById("loginForm")
+    .addEventListener(
+        "submit",
+        async function (e) {
 
 
-        e.preventDefault();
+            e.preventDefault();
 
-        const username =
-            document
-                .getElementById("username")
-                .value
-                .trim();
+            const username =
+                document
+                    .getElementById("username")
+                    .value
+                    .trim();
 
-        const password =
-            document
-                .getElementById("password")
-                .value;
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
 
-        const errorBox =
-            document
-                .getElementById("loginError");
+            const errorBox =
+                document
+                    .getElementById("loginError");
 
-        errorBox.style.display = "none";
+            errorBox.style.display = "none";
 
-        try {
+            try {
 
-            const response =
-                await fetch(
-                    "/api/auth/login",
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-                        body: JSON.stringify({
-                            username,
-                            password
-                        })
-                    }
+                const response =
+                    await fetch(
+                        "/api/auth/login",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+                            body: JSON.stringify({
+                                username,
+                                password
+                            })
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        (
+                            currentLanguage === "hi"
+                                ? "लॉगिन असफल रहा।"
+                                : "Login failed."
+                        )
+                    );
+
+                }
+
+                token = data.token;
+
+                localStorage.setItem(
+                    "durgaAdminToken",
+                    token
                 );
 
-            const data =
-                await response.json();
+                showAdmin(data.admin);
 
-            if (!response.ok) {
+            } catch (error) {
 
-                throw new Error(
-                    data.message ||
-                    (
-                        currentLanguage === "hi"
-                            ? "लॉगिन असफल रहा।"
-                            : "Login failed."
-                    )
-                );
+                errorBox.textContent =
+                    error.message;
+
+                errorBox.style.display =
+                    "block";
 
             }
 
-            token = data.token;
-
-            localStorage.setItem(
-                "durgaAdminToken",
-                token
-            );
-
-            showAdmin(data.admin);
-
-        } catch(error) {
-
-            errorBox.textContent =
-                error.message;
-
-            errorBox.style.display =
-                "block";
-
         }
-
-    }
-);
+    );
 
 
 /* =========================================================
@@ -573,22 +573,22 @@ SHOW ADMIN
 
 function showAdmin(admin) {
 
-document
-    .getElementById("loginPage")
-    .style.display = "none";
+    document
+        .getElementById("loginPage")
+        .style.display = "none";
 
-document
-    .getElementById("adminPanel")
-    .style.display = "block";
+    document
+        .getElementById("adminPanel")
+        .style.display = "block";
 
-document
-    .getElementById("adminName")
-    .textContent =
-    admin?.username || "Admin";
+    document
+        .getElementById("adminName")
+        .textContent =
+        admin?.username || "Admin";
 
-applyLanguage();
+    applyLanguage();
 
-loadDashboard();
+    loadDashboard();
 
 }
 
@@ -598,26 +598,26 @@ CHECK LOGIN
 
 async function checkLogin() {
 
-if (!token) return;
+    if (!token) return;
 
-try {
+    try {
 
-    const data =
-        await apiRequest(
-            "/api/auth/me"
+        const data =
+            await apiRequest(
+                "/api/auth/me"
+            );
+
+        showAdmin(data.admin);
+
+    } catch (error) {
+
+        localStorage.removeItem(
+            "durgaAdminToken"
         );
 
-    showAdmin(data.admin);
+        token = null;
 
-} catch(error) {
-
-    localStorage.removeItem(
-        "durgaAdminToken"
-    );
-
-    token = null;
-
-}
+    }
 
 }
 
@@ -628,98 +628,98 @@ LOGOUT
 async function logout() {
 
 
-localStorage.removeItem(
-    "durgaAdminToken"
-);
+    localStorage.removeItem(
+        "durgaAdminToken"
+    );
 
-token = null;
+    token = null;
 
-location.reload();
+    location.reload();
 
 
 }
 
 document
-.getElementById("logoutBtn")
-.addEventListener(
-"click",
-logout
-);
+    .getElementById("logoutBtn")
+    .addEventListener(
+        "click",
+        logout
+    );
 
 /* =========================================================
 NAVIGATION
 ========================================================= */
 
 document
-.querySelectorAll(".nav-btn[data-section]")
-.forEach(btn => {
+    .querySelectorAll(".nav-btn[data-section]")
+    .forEach(btn => {
 
 
-    btn.addEventListener(
-        "click",
-        () => {
+        btn.addEventListener(
+            "click",
+            () => {
 
-             
-            const section =
-                btn.dataset.section;
 
-            document
-                .querySelectorAll(
-                    ".content-section"
-                )
-                .forEach(s =>
-                    s.classList.remove(
-                        "active"
+                const section =
+                    btn.dataset.section;
+
+                document
+                    .querySelectorAll(
+                        ".content-section"
                     )
-                );
+                    .forEach(s =>
+                        s.classList.remove(
+                            "active"
+                        )
+                    );
 
-            document
-                .getElementById(section)
-                .classList.add(
-                    "active"
-                );
-
-            document
-                .querySelectorAll(
-                    ".nav-btn"
-                )
-                .forEach(b =>
-                    b.classList.remove(
+                document
+                    .getElementById(section)
+                    .classList.add(
                         "active"
+                    );
+
+                document
+                    .querySelectorAll(
+                        ".nav-btn"
                     )
-                );
+                    .forEach(b =>
+                        b.classList.remove(
+                            "active"
+                        )
+                    );
 
-            btn.classList.add("active");
+                btn.classList.add("active");
 
-            updatePageTitle();
+                updatePageTitle();
 
-            document
-                .getElementById("sidebar")
-                .classList.remove("open");
+                document
+                    .getElementById("sidebar")
+                    .classList.remove("open");
 
-            loadSection(section);
+                loadSection(section);
 
-        }
-    );
+            }
+        );
 
-});
+    });
 
 /* =========================================================
 MOBILE MENU
 ========================================================= */
 
 document
-.getElementById("mobileMenu")
-.addEventListener(
-"click",
-() => {
+    .getElementById("mobileMenu")
+    .addEventListener(
+        "click",
+        () => {
 
-        document
-            .getElementById("sidebar")
-            .classList.toggle("open");
+            document
+                .getElementById("sidebar")
+                .classList.toggle("open");
 
-    }
-);
+        }
+    );
 
 /* =========================================================
 LOAD SECTION
@@ -727,39 +727,42 @@ LOAD SECTION
 
 function loadSection(section) {
 
-      console.log("SECTION CLICKED:", section);
-if (section === "dashboard")
-    loadDashboard();
+    console.log("SECTION CLICKED:", section);
+    if (section === "dashboard")
+        loadDashboard();
 
-if (section === "members")
-    loadMembers();
+    if (section === "members")
+        loadMembers();
 
-if (section === "programs")
-    loadPrograms();
+    if (section === "programs")
+        loadPrograms();
 
-if (section === "notices")
-    loadNotices();
+    if (section === "notices")
+        loadNotices();
 
-if (section === "gallery")
-    loadGallery();
+    if (section === "gallery")
+        loadGallery();
 
-if (section === "videos")
-    loadVideos();
+    if (section === "videos")
+        loadVideos();
 
-if (section === "live")
-    loadLive();
+    if (section === "live")
+        loadLive();
 
-if (section === "darshan")
-    loadDarshan();
+    if (section === "darshan")
+        loadDarshan();
 
-if (section === "donations")
-    loadDonations();
+    if (section === "donations")
+        loadDonations();
 
-if (section === "contributors")
-    loadContributors();
+    if (section === "contributors")
+        loadContributors();
 
-if (section === "contacts")
-    loadContacts();
+    if (section === "dandiyaRegistrations")
+    loadDandiyaRegistrations();
+
+    if (section === "contacts")
+        loadContacts();
 
 }
 
@@ -769,90 +772,90 @@ DASHBOARD
 
 async function loadDashboard() {
 
-try {
+    try {
 
-    const data =
-        await apiRequest(
-            "/api/admin/dashboard"
-        );
-
-
-
-    const stats =
-        data.stats || {};
-
-    document
-        .getElementById("totalMembers")
-        .textContent =
-        stats.totalMembers || 0;
-
-    document
-        .getElementById("totalDonations")
-        .textContent =
-        stats.totalDonations || 0;
-
-    document
-        .getElementById("totalAmount")
-        .textContent =
-        "₹" +
-        Number(
-            stats.totalAmount || 0
-        ).toLocaleString("en-IN");
-
-    document
-        .getElementById("pendingContacts")
-        .textContent =
-        stats.pendingContacts || 0;
-
-    document
-        .getElementById("approvedContributors")
-        .textContent =
-        stats.approvedContributors || 0;
-
-    document
-        .getElementById("totalPrograms")
-        .textContent =
-        stats.totalPrograms || 0;
-
-    document
-        .getElementById("totalNotices")
-        .textContent =
-        stats.totalNotices || 0;
-
-    document
-        .getElementById("totalGallery")
-        .textContent =
-        stats.totalGallery || 0;
+        const data =
+            await apiRequest(
+                "/api/admin/dashboard"
+            );
 
 
-    const tbody =
-        document.getElementById(
-            "recentDonations"
-        );
 
-    tbody.innerHTML = "";
+        const stats =
+            data.stats || {};
 
-    if (
-        !data.recentDonations ||
-        data.recentDonations.length === 0
-    ) {
+        document
+            .getElementById("totalMembers")
+            .textContent =
+            stats.totalMembers || 0;
 
-        tbody.innerHTML =
-            `<tr>
+        document
+            .getElementById("totalDonations")
+            .textContent =
+            stats.totalDonations || 0;
+
+        document
+            .getElementById("totalAmount")
+            .textContent =
+            "₹" +
+            Number(
+                stats.totalAmount || 0
+            ).toLocaleString("en-IN");
+
+        document
+            .getElementById("pendingContacts")
+            .textContent =
+            stats.pendingContacts || 0;
+
+        document
+            .getElementById("approvedContributors")
+            .textContent =
+            stats.approvedContributors || 0;
+
+        document
+            .getElementById("totalPrograms")
+            .textContent =
+            stats.totalPrograms || 0;
+
+        document
+            .getElementById("totalNotices")
+            .textContent =
+            stats.totalNotices || 0;
+
+        document
+            .getElementById("totalGallery")
+            .textContent =
+            stats.totalGallery || 0;
+
+
+        const tbody =
+            document.getElementById(
+                "recentDonations"
+            );
+
+        tbody.innerHTML = "";
+
+        if (
+            !data.recentDonations ||
+            data.recentDonations.length === 0
+        ) {
+
+            tbody.innerHTML =
+                `<tr>
                 <td colspan="4">
                     ${t("noRecords")}
                 </td>
             </tr>`;
 
-        return;
+            return;
 
-    }
+        }
 
-   data.recentDonations 
-    .forEach((record, index) => { 
+        data.recentDonations
+            .forEach((record, index) => {
 
-        tbody.innerHTML += 
-            `<tr> 
+                tbody.innerHTML +=
+                    `<tr> 
                 <td>${index + 1}</td>
                 <td>${escapeHtml(record.name)}</td> 
                 <td>${record.year || ""}</td> 
@@ -860,12 +863,12 @@ try {
                 <td>${escapeHtml(record.date || "")}</td> 
             </tr>`;
 
-    });
-} catch(error) {
+            });
+    } catch (error) {
 
-    console.error(error);
+        console.error(error);
 
-}
+    }
 }
 /*===========load member==========*/
 
@@ -893,37 +896,37 @@ async function loadMembers() {
                 <tbody>`;
 
         members.forEach(member => {
-const position =
-    currentLanguage === "hi"
-        ? (
-            member.positionHi ||
-            member.positionEn ||
-            member.position ||
-            ""
-        )
-        : (
-            member.positionEn ||
-            member.positionHi ||
-            member.position ||
-            ""
-        );
+            const position =
+                currentLanguage === "hi"
+                    ? (
+                        member.positionHi ||
+                        member.positionEn ||
+                        member.position ||
+                        ""
+                    )
+                    : (
+                        member.positionEn ||
+                        member.positionHi ||
+                        member.position ||
+                        ""
+                    );
 
-const name =
-    currentLanguage === "hi"
-        ? (
-            member.nameHi ||
-            member.nameEn ||
-            member.name ||
-            ""
-        )
-        : (
-            member.nameEn ||
-            member.nameHi ||
-            member.name ||
-            ""
-        );
-           
-        html += `
+            const name =
+                currentLanguage === "hi"
+                    ? (
+                        member.nameHi ||
+                        member.nameEn ||
+                        member.name ||
+                        ""
+                    )
+                    : (
+                        member.nameEn ||
+                        member.nameHi ||
+                        member.name ||
+                        ""
+                    );
+
+            html += `
     <tr>
         <td>
             ${escapeHtml(position)}
@@ -956,7 +959,7 @@ const name =
         </td>
     </tr>
 `;
-            
+
 
         });
 
@@ -991,7 +994,7 @@ const name =
 /* =========================================================
 MEMBERS
 ========================================================= */
-    
+
 /* =========================================================
    EDIT MEMBER
 ========================================================= */
@@ -1052,14 +1055,14 @@ async function editMember(id) {
             "memberType"
         ).value =
             member.memberType || "officeBearer";
-            document.querySelectorAll(
-    'input[name="memberGender"]'
-).forEach(radio => {
+        document.querySelectorAll(
+            'input[name="memberGender"]'
+        ).forEach(radio => {
 
-    radio.checked =
-        radio.value === member.gender;
+            radio.checked =
+                radio.value === member.gender;
 
-});
+        });
 
         document.getElementById(
             "memberImage"
@@ -1167,133 +1170,133 @@ async function addMember() {
         form?.dataset.editId;
 
     try {
-            /* ===============================
-       MEMBER VALIDATION
-    =============================== */
+        /* ===============================
+   MEMBER VALIDATION
+=============================== */
 
-    const positionHi =
-        value("memberPositionHi").trim();
+        const positionHi =
+            value("memberPositionHi").trim();
 
-    const positionEn =
-        value("memberPositionEn").trim();
+        const positionEn =
+            value("memberPositionEn").trim();
 
-    const nameHi =
-        value("memberNameHi").trim();
+        const nameHi =
+            value("memberNameHi").trim();
 
-    const nameEn =
-        value("memberNameEn").trim();
+        const nameEn =
+            value("memberNameEn").trim();
 
-    const memberType =
-        value("memberType").trim();
+        const memberType =
+            value("memberType").trim();
         const memberGender =
-    document.querySelector(
-        'input[name="memberGender"]:checked'
-    )?.value || "";
-    
-
-    const image =
-        value("memberImage").trim();
-
-    const orderValue =
-        value("memberOrder").trim();
+            document.querySelector(
+                'input[name="memberGender"]:checked'
+            )?.value || "";
 
 
-    /* ===============================
-       BLANK FIELD VALIDATION
-    =============================== */
+        const image =
+            value("memberImage").trim();
 
-    if (!positionHi) {
-        alert("हिंदी पद खाली नहीं हो सकता।");
-        return;
-    }
-
-    if (!positionEn) {
-        alert("English पद खाली नहीं हो सकता।");
-        return;
-    }
-
-    if (!nameHi) {
-        alert("हिंदी नाम खाली नहीं हो सकता।");
-        return;
-    }
-
-    if (!nameEn) {
-        alert("English नाम खाली नहीं हो सकता।");
-        return;
-    }
-
-   if (!memberType) {
-    alert("सदस्य प्रकार चुनें।");
-    return;
-}
-
-if (!memberGender) {
-    alert(
-        currentLanguage === "hi"
-            ? "कृपया Gender चुनें।"
-            : "Please select Gender."
-    );
-    return;
-}
-
-    if (!image) {
-        alert("Image URL खाली नहीं हो सकता।");
-        return;
-    }
-
-    if (!orderValue) {
-        alert("क्रम खाली नहीं हो सकता।");
-        return;
-    }
+        const orderValue =
+            value("memberOrder").trim();
 
 
-    /* ===============================
-       NAME VALIDATION
-    =============================== */
+        /* ===============================
+           BLANK FIELD VALIDATION
+        =============================== */
 
-    const englishNamePattern =
-        /^[A-Za-z ]+$/;
+        if (!positionHi) {
+            alert("हिंदी पद खाली नहीं हो सकता।");
+            return;
+        }
 
-    const hindiNamePattern =
-        /^[A-Za-z\u0900-\u097F ]+$/;
+        if (!positionEn) {
+            alert("English पद खाली नहीं हो सकता।");
+            return;
+        }
+
+        if (!nameHi) {
+            alert("हिंदी नाम खाली नहीं हो सकता।");
+            return;
+        }
+
+        if (!nameEn) {
+            alert("English नाम खाली नहीं हो सकता।");
+            return;
+        }
+
+        if (!memberType) {
+            alert("सदस्य प्रकार चुनें।");
+            return;
+        }
+
+        if (!memberGender) {
+            alert(
+                currentLanguage === "hi"
+                    ? "कृपया Gender चुनें।"
+                    : "Please select Gender."
+            );
+            return;
+        }
+
+        if (!image) {
+            alert("Image URL खाली नहीं हो सकता।");
+            return;
+        }
+
+        if (!orderValue) {
+            alert("क्रम खाली नहीं हो सकता।");
+            return;
+        }
 
 
-    if (!englishNamePattern.test(nameEn)) {
+        /* ===============================
+           NAME VALIDATION
+        =============================== */
 
-        alert(
-            "English नाम में केवल English letters और space मान्य हैं।"
-        );
+        const englishNamePattern =
+            /^[A-Za-z ]+$/;
 
-        return;
-    }
-
-
-    if (!hindiNamePattern.test(nameHi)) {
-
-        alert(
-            "नाम में केवल English या Hindi letters और space मान्य हैं।"
-        );
-
-        return;
-    }
+        const hindiNamePattern =
+            /^[A-Za-z\u0900-\u097F ]+$/;
 
 
-    /* ===============================
-       ORDER VALIDATION
-    =============================== */
+        if (!englishNamePattern.test(nameEn)) {
 
-    if (!/^[1-9]\d*$/.test(orderValue)) {
+            alert(
+                "English नाम में केवल English letters और space मान्य हैं।"
+            );
 
-        alert(
-            "क्रम केवल positive whole number होना चाहिए।"
-        );
-
-        return;
-    }
+            return;
+        }
 
 
-    const memberOrder =
-        Number(orderValue);
+        if (!hindiNamePattern.test(nameHi)) {
+
+            alert(
+                "नाम में केवल English या Hindi letters और space मान्य हैं।"
+            );
+
+            return;
+        }
+
+
+        /* ===============================
+           ORDER VALIDATION
+        =============================== */
+
+        if (!/^[1-9]\d*$/.test(orderValue)) {
+
+            alert(
+                "क्रम केवल positive whole number होना चाहिए।"
+            );
+
+            return;
+        }
+
+
+        const memberOrder =
+            Number(orderValue);
 
 
         const memberData = {
@@ -1314,8 +1317,8 @@ if (!memberGender) {
                 value("memberType"),
 
 
-gender:
-    memberGender,
+            gender:
+                memberGender,
 
             image:
                 value("memberImage"),
@@ -1468,30 +1471,30 @@ function resetMemberForm() {
 }
 async function deleteMember(id) {
 
-if (
-    !confirm(
-        t("deleteMemberConfirm")
-    )
-) return;
+    if (
+        !confirm(
+            t("deleteMemberConfirm")
+        )
+    ) return;
 
-try {
+    try {
 
-    await apiRequest(
-        "/api/admin/members/" + id,
-        {
-            method: "DELETE"
-        }
-    );
+        await apiRequest(
+            "/api/admin/members/" + id,
+            {
+                method: "DELETE"
+            }
+        );
 
-    loadMembers();
+        loadMembers();
 
-    loadDashboard();
+        loadDashboard();
 
-} catch(error) {
+    } catch (error) {
 
-    alert(error.message);
+        alert(error.message);
 
-}
+    }
 
 }
 
@@ -1564,7 +1567,7 @@ async function loadProgramByYear() {
         ).value =
             program.dayEn || "";
 
-    } catch(error) {
+    } catch (error) {
 
         console.error(
             "Failed to load program by year:",
@@ -1576,15 +1579,15 @@ async function loadProgramByYear() {
 }
 async function loadPrograms() {
 
-try {
+    try {
 
-    const programs =
-        await apiRequest(
-            "/api/programs"
-        );
+        const programs =
+            await apiRequest(
+                "/api/programs"
+            );
 
-    let html =
-        `<table>
+        let html =
+            `<table>
             <thead>
                 <tr>
                     <th>${t("date")}</th>
@@ -1595,15 +1598,15 @@ try {
             </thead>
             <tbody>`;
 
-    programs.forEach(program => {
+        programs.forEach(program => {
 
-        const title =
-            currentLanguage === "hi"
-                ? (program.titleHi || program.titleEn || "")
-                : (program.titleEn || program.titleHi || "");
+            const title =
+                currentLanguage === "hi"
+                    ? (program.titleHi || program.titleEn || "")
+                    : (program.titleEn || program.titleHi || "");
 
-        html +=
-            `<tr>
+            html +=
+                `<tr>
                 <td>${escapeHtml(program.date || "")}</td>
                 <td>${escapeHtml(title)}</td>
                 <td>${escapeHtml(program.time || "")}</td>
@@ -1626,22 +1629,22 @@ try {
 </td>
             </tr>`;
 
-    });
+        });
 
-    html += `</tbody></table>`;
+        html += `</tbody></table>`;
 
-    document
-        .getElementById("programsList")
-        .innerHTML = html;
+        document
+            .getElementById("programsList")
+            .innerHTML = html;
 
-} catch(error) {
+    } catch (error) {
 
-    document
-        .getElementById("programsList")
-        .textContent =
-        error.message;
+        document
+            .getElementById("programsList")
+            .textContent =
+            error.message;
 
-}
+    }
 
 }
 async function addProgram() {
@@ -1877,7 +1880,7 @@ async function addProgram() {
         loadDashboard();
 
 
-    } catch(error) {
+    } catch (error) {
 
         alert(error.message);
 
@@ -1986,30 +1989,30 @@ async function editProgram(id) {
 
 async function deleteProgram(id) {
 
-if (
-    !confirm(
-        t("deleteProgramConfirm")
-    )
-) return;
+    if (
+        !confirm(
+            t("deleteProgramConfirm")
+        )
+    ) return;
 
-try {
+    try {
 
-    await apiRequest(
-        "/api/admin/programs/" + id,
-        {
-            method: "DELETE"
-        }
-    );
+        await apiRequest(
+            "/api/admin/programs/" + id,
+            {
+                method: "DELETE"
+            }
+        );
 
-    loadPrograms();
+        loadPrograms();
 
-    loadDashboard();
+        loadDashboard();
 
-} catch(error) {
+    } catch (error) {
 
-    alert(error.message);
+        alert(error.message);
 
-}
+    }
 
 
 }
@@ -2021,15 +2024,15 @@ NOTICES
 
 async function loadNotices() {
 
-try {
+    try {
 
-    const notices =
-        await apiRequest(
-            "/api/admin/notices"
-        );
+        const notices =
+            await apiRequest(
+                "/api/admin/notices"
+            );
 
-    let html =
-        `<table>
+        let html =
+            `<table>
             <thead>
                 <tr>
                     <th>${t("date")}</th>
@@ -2040,27 +2043,26 @@ try {
             </thead>
             <tbody>`;
 
-    notices.forEach(notice => {
+        notices.forEach(notice => {
 
-        const title =
-            currentLanguage === "hi"
-                ? (notice.titleHi || notice.titleEn || "")
-                : (notice.titleEn || notice.titleHi || "");
+            const title =
+                currentLanguage === "hi"
+                    ? (notice.titleHi || notice.titleEn || "")
+                    : (notice.titleEn || notice.titleHi || "");
 
-        const message =
-            currentLanguage === "hi"
-                ? (notice.messageHi || notice.messageEn || "")
-                : (notice.messageEn || notice.messageHi || "");
+            const message =
+                currentLanguage === "hi"
+                    ? (notice.messageHi || notice.messageEn || "")
+                    : (notice.messageEn || notice.messageHi || "");
 
-        html +=
-            `<tr>
+            html +=
+                `<tr>
                 <td>${escapeHtml(notice.date || "")}</td>
                 <td>${escapeHtml(title)}</td>
                 <td>${escapeHtml(message)}</td>
                 <td>
-                   ${
-    notice._id
-        ? `
+                   ${notice._id
+                    ? `
             <button
                 class="btn btn-edit"
                 onclick="editNotice('${notice._id}')">
@@ -2073,27 +2075,27 @@ try {
                 🗑️ ${t("delete")}
             </button>
           `
-        : ""
-}
+                    : ""
+                }
                 </td>
             </tr>`;
 
-    });
+        });
 
-    html += `</tbody></table>`;
+        html += `</tbody></table>`;
 
-    document
-        .getElementById("noticesList")
-        .innerHTML = html;
+        document
+            .getElementById("noticesList")
+            .innerHTML = html;
 
-} catch(error) {
+    } catch (error) {
 
-    document
-        .getElementById("noticesList")
-        .textContent =
-        error.message;
+        document
+            .getElementById("noticesList")
+            .textContent =
+            error.message;
 
-}
+    }
 
 }
 
@@ -2405,30 +2407,30 @@ function resetNoticeForm() {
 }
 async function deleteNotice(id) {
 
-if (
-    !confirm(
-        t("deleteMessageConfirm")
-    )
-) return;
+    if (
+        !confirm(
+            t("deleteMessageConfirm")
+        )
+    ) return;
 
-try {
+    try {
 
-    await apiRequest(
-        "/api/admin/notices/" + id,
-        {
-            method: "DELETE"
-        }
-    );
+        await apiRequest(
+            "/api/admin/notices/" + id,
+            {
+                method: "DELETE"
+            }
+        );
 
-    loadNotices();
+        loadNotices();
 
-    loadDashboard();
+        loadDashboard();
 
-} catch(error) {
+    } catch (error) {
 
-    alert(error.message);
+        alert(error.message);
 
-}
+    }
 
 }
 /* =========================================================
@@ -2610,11 +2612,10 @@ async function loadGallery() {
             <div class="gallery-placeholder">
                 📸
                 <span>
-                    ${
-                        currentLanguage === "hi"
-                            ? "फोटो लोड हो रही हैं..."
-                            : "Loading photos..."
-                    }
+                    ${currentLanguage === "hi"
+                ? "फोटो लोड हो रही हैं..."
+                : "Loading photos..."
+            }
                 </span>
             </div>
         `;
@@ -2662,11 +2663,10 @@ async function loadGallery() {
 
                     <span>
 
-                        ${
-                            currentLanguage === "hi"
-                                ? "अभी कोई फोटो उपलब्ध नहीं है।"
-                                : "No photos available yet."
-                        }
+                        ${currentLanguage === "hi"
+                    ? "अभी कोई फोटो उपलब्ध नहीं है।"
+                    : "No photos available yet."
+                }
 
                     </span>
 
@@ -2689,17 +2689,16 @@ async function loadGallery() {
 
                     <img
                         src="${escapeHtml(item.image || "")}"
-                        alt="${
-                            currentLanguage === "hi"
-                                ? escapeHtml(
-                                    item.titleHi ||
-                                    "Gallery Photo"
-                                )
-                                : escapeHtml(
-                                    item.titleEn ||
-                                    "Gallery Photo"
-                                )
-                        }"
+                        alt="${currentLanguage === "hi"
+                    ? escapeHtml(
+                        item.titleHi ||
+                        "Gallery Photo"
+                    )
+                    : escapeHtml(
+                        item.titleEn ||
+                        "Gallery Photo"
+                    )
+                }"
                         style="
                             width:120px;
                             height:90px;
@@ -2713,15 +2712,14 @@ async function loadGallery() {
 
                         <div>
                             <strong>
-                                ${
-                                    currentLanguage === "hi"
-                                        ? escapeHtml(
-                                            item.titleHi || ""
-                                        )
-                                        : escapeHtml(
-                                            item.titleEn || ""
-                                        )
-                                }
+                                ${currentLanguage === "hi"
+                    ? escapeHtml(
+                        item.titleHi || ""
+                    )
+                    : escapeHtml(
+                        item.titleEn || ""
+                    )
+                }
                             </strong>
                         </div>
 
@@ -2729,25 +2727,24 @@ async function loadGallery() {
                         <div>
 
                             ${escapeHtml(
-                                String(item.year || "")
-                            )}
+                    String(item.year || "")
+                )}
 
-                            ${
-                                item.category
-                                    ? " • " +
-                                      escapeHtml(
-                                          item.category
-                                      )
-                                    : ""
-                            }
+                            ${item.category
+                    ? " • " +
+                    escapeHtml(
+                        item.category
+                    )
+                    : ""
+                }
 
                         </div>
 
 
                         <div>
                             ${escapeHtml(
-                                item.date || ""
-                            )}
+                    item.date || ""
+                )}
                         </div>
 
                     </div>
@@ -2762,11 +2759,10 @@ async function loadGallery() {
                                 '${item._id || item.id}'
                             )"
                         >
-                            ✏️ ${
-                                currentLanguage === "hi"
-                                    ? "एडिट"
-                                    : "Edit"
-                            }
+                            ✏️ ${currentLanguage === "hi"
+                    ? "एडिट"
+                    : "Edit"
+                }
                         </button>
 
 
@@ -2777,11 +2773,10 @@ async function loadGallery() {
                                 '${item._id || item.id}'
                             )"
                         >
-                            🗑️ ${
-                                currentLanguage === "hi"
-                                    ? "डिलीट"
-                                    : "Delete"
-                            }
+                            🗑️ ${currentLanguage === "hi"
+                    ? "डिलीट"
+                    : "Delete"
+                }
                         </button>
 
                     </div>
@@ -2807,11 +2802,10 @@ async function loadGallery() {
 
                 <span>
 
-                    ${
-                        currentLanguage === "hi"
-                            ? "अभी कोई फोटो उपलब्ध नहीं है।"
-                            : "No photos available yet."
-                    }
+                    ${currentLanguage === "hi"
+                ? "अभी कोई फोटो उपलब्ध नहीं है।"
+                : "No photos available yet."
+            }
 
                 </span>
 
@@ -2836,7 +2830,7 @@ function clearGalleryErrors() {
         "galleryTitleEnError",
         "galleryImageError",
         "galleryPhotoFileError",
-        
+
         "galleryDateError"
 
     ];
@@ -2900,7 +2894,7 @@ function validateGallery(mode = "url") {
         value("galleryImage").trim();
 
 
-   
+
     const date =
         value("galleryDate").trim();
 
@@ -3053,10 +3047,10 @@ async function addGallery() {
             image:
                 value("galleryImage").trim(),
 
-           year:
-    new Date(
-        value("galleryDate")
-    ).getFullYear(),
+            year:
+                new Date(
+                    value("galleryDate")
+                ).getFullYear(),
             category:
                 value("galleryCategory"),
 
@@ -3226,12 +3220,12 @@ async function uploadGalleryPhoto() {
         );
 
 
-      formData.append(
-    "year",
-    new Date(
-        value("galleryDate")
-    ).getFullYear()
-);
+        formData.append(
+            "year",
+            new Date(
+                value("galleryDate")
+            ).getFullYear()
+        );
 
 
         formData.append(
@@ -3347,9 +3341,9 @@ async function editGallery(id) {
                 ? notices
                 : (
                     notices &&
-                    Array.isArray(
-                        notices.data
-                    )
+                        Array.isArray(
+                            notices.data
+                        )
                         ? notices.data
                         : []
                 );
@@ -3401,7 +3395,7 @@ async function editGallery(id) {
             item.image || "";
 
 
-       
+
 
 
         document.getElementById(
@@ -3682,15 +3676,15 @@ async function deleteGallery(id) {
 
 async function loadVideos() {
 
-try {
+    try {
 
-    const videos =
-        await apiRequest(
-            "/api/videos"
-        );
+        const videos =
+            await apiRequest(
+                "/api/videos"
+            );
 
-    let html =
-        `<table>
+        let html =
+            `<table>
             <thead>
                 <tr>
                     <th>${t("titleHindi")}</th>
@@ -3700,15 +3694,15 @@ try {
             </thead>
             <tbody>`;
 
-    videos.forEach(video => {
+        videos.forEach(video => {
 
-        const title =
-            currentLanguage === "hi"
-                ? (video.titleHi || video.titleEn || "")
-                : (video.titleEn || video.titleHi || "");
+            const title =
+                currentLanguage === "hi"
+                    ? (video.titleHi || video.titleEn || "")
+                    : (video.titleEn || video.titleHi || "");
 
-        html +=
-            `<tr>
+            html +=
+                `<tr>
                 <td>${escapeHtml(title)}</td>
                 <td>${escapeHtml(video.youtubeUrl || "")}</td>
                <td>
@@ -3732,22 +3726,22 @@ try {
 </td>
             </tr>`;
 
-    });
+        });
 
-    html += `</tbody></table>`;
+        html += `</tbody></table>`;
 
-    document
-        .getElementById("videosList")
-        .innerHTML = html;
+        document
+            .getElementById("videosList")
+            .innerHTML = html;
 
-} catch(error) {
+    } catch (error) {
 
-    document
-        .getElementById("videosList")
-        .textContent =
-        error.message;
+        document
+            .getElementById("videosList")
+            .textContent =
+            error.message;
 
-}
+    }
 
 }
 /* =========================================================
@@ -4458,28 +4452,28 @@ async function uploadVideoFile() {
 }
 async function deleteVideo(id) {
 
-if (
-    !confirm(
-        t("deleteVideoConfirm")
-    )
-) return;
+    if (
+        !confirm(
+            t("deleteVideoConfirm")
+        )
+    ) return;
 
-try {
+    try {
 
-    await apiRequest(
-        "/api/admin/videos/" + id,
-        {
-            method: "DELETE"
-        }
-    );
+        await apiRequest(
+            "/api/admin/videos/" + id,
+            {
+                method: "DELETE"
+            }
+        );
 
-    loadVideos();
+        loadVideos();
 
-} catch(error) {
+    } catch (error) {
 
-    alert(error.message);
+        alert(error.message);
 
-}
+    }
 
 
 }
@@ -4549,7 +4543,7 @@ async function loadLive() {
 
         toggleLiveSource();
 
-    } catch(error) {
+    } catch (error) {
 
         console.error(error);
 
@@ -4660,7 +4654,7 @@ async function saveLiveSettings() {
         }, 3000);
 
 
-    } catch(error) {
+    } catch (error) {
 
         alert(error.message);
 
@@ -4685,87 +4679,87 @@ document
         );
 
     });
-    
+
 /* =========================================================
 SPECIAL DARSHAN
 ========================================================= */
 
 async function loadDarshan() {
 
-try {
+    try {
 
-    const data =
-        await apiRequest(
-            "/api/darshan"
-        );
+        const data =
+            await apiRequest(
+                "/api/darshan"
+            );
 
-    document
-        .getElementById("darshanTitleHi")
-        .value =
-        data.titleHi || "";
+        document
+            .getElementById("darshanTitleHi")
+            .value =
+            data.titleHi || "";
 
-    document
-        .getElementById("darshanTitleEn")
-        .value =
-        data.titleEn || "";
+        document
+            .getElementById("darshanTitleEn")
+            .value =
+            data.titleEn || "";
 
-    document
-        .getElementById("darshanImage")
-        .value =
-        data.image || "";
+        document
+            .getElementById("darshanImage")
+            .value =
+            data.image || "";
 
-    document
-        .getElementById("darshanActive")
-        .checked =
-        data.active === true;
+        document
+            .getElementById("darshanActive")
+            .checked =
+            data.active === true;
 
-} catch(error) {
+    } catch (error) {
 
-    console.error(error);
+        console.error(error);
 
-}
+    }
 
 }
 
 async function updateDarshan() {
 
-try {
+    try {
 
-    await apiRequest(
-        "/api/admin/darshan",
-        {
-            method: "PUT",
+        await apiRequest(
+            "/api/admin/darshan",
+            {
+                method: "PUT",
 
-            body: JSON.stringify({
+                body: JSON.stringify({
 
-                titleHi:
-                    value("darshanTitleHi"),
+                    titleHi:
+                        value("darshanTitleHi"),
 
-                titleEn:
-                    value("darshanTitleEn"),
+                    titleEn:
+                        value("darshanTitleEn"),
 
-                image:
-                    value("darshanImage"),
+                    image:
+                        value("darshanImage"),
 
-                active:
-                    document
-                        .getElementById(
-                            "darshanActive"
-                        )
-                        .checked
+                    active:
+                        document
+                            .getElementById(
+                                "darshanActive"
+                            )
+                            .checked
 
-            })
+                })
 
-        }
-    );
+            }
+        );
 
-    alert(t("darshanUpdated"));
+        alert(t("darshanUpdated"));
 
-} catch(error) {
+    } catch (error) {
 
-    alert(error.message);
+        alert(error.message);
 
-}
+    }
 
 }
 
@@ -4782,41 +4776,41 @@ async function loadDonations() {
                 "/api/admin/donations"
             );
 
-    
+
         const records =
-    (data.records || []).filter(record => {
+            (data.records || []).filter(record => {
 
-        const amount =
-            Number(record.amount || 0);
+                const amount =
+                    Number(record.amount || 0);
 
-        const name =
-            String(record.name || "").trim();
+                const name =
+                    String(record.name || "").trim();
 
-        const source =
-            String(record.source || "").toLowerCase();
+                const source =
+                    String(record.source || "").toLowerCase();
 
-        const paymentStatus =
-            String(record.paymentStatus || "").toLowerCase();
+                const paymentStatus =
+                    String(record.paymentStatus || "").toLowerCase();
 
-        // Invalid / blank donation
-        if (!name || amount <= 0) {
-            return false;
-        }
+                // Invalid / blank donation
+                if (!name || amount <= 0) {
+                    return false;
+                }
 
-        // Online donation:
-        // केवल successfully paid donation दिखे
-        if (source === "online") {
-            return paymentStatus === "paid";
-        }
+                // Online donation:
+                // केवल successfully paid donation दिखे
+                if (source === "online") {
+                    return paymentStatus === "paid";
+                }
 
-        // Manual / Excel / old donation
-        return true;
+                // Manual / Excel / old donation
+                return true;
 
-    });
+            });
 
 
         let html =
-        `<table class="donation-table">
+            `<table class="donation-table">
 
             <thead>
 
@@ -4871,10 +4865,9 @@ async function loadDonations() {
                         style="text-align:center;"
                     >
 
-                        ${
-                            t("noRecords") ||
-                            "No records found"
-                        }
+                        ${t("noRecords") ||
+                "No records found"
+                }
 
                     </td>
 
@@ -4987,8 +4980,8 @@ async function loadDonations() {
 
                     <td>
                         ${escapeHtml(
-                            record.name || ""
-                        )}
+                    record.name || ""
+                )}
                     </td>
 
 
@@ -4996,59 +4989,56 @@ async function loadDonations() {
 
 <td>
 
-    ${
-        record.receiptNo
-            ? `<span
+    ${record.receiptNo
+                    ? `<span
                 title="${escapeHtml(
-                    record.receiptNo
-                )}"
+                        record.receiptNo
+                    )}"
               >
                 ${escapeHtml(
-                    record.receiptNo
-                )}
+                        record.receiptNo
+                    )}
               </span>`
-            : "—"
-    }
+                    : "—"
+                }
 
 </td>
 
                     <!-- DATE -->
 
                     <td>
-                        ${
-                            record.date
-                                ? new Date(
-                                    record.date
-                                ).toLocaleDateString(
-                                    "en-IN"
-                                )
-                                : ""
-                        }
+                        ${record.date
+                    ? new Date(
+                        record.date
+                    ).toLocaleDateString(
+                        "en-IN"
+                    )
+                    : ""
+                }
                     </td>
 
 
                     <!-- TIME -->
 
                     <td>
-                        ${
-                            record.createdAt
-                                ? new Date(
-                                    record.createdAt
-                                ).toLocaleTimeString(
-                                    "en-IN",
-                                    {
-                                        hour:
-                                            "2-digit",
+                        ${record.createdAt
+                    ? new Date(
+                        record.createdAt
+                    ).toLocaleTimeString(
+                        "en-IN",
+                        {
+                            hour:
+                                "2-digit",
 
-                                        minute:
-                                            "2-digit",
+                            minute:
+                                "2-digit",
 
-                                        hour12:
-                                            true
-                                    }
-                                )
-                                : ""
+                            hour12:
+                                true
                         }
+                    )
+                    : ""
+                }
                     </td>
 
 
@@ -5056,8 +5046,8 @@ async function loadDonations() {
 
                     <td>
                         ${escapeHtml(
-                            record.mobile || ""
-                        )}
+                    record.mobile || ""
+                )}
                     </td>
 
 
@@ -5065,10 +5055,10 @@ async function loadDonations() {
 
                     <td>
                         ₹${Number(
-                            record.amount || 0
-                        ).toLocaleString(
-                            "en-IN"
-                        )}
+                    record.amount || 0
+                ).toLocaleString(
+                    "en-IN"
+                )}
                     </td>
 
 
@@ -5076,8 +5066,8 @@ async function loadDonations() {
 
                     <td>
                         ${escapeHtml(
-                            record.paymentMode || ""
-                        )}
+                    record.paymentMode || ""
+                )}
                     </td>
 
 
@@ -5092,19 +5082,18 @@ async function loadDonations() {
 
                     <td>
 
-                        ${
-                            razorpayOrderId
-                                ? `<span
+                        ${razorpayOrderId
+                    ? `<span
                                     title="${escapeHtml(
-                                        razorpayOrderId
-                                    )}"
+                        razorpayOrderId
+                    )}"
                                 >
                                     ${escapeHtml(
-                                        razorpayOrderId
-                                    )}
+                        razorpayOrderId
+                    )}
                                 </span>`
-                                : "—"
-                        }
+                    : "—"
+                }
 
                     </td>
 
@@ -5113,19 +5102,18 @@ async function loadDonations() {
 
                     <td>
 
-                        ${
-                            razorpayPaymentId
-                                ? `<span
+                        ${razorpayPaymentId
+                    ? `<span
                                     title="${escapeHtml(
-                                        razorpayPaymentId
-                                    )}"
+                        razorpayPaymentId
+                    )}"
                                 >
                                     ${escapeHtml(
-                                        razorpayPaymentId
-                                    )}
+                        razorpayPaymentId
+                    )}
                                 </span>`
-                                : "—"
-                        }
+                    : "—"
+                }
 
                     </td>
 
@@ -5134,13 +5122,12 @@ async function loadDonations() {
 
                     <td>
 
-                        ${
-                            upiReference
-                                ? escapeHtml(
-                                    upiReference
-                                )
-                                : "—"
-                        }
+                        ${upiReference
+                    ? escapeHtml(
+                        upiReference
+                    )
+                    : "—"
+                }
 
                     </td>
 
@@ -5149,17 +5136,16 @@ async function loadDonations() {
 
                     <td>
 
-                        ${
-                            record.approved
+                        ${record.approved
 
-                                ? `<span class="status-approved">
+                    ? `<span class="status-approved">
                                     ${t("yes")}
                                   </span>`
 
-                                : `<span class="status-pending">
+                    : `<span class="status-pending">
                                     ${t("no")}
                                   </span>`
-                        }
+                }
 
                     </td>
 
@@ -5168,17 +5154,16 @@ async function loadDonations() {
 
                     <td>
 
-                        ${
-                            record.publicVisible
+                        ${record.publicVisible
 
-                                ? `<span class="status-approved">
+                    ? `<span class="status-approved">
                                     ${t("yes")}
                                   </span>`
 
-                                : `<span class="status-pending">
+                    : `<span class="status-pending">
                                     ${t("no")}
                                   </span>`
-                        }
+                }
 
                     </td>
 
@@ -5200,11 +5185,10 @@ async function loadDonations() {
                             )"
                         >
 
-                            ${
-                                record.approved
-                                    ? "Unapprove"
-                                    : "Approve"
-                            }
+                            ${record.approved
+                    ? "Unapprove"
+                    : "Approve"
+                }
 
                         </button>
 
@@ -5219,18 +5203,16 @@ async function loadDonations() {
                                 'publicVisible',
                                 ${!record.publicVisible}
                             )"
-                            ${
-                                !record.approved
-                                    ? "disabled"
-                                    : ""
-                            }
+                            ${!record.approved
+                    ? "disabled"
+                    : ""
+                }
                         >
 
-                            ${
-                                record.publicVisible
-                                    ? "Hide"
-                                    : "Publish"
-                            }
+                            ${record.publicVisible
+                    ? "Hide"
+                    : "Publish"
+                }
 
                         </button>
 
@@ -5335,304 +5317,303 @@ async function addDonation(event) {
        GET FORM VALUES
     ===================================================== */
 
-/* =====================================================
-   GET FORM VALUES
-===================================================== */
+    /* =====================================================
+       GET FORM VALUES
+    ===================================================== */
 
-const year =
-    value("donationYear").trim();
+    const year =
+        value("donationYear").trim();
 
-const name =
-    value("donationName").trim();
+    const name =
+        value("donationName").trim();
 
-const fatherName =
-    value("donationFatherName").trim();
+    const fatherName =
+        value("donationFatherName").trim();
 
-const organization =
-    value("donationOrganization").trim();
+    const organization =
+        value("donationOrganization").trim();
 
-const email =
-    value("donationEmail").trim();
+    const email =
+        value("donationEmail").trim();
 
-const mobile =
-    value("donationMobile").trim();
+    const mobile =
+        value("donationMobile").trim();
 
-const amountText =
-    value("donationAmount").trim();
+    const amountText =
+        value("donationAmount").trim();
 
-const address =
-    value("donationAddress").trim();
+    const address =
+        value("donationAddress").trim();
 
-const receivedBy =
-    value("donationReceivedBy").trim();
+    const receivedBy =
+        value("donationReceivedBy").trim();
 
-const date =
-    value("donationDate").trim();
+    const date =
+        value("donationDate").trim();
 
-const paymentMode =
-    value("donationPaymentMode").trim();
+    const paymentMode =
+        value("donationPaymentMode").trim();
 
 
-/* =====================================================
-   YEAR
-   Required
-===================================================== */
+    /* =====================================================
+       YEAR
+       Required
+    ===================================================== */
 
-if (!year) {
+    if (!year) {
 
-    alert(
-        currentLanguage === "hi"
-            ? "वर्ष आवश्यक है।"
-            : "Year is required."
-    );
+        alert(
+            currentLanguage === "hi"
+                ? "वर्ष आवश्यक है।"
+                : "Year is required."
+        );
 
-    return false;
-}
+        return false;
+    }
 
 
-/* =====================================================
-   DONOR NAME
-   Required + letters only
-===================================================== */
+    /* =====================================================
+       DONOR NAME
+       Required + letters only
+    ===================================================== */
 
-if (!name) {
+    if (!name) {
 
-    alert(
-        currentLanguage === "hi"
-            ? "Donor Name आवश्यक है।"
-            : "Donor Name is required."
-    );
+        alert(
+            currentLanguage === "hi"
+                ? "Donor Name आवश्यक है।"
+                : "Donor Name is required."
+        );
 
-    return false;
-}
+        return false;
+    }
 
-if (!/^[A-Za-z\s]+$/.test(name)) {
+    if (!/^[A-Za-z\s]+$/.test(name)) {
 
-    alert(
-        currentLanguage === "hi"
-            ? "Donor Name में केवल अक्षर और space मान्य हैं।"
-            : "Donor Name can contain only letters and spaces."
-    );
+        alert(
+            currentLanguage === "hi"
+                ? "Donor Name में केवल अक्षर और space मान्य हैं।"
+                : "Donor Name can contain only letters and spaces."
+        );
 
-    return false;
-}
+        return false;
+    }
 
 
-/* =====================================================
-   FATHER NAME
-   Optional + letters only
-===================================================== */
+    /* =====================================================
+       FATHER NAME
+       Optional + letters only
+    ===================================================== */
 
-if (
-    fatherName &&
-    !/^[A-Za-z\s]+$/.test(fatherName)
-) {
+    if (
+        fatherName &&
+        !/^[A-Za-z\s]+$/.test(fatherName)
+    ) {
 
-    alert(
-        currentLanguage === "hi"
-            ? "Father Name में केवल अक्षर और space मान्य हैं।"
-            : "Father Name can contain only letters and spaces."
-    );
+        alert(
+            currentLanguage === "hi"
+                ? "Father Name में केवल अक्षर और space मान्य हैं।"
+                : "Father Name can contain only letters and spaces."
+        );
 
-    return false;
-}
+        return false;
+    }
 
 
-/* =====================================================
-   MOBILE
-   Optional + digits only
-===================================================== */
+    /* =====================================================
+       MOBILE
+       Optional + digits only
+    ===================================================== */
 
-/* =====================================================
-   MOBILE
-   Required + digits only + exactly 10 digits
-===================================================== */
+    /* =====================================================
+       MOBILE
+       Required + digits only + exactly 10 digits
+    ===================================================== */
 
-if (!mobile) {
+    if (!mobile) {
 
-    alert(
-        currentLanguage === "hi"
-            ? "Mobile Number आवश्यक है।"
-            : "Mobile Number is required."
-    );
+        alert(
+            currentLanguage === "hi"
+                ? "Mobile Number आवश्यक है।"
+                : "Mobile Number is required."
+        );
 
-    return false;
-}
+        return false;
+    }
 
-if (!/^\d+$/.test(mobile)) {
+    if (!/^\d+$/.test(mobile)) {
 
-    alert(
-        currentLanguage === "hi"
-            ? "Mobile Number में केवल अंक मान्य हैं।"
-            : "Mobile Number can contain only digits."
-    );
+        alert(
+            currentLanguage === "hi"
+                ? "Mobile Number में केवल अंक मान्य हैं।"
+                : "Mobile Number can contain only digits."
+        );
 
-    return false;
-}
+        return false;
+    }
 
-if (mobile.length !== 10) {
+    if (mobile.length !== 10) {
 
-    alert(
-        currentLanguage === "hi"
-            ? "Mobile Number 10 अंकों का होना चाहिए।"
-            : "Mobile Number must contain exactly 10 digits."
-    );
+        alert(
+            currentLanguage === "hi"
+                ? "Mobile Number 10 अंकों का होना चाहिए।"
+                : "Mobile Number must contain exactly 10 digits."
+        );
 
-    return false;
-}
+        return false;
+    }
 
 
 
 
 
-/* =====================================================
-   EMAIL
-   Optional
-===================================================== */
+    /* =====================================================
+       EMAIL
+       Optional
+    ===================================================== */
 
-if (
-    email &&
-    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-) {
+    if (
+        email &&
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    ) {
 
-    alert(
-        currentLanguage === "hi"
-            ? "कृपया valid Email डालें।"
-            : "Please enter a valid Email."
-    );
+        alert(
+            currentLanguage === "hi"
+                ? "कृपया valid Email डालें।"
+                : "Please enter a valid Email."
+        );
 
-    return false;
-}
+        return false;
+    }
 
 
-/* =====================================================
-   AMOUNT
-   Required + maximum 2 decimal places
-===================================================== */
+    /* =====================================================
+       AMOUNT
+       Required + maximum 2 decimal places
+    ===================================================== */
 
-if (!amountText) {
+    if (!amountText) {
 
-    alert(
-        currentLanguage === "hi"
-            ? "Amount आवश्यक है।"
-            : "Amount is required."
-    );
+        alert(
+            currentLanguage === "hi"
+                ? "Amount आवश्यक है।"
+                : "Amount is required."
+        );
 
-    return false;
+        return false;
 
-}
+    }
 
-if (
-    !/^\d+(\.\d{1,2})?$/.test(amountText)
-)
- {
+    if (
+        !/^\d+(\.\d{1,2})?$/.test(amountText)
+    ) {
 
-    alert(
-        currentLanguage === "hi"
-            ? "Amount में केवल number और अधिकतम 2 decimal places मान्य हैं।"
-            : "Amount must be a number with maximum 2 decimal places."
-    );
+        alert(
+            currentLanguage === "hi"
+                ? "Amount में केवल number और अधिकतम 2 decimal places मान्य हैं।"
+                : "Amount must be a number with maximum 2 decimal places."
+        );
 
-    return false;
-}
+        return false;
+    }
 
-const amount =
-    Number(amountText);
+    const amount =
+        Number(amountText);
 
-if (
-    !Number.isFinite(amount) ||
-    amount <= 0
-) {
+    if (
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ) {
 
-    alert(
-        currentLanguage === "hi"
-            ? "Amount 0 से अधिक होना चाहिए।"
-            : "Amount must be greater than 0."
-    );
+        alert(
+            currentLanguage === "hi"
+                ? "Amount 0 से अधिक होना चाहिए।"
+                : "Amount must be greater than 0."
+        );
 
-    return false;
-}
+        return false;
+    }
 
 
-/* =====================================================
-   ADDRESS
-   Required
-===================================================== */
+    /* =====================================================
+       ADDRESS
+       Required
+    ===================================================== */
 
-if (!address) {
+    if (!address) {
 
-    alert(
-        currentLanguage === "hi"
-            ? "Address आवश्यक है।"
-            : "Address is required."
-    );
+        alert(
+            currentLanguage === "hi"
+                ? "Address आवश्यक है।"
+                : "Address is required."
+        );
 
-    return false;
-}
+        return false;
+    }
 
 
-/* =====================================================
-   RECEIVED BY
-   Required + letters only
-===================================================== */
+    /* =====================================================
+       RECEIVED BY
+       Required + letters only
+    ===================================================== */
 
-if (!receivedBy) {
+    if (!receivedBy) {
 
-    alert(
-        currentLanguage === "hi"
-            ? "Received By आवश्यक है।"
-            : "Received By is required."
-    );
+        alert(
+            currentLanguage === "hi"
+                ? "Received By आवश्यक है।"
+                : "Received By is required."
+        );
 
-    return false;
-}
+        return false;
+    }
 
-if (
-    !/^[A-Za-z\s]+$/.test(receivedBy)
-) {
+    if (
+        !/^[A-Za-z\s]+$/.test(receivedBy)
+    ) {
 
-    alert(
-        currentLanguage === "hi"
-            ? "Received By में केवल अक्षर और space मान्य हैं।"
-            : "Received By can contain only letters and spaces."
-    );
+        alert(
+            currentLanguage === "hi"
+                ? "Received By में केवल अक्षर और space मान्य हैं।"
+                : "Received By can contain only letters and spaces."
+        );
 
-    return false;
-}
+        return false;
+    }
 
 
-/* =====================================================
-   PAYMENT MODE
-   Select not allowed
-===================================================== */
+    /* =====================================================
+       PAYMENT MODE
+       Select not allowed
+    ===================================================== */
 
-if (!paymentMode) {
+    if (!paymentMode) {
 
-    alert(
-        currentLanguage === "hi"
-            ? "Payment Mode select करें।"
-            : "Please select Payment Mode."
-    );
+        alert(
+            currentLanguage === "hi"
+                ? "Payment Mode select करें।"
+                : "Please select Payment Mode."
+        );
 
-    return false;
-}
+        return false;
+    }
 
 
-/* =====================================================
-   DATE
-   Required
-===================================================== */
+    /* =====================================================
+       DATE
+       Required
+    ===================================================== */
 
-if (!date) {
+    if (!date) {
 
-    alert(
-        currentLanguage === "hi"
-            ? "Payment Date आवश्यक है।"
-            : "Payment Date is required."
-    );
+        alert(
+            currentLanguage === "hi"
+                ? "Payment Date आवश्यक है।"
+                : "Payment Date is required."
+        );
 
-    return false;
-}
+        return false;
+    }
 
     /* =====================================================
        DONATION DATA
@@ -5640,41 +5621,41 @@ if (!date) {
 
     const donationData = {
 
-       year:
-    Number(year),
+        year:
+            Number(year),
 
-name:
-    name,
+        name:
+            name,
 
-fatherName:
-    fatherName,
+        fatherName:
+            fatherName,
 
-designation:
-    value("donationDesignation"),
+        designation:
+            value("donationDesignation"),
 
-organization:
-    organization,
+        organization:
+            organization,
 
-mobile:
-    mobile,
+        mobile:
+            mobile,
 
-email:
-    email,
+        email:
+            email,
 
-address:
-    address,
+        address:
+            address,
 
-amount:
-    amount,
+        amount:
+            amount,
 
-receivedBy:
-    receivedBy,
+        receivedBy:
+            receivedBy,
 
-date:
-    date,
+        date:
+            date,
 
-paymentMode:
-    paymentMode,
+        paymentMode:
+            paymentMode,
         remarks:
             value(
                 "donationRemarks"
@@ -6170,56 +6151,56 @@ EXPORT DONATIONS
 
 async function exportDonations() {
 
-try {
+    try {
 
-    const response =
-        await fetch(
-            "/api/admin/donations/export",
-            {
-                headers: {
-                    Authorization:
-                        "Bearer " + token
+        const response =
+            await fetch(
+                "/api/admin/donations/export",
+                {
+                    headers: {
+                        Authorization:
+                            "Bearer " + token
+                    }
                 }
-            }
-        );
+            );
 
-    if (!response.ok) {
+        if (!response.ok) {
 
-        throw new Error(
-            currentLanguage === "hi"
-                ? "Excel export असफल रहा।"
-                : "Excel export failed."
-        );
+            throw new Error(
+                currentLanguage === "hi"
+                    ? "Excel export असफल रहा।"
+                    : "Excel export failed."
+            );
+
+        }
+
+        const blob =
+            await response.blob();
+
+        const url =
+            URL.createObjectURL(blob);
+
+        const a =
+            document.createElement("a");
+
+        a.href = url;
+
+        a.download =
+            "donation-records.xlsx";
+
+        document.body.appendChild(a);
+
+        a.click();
+
+        a.remove();
+
+        URL.revokeObjectURL(url);
+
+    } catch (error) {
+
+        alert(error.message);
 
     }
-
-    const blob =
-        await response.blob();
-
-    const url =
-        URL.createObjectURL(blob);
-
-    const a =
-        document.createElement("a");
-
-    a.href = url;
-
-    a.download =
-        "donation-records.xlsx";
-
-    document.body.appendChild(a);
-
-    a.click();
-
-    a.remove();
-
-    URL.revokeObjectURL(url);
-
-} catch(error) {
-
-    alert(error.message);
-
-}
 
 }
 
@@ -6229,15 +6210,15 @@ CONTRIBUTORS
 
 async function loadContributors() {
 
-try {
+    try {
 
-    const contributors =
-        await apiRequest(
-            "/api/contributors"
-        );
+        const contributors =
+            await apiRequest(
+                "/api/contributors"
+            );
 
-    let html =
-        `<table>
+        let html =
+            `<table>
             <thead>
                 <tr>
                     <th>S.No.</th>
@@ -6251,10 +6232,10 @@ try {
             </thead>
             <tbody>`;
 
-    contributors.forEach((item, index) => {
+        contributors.forEach((item, index) => {
 
-        html +=
-            `<tr>
+            html +=
+                `<tr>
 
                 <td>
                     ${index + 1}
@@ -6274,8 +6255,8 @@ try {
 
                 <td>
                     ${escapeHtml(
-                        item.contributionDetails || ""
-                    )}
+                    item.contributionDetails || ""
+                )}
                 </td>
 
                 <td>
@@ -6302,272 +6283,272 @@ try {
 
             </tr>`;
 
-    });
+        });
 
-    html += `</tbody></table>`;
+        html += `</tbody></table>`;
 
-    document
-        .getElementById(
-            "contributorsList"
-        )
-        .innerHTML = html;
+        document
+            .getElementById(
+                "contributorsList"
+            )
+            .innerHTML = html;
 
-} catch(error) {
+    } catch (error) {
 
-    document
-        .getElementById(
-            "contributorsList"
-        )
-        .textContent =
-        error.message;
+        document
+            .getElementById(
+                "contributorsList"
+            )
+            .textContent =
+            error.message;
 
-}
+    }
 
 }
 async function addContributor() {
 
-try {
+    try {
 
-    const name =
-        value("contributorName");
+        const name =
+            value("contributorName");
 
-    const mobile =
-        value("contributorMobile");
+        const mobile =
+            value("contributorMobile");
 
-    const organization =
-        value("contributorOrganization");
+        const organization =
+            value("contributorOrganization");
 
-    const contributionDetails =
-        value("contributorDetails");
+        const contributionDetails =
+            value("contributorDetails");
 
-    const date =
-        value("contributorDate");
-
-
-    /* NAME */
-
-    if (!name) {
-        alert("Contributor name is required.");
-        return false;
-    }
+        const date =
+            value("contributorDate");
 
 
-    /* MOBILE */
+        /* NAME */
 
-    if (!mobile) {
-        alert("Mobile number is required.");
-        return false;
-    }
-
-    if (!/^[6-9]\d{9}$/.test(mobile)) {
-        alert(
-            "Please enter a valid 10-digit mobile number."
-        );
-        return false;
-    }
-
-
-    /* ORGANIZATION */
-
-    if (!organization) {
-        alert("Organization is required.");
-        return false;
-    }
-
-
-    /* CONTRIBUTION DETAILS */
-
-    if (!contributionDetails) {
-        alert("Contribution details are required.");
-        return false;
-    }
-
-
-    /* DATE */
-
-    if (!date) {
-        alert("Date is required.");
-        return false;
-    }
-
-    const today =
-    new Date().toISOString().split("T")[0];
-
-if (date > today) {
-    alert("Future date is not allowed.");
-    return false;
-}
-
-    await apiRequest(
-        "/api/admin/contributors",
-        {
-            method: "POST",
-
-            body: JSON.stringify({
-
-                name: name,
-
-                mobile: mobile,
-
-                organization:
-                    organization,
-
-                contributionDetails:
-                    contributionDetails,
-
-                date: date,
-
-                active: true
-
-            })
-
+        if (!name) {
+            alert("Contributor name is required.");
+            return false;
         }
-    );
 
 
-    alert(t("contributorAdded"));
+        /* MOBILE */
 
-    loadContributors();
+        if (!mobile) {
+            alert("Mobile number is required.");
+            return false;
+        }
 
-    loadDashboard();
-
-
-    /* CLEAR FORM */
-const contributorNameInput =
-    document.getElementById(
-        "contributorName"
-    );
-
-if (contributorNameInput) {
-    contributorNameInput.value = "";
-}
+        if (!/^[6-9]\d{9}$/.test(mobile)) {
+            alert(
+                "Please enter a valid 10-digit mobile number."
+            );
+            return false;
+        }
 
 
-const contributorMobileInput =
-    document.getElementById(
-        "contributorMobile"
-    );
+        /* ORGANIZATION */
 
-if (contributorMobileInput) {
-    contributorMobileInput.value = "";
-}
+        if (!organization) {
+            alert("Organization is required.");
+            return false;
+        }
 
 
-const contributorOrganizationInput =
-    document.getElementById(
-        "contributorOrganization"
-    );
+        /* CONTRIBUTION DETAILS */
 
-if (contributorOrganizationInput) {
-    contributorOrganizationInput.value = "";
-}
+        if (!contributionDetails) {
+            alert("Contribution details are required.");
+            return false;
+        }
 
 
-const contributorDetailsInput =
-    document.getElementById(
-        "contributorDetails"
-    );
+        /* DATE */
 
-if (contributorDetailsInput) {
-    contributorDetailsInput.value = "";
-}
+        if (!date) {
+            alert("Date is required.");
+            return false;
+        }
+
+        const today =
+            new Date().toISOString().split("T")[0];
+
+        if (date > today) {
+            alert("Future date is not allowed.");
+            return false;
+        }
+
+        await apiRequest(
+            "/api/admin/contributors",
+            {
+                method: "POST",
+
+                body: JSON.stringify({
+
+                    name: name,
+
+                    mobile: mobile,
+
+                    organization:
+                        organization,
+
+                    contributionDetails:
+                        contributionDetails,
+
+                    date: date,
+
+                    active: true
+
+                })
+
+            }
+        );
 
 
-const contributorDateInput =
-    document.getElementById(
-        "contributorDate"
-    );
+        alert(t("contributorAdded"));
 
-if (contributorDateInput) {
-    contributorDateInput.value = "";
-}
+        loadContributors();
 
-} catch(error) {
+        loadDashboard();
 
-    alert(error.message);
 
-}
+        /* CLEAR FORM */
+        const contributorNameInput =
+            document.getElementById(
+                "contributorName"
+            );
+
+        if (contributorNameInput) {
+            contributorNameInput.value = "";
+        }
+
+
+        const contributorMobileInput =
+            document.getElementById(
+                "contributorMobile"
+            );
+
+        if (contributorMobileInput) {
+            contributorMobileInput.value = "";
+        }
+
+
+        const contributorOrganizationInput =
+            document.getElementById(
+                "contributorOrganization"
+            );
+
+        if (contributorOrganizationInput) {
+            contributorOrganizationInput.value = "";
+        }
+
+
+        const contributorDetailsInput =
+            document.getElementById(
+                "contributorDetails"
+            );
+
+        if (contributorDetailsInput) {
+            contributorDetailsInput.value = "";
+        }
+
+
+        const contributorDateInput =
+            document.getElementById(
+                "contributorDate"
+            );
+
+        if (contributorDateInput) {
+            contributorDateInput.value = "";
+        }
+
+    } catch (error) {
+
+        alert(error.message);
+
+    }
 
 }
 async function editContributor(id) {
 
-try {
+    try {
 
-    const contributors =
-        await apiRequest(
-            "/api/contributors"
-        );
+        const contributors =
+            await apiRequest(
+                "/api/contributors"
+            );
 
-    const item =
-        contributors.find(
-            contributor =>
-                contributor._id === id
-        );
+        const item =
+            contributors.find(
+                contributor =>
+                    contributor._id === id
+            );
 
-    if (!item) {
-        alert("Contributor not found.");
-        return;
+        if (!item) {
+            alert("Contributor not found.");
+            return;
+        }
+
+
+        document.getElementById(
+            "contributorName"
+        ).value =
+            item.name || "";
+
+
+        document.getElementById(
+            "contributorMobile"
+        ).value =
+            item.mobile || "";
+
+
+        document.getElementById(
+            "contributorOrganization"
+        ).value =
+            item.organization || "";
+
+
+        document.getElementById(
+            "contributorDetails"
+        ).value =
+            item.contributionDetails || "";
+
+
+        document.getElementById(
+            "contributorDate"
+        ).value =
+            item.date || "";
+
+
+        /* Store ID for update */
+
+        window.editingContributorId = id;
+
+
+        alert("Contributor loaded for editing.");
+        const button =
+            document.getElementById(
+                "contributorSubmitBtn"
+            );
+
+        if (button) {
+
+            button.setAttribute(
+                "onclick",
+                "updateContributor()"
+            );
+
+            button.textContent =
+                "✏️ Update Contributor";
+
+        }
+
+    } catch (error) {
+
+        alert(error.message);
+
     }
-
-
-    document.getElementById(
-        "contributorName"
-    ).value =
-        item.name || "";
-
-
-    document.getElementById(
-        "contributorMobile"
-    ).value =
-        item.mobile || "";
-
-
-    document.getElementById(
-        "contributorOrganization"
-    ).value =
-        item.organization || "";
-
-
-    document.getElementById(
-        "contributorDetails"
-    ).value =
-        item.contributionDetails || "";
-
-
-    document.getElementById(
-        "contributorDate"
-    ).value =
-        item.date || "";
-
-
-    /* Store ID for update */
-
-    window.editingContributorId = id;
-
-
-    alert("Contributor loaded for editing.");
-   const button =
-    document.getElementById(
-        "contributorSubmitBtn"
-    );
-
-if (button) {
-
-    button.setAttribute(
-        "onclick",
-        "updateContributor()"
-    );
-
-    button.textContent =
-        "✏️ Update Contributor";
-
-}
-
-} catch(error) {
-
-    alert(error.message);
-
-}
 
 
 }
@@ -6632,14 +6613,14 @@ async function updateContributor() {
 
         /* CONTRIBUTION DETAILS */
 
-       if (!contributionDetails) {
-    alert("Contribution details are required.");
-    return false;
-}
-            
+        if (!contributionDetails) {
+            alert("Contribution details are required.");
+            return false;
+        }
 
 
-        
+
+
 
 
         /* DATE */
@@ -6649,12 +6630,12 @@ async function updateContributor() {
             return false;
         }
         const today =
-    new Date().toISOString().split("T")[0];
+            new Date().toISOString().split("T")[0];
 
-if (date > today) {
-    alert("Future date is not allowed.");
-    return false;
-}
+        if (date > today) {
+            alert("Future date is not allowed.");
+            return false;
+        }
 
 
         /* UPDATE BACKEND */
@@ -6718,9 +6699,9 @@ if (date > today) {
         /* CHANGE BUTTON BACK TO ADD */
 
         const button =
-    document.getElementById(
-        "contributorSubmitBtn"
-    );
+            document.getElementById(
+                "contributorSubmitBtn"
+            );
 
         if (button) {
 
@@ -6755,34 +6736,178 @@ if (date > today) {
 
 async function deleteContributor(id) {
 
-if (
-    !confirm(
-        "Are you sure you want to delete this contributor?"
-    )
-) {
-    return;
+    if (
+        !confirm(
+            "Are you sure you want to delete this contributor?"
+        )
+    ) {
+        return;
+    }
+
+    try {
+
+        await apiRequest(
+            "/api/admin/contributors/" + id,
+            {
+                method: "DELETE"
+            }
+        );
+
+        alert("Contributor deleted successfully.");
+
+        loadContributors();
+
+        loadDashboard();
+
+    } catch (error) {
+
+        alert(error.message);
+
+    }
+
 }
 
-try {
+/* =========================================================
+   BAL DANDIYA REGISTRATIONS
+========================================================= */
 
-    await apiRequest(
-        "/api/admin/contributors/" + id,
-        {
-            method: "DELETE"
+async function loadDandiyaRegistrations() {
+
+    const tbody =
+        document.getElementById(
+            "dandiyaRegistrationsBody"
+        );
+
+    if (!tbody) {
+        console.error(
+            "dandiyaRegistrationsBody not found"
+        );
+        return;
+    }
+
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="9">
+                Loading...
+            </td>
+        </tr>
+    `;
+
+    try {
+
+        const registrations =
+            await apiRequest(
+                "/api/admin/dandiya-registrations"
+            );
+
+        tbody.innerHTML = "";
+
+        if (
+            !registrations ||
+            registrations.length === 0
+        ) {
+
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="9">
+                        अभी कोई Registration नहीं है।
+                    </td>
+                </tr>
+            `;
+
+            return;
         }
-    );
 
-    alert("Contributor deleted successfully.");
+        registrations.forEach(
+            (item, index) => {
 
-    loadContributors();
+                const date =
+                    item.createdAt
+                        ? new Date(
+                            item.createdAt
+                        ).toLocaleDateString(
+                            "en-IN"
+                        )
+                        : "";
 
-    loadDashboard();
+                tbody.innerHTML += `
+                    <tr>
 
-} catch(error) {
+                        <td>
+                            ${item.serialNo || index + 1}
+                        </td>
 
-    alert(error.message);
+                        <td>
+                            ${escapeHtml(
+                                item.childName || ""
+                            )}
+                        </td>
 
-}
+                        <td>
+                            ${escapeHtml(
+                                item.parentName || ""
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                item.mobile || ""
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                item.age || ""
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                item.className || ""
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                item.school || ""
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                item.address || ""
+                            )}
+                        </td>
+
+                        <td>
+                            ${date}
+                        </td>
+
+                    </tr>
+                `;
+
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Dandiya registrations error:",
+            error
+        );
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="9">
+                    ${escapeHtml(
+                        error.message ||
+                        "Registration load नहीं हो सका।"
+                    )}
+                </td>
+            </tr>
+        `;
+
+    }
 
 }
 /* =========================================================
@@ -6791,15 +6916,15 @@ CONTACTS
 
 async function loadContacts() {
 
-try {
+    try {
 
-    const contacts =
-        await apiRequest(
-            "/api/admin/contacts"
-        );
+        const contacts =
+            await apiRequest(
+                "/api/admin/contacts"
+            );
 
-    let html =
-        `<table>
+        let html =
+            `<table>
             <thead>
                 <tr>
                     <th>${t("name")}</th>
@@ -6811,10 +6936,10 @@ try {
             </thead>
             <tbody>`;
 
-    contacts.forEach(item => {
+        contacts.forEach(item => {
 
-        html +=
-            `<tr>
+            html +=
+                `<tr>
 
                 <td>
                     ${escapeHtml(item.name || "")}
@@ -6852,82 +6977,82 @@ try {
 
             </tr>`;
 
-    });
+        });
 
-    html += `</tbody></table>`;
+        html += `</tbody></table>`;
 
-    document
-        .getElementById(
-            "contactsList"
-        )
-        .innerHTML = html;
+        document
+            .getElementById(
+                "contactsList"
+            )
+            .innerHTML = html;
 
-} catch(error) {
+    } catch (error) {
 
-    document
-        .getElementById(
-            "contactsList"
-        )
-        .textContent =
-        error.message;
+        document
+            .getElementById(
+                "contactsList"
+            )
+            .textContent =
+            error.message;
 
-}
+    }
 
 }
 
 async function markContactRead(id) {
 
-try {
+    try {
 
-    await apiRequest(
-        "/api/admin/contacts/" + id,
-        {
-            method: "PUT",
+        await apiRequest(
+            "/api/admin/contacts/" + id,
+            {
+                method: "PUT",
 
-            body: JSON.stringify({
-                status: "read"
-            })
+                body: JSON.stringify({
+                    status: "read"
+                })
 
-        }
-    );
+            }
+        );
 
-    loadContacts();
+        loadContacts();
 
-    loadDashboard();
+        loadDashboard();
 
-} catch(error) {
+    } catch (error) {
 
-    alert(error.message);
+        alert(error.message);
 
-}
+    }
 
 }
 
 async function deleteContact(id) {
-if (
-    !confirm(
-        t("deleteMessageConfirm")
-    )
-) return;
+    if (
+        !confirm(
+            t("deleteMessageConfirm")
+        )
+    ) return;
 
-try {
+    try {
 
-    await apiRequest(
-        "/api/admin/contacts/" + id,
-        {
-            method: "DELETE"
-        }
-    );
+        await apiRequest(
+            "/api/admin/contacts/" + id,
+            {
+                method: "DELETE"
+            }
+        );
 
-    loadContacts();
+        loadContacts();
 
-    loadDashboard();
+        loadDashboard();
 
-} catch(error) {
+    } catch (error) {
 
-    alert(error.message);
+        alert(error.message);
 
-}
+    }
 
 }
 
@@ -6937,23 +7062,23 @@ HELPERS
 
 function value(id) {
 
-const element =
-    document.getElementById(id);
+    const element =
+        document.getElementById(id);
 
-return element
-    ? element.value.trim()
-    : "";
+    return element
+        ? element.value.trim()
+        : "";
 
 }
 
 function escapeHtml(value) {
 
-return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
 }
 
@@ -6962,45 +7087,45 @@ SHOW / HIDE PASSWORD
 ========================================================= */
 
 const passwordInput =
-document.getElementById("password");
+    document.getElementById("password");
 
 const togglePassword =
-document.getElementById(
-"togglePassword"
-);
+    document.getElementById(
+        "togglePassword"
+    );
 
 if (
-passwordInput &&
-togglePassword
+    passwordInput &&
+    togglePassword
 ) {
 
-togglePassword.addEventListener(
-    "click",
-    function() {
+    togglePassword.addEventListener(
+        "click",
+        function () {
 
-        if (
-            passwordInput.type ===
-            "password"
-        ) {
+            if (
+                passwordInput.type ===
+                "password"
+            ) {
 
-            passwordInput.type =
-                "text";
+                passwordInput.type =
+                    "text";
 
-            togglePassword.textContent =
-                "🙈";
+                togglePassword.textContent =
+                    "🙈";
 
-        } else {
+            } else {
 
-            passwordInput.type =
-                "password";
+                passwordInput.type =
+                    "password";
 
-            togglePassword.textContent =
-                "👁️";
+                togglePassword.textContent =
+                    "👁️";
+
+            }
 
         }
-
-    }
-);
+    );
 
 
 }

@@ -24,6 +24,7 @@ const razorpay = new Razorpay({
 });
 
 const crypto = require("crypto");
+const tls = require("tls");
 
 
 
@@ -51,7 +52,7 @@ const VIDEO_UPLOAD_DIR =
         "videos"
     );
 
-    // ============================================================
+// ============================================================
 // PHOTO UPLOAD DIRECTORY
 // ============================================================
 
@@ -64,7 +65,7 @@ const PHOTO_UPLOAD_DIR =
 
 
 // Create gallery photo upload folder automatically
-     fs.mkdirSync(
+fs.mkdirSync(
     PHOTO_UPLOAD_DIR,
     {
         recursive: true
@@ -123,7 +124,7 @@ const videoStorage =
     });
 
 
- const videoUpload =
+const videoUpload =
     multer({
 
         storage:
@@ -177,9 +178,9 @@ const videoStorage =
             }
 
     }
- );
+    );
 
- // ============================================================
+// ============================================================
 // GALLERY PHOTO UPLOAD CONFIGURATION
 // ============================================================
 
@@ -294,9 +295,9 @@ const ADMIN_USERNAME =
 const ADMIN_PASSWORD =
     process.env.ADMIN_PASSWORD ||
     "Admin@2016";
-    // ============================================================
-   // RAZORPAY CONFIGURATION
-   // ============================================================
+// ============================================================
+// RAZORPAY CONFIGURATION
+// ============================================================
 
 
 
@@ -406,9 +407,17 @@ app.get("/admin/index.html", (req, res) => {
 // MONGODB
 // ============================================================
 
-const client =
-    new MongoClient(MONGO_URL);
 
+const secureContext = tls.createSecureContext({
+    minVersion: "TLSv1.2",
+    maxVersion: "TLSv1.2"
+});
+
+const client = new MongoClient(process.env.MONGO_URL, {
+    tls: true,
+    secureContext,
+    serverSelectionTimeoutMS: 10000
+});
 let db = null;
 
 let collections = {};
@@ -650,7 +659,9 @@ async function connectMongoDB() {
                 db.collection("contributors"),
 
             contacts:
-                db.collection("contacts")
+                db.collection("contacts"),
+                dandiyaRegistrations:
+               db.collection("dandiyaRegistrations")
 
         };
 
@@ -1133,14 +1144,14 @@ app.post(
                     safeString(
                         req.body.nameEn
                     ),
-                    memberType:
-                   safeString(
-                    req.body.memberType
-                       ),
-                       gender:
-    safeString(
-        req.body.gender
-    ),
+                memberType:
+                    safeString(
+                        req.body.memberType
+                    ),
+                gender:
+                    safeString(
+                        req.body.gender
+                    ),
 
                 image:
                     safeString(
@@ -1264,14 +1275,14 @@ app.put(
                     safeString(
                         req.body.nameEn
                     ),
-                 memberType:
+                memberType:
                     safeString(
-                      req.body.memberType
-                   ),
-                   gender:
-    safeString(
-        req.body.gender
-    ),
+                        req.body.memberType
+                    ),
+                gender:
+                    safeString(
+                        req.body.gender
+                    ),
 
                 image:
                     safeString(
@@ -2258,23 +2269,23 @@ app.post(
             }
 
             console.log("Cloudinary config check:", {
-    cloudName: process.env.CLOUDINARY_CLOUD_NAME,
-    apiKey: process.env.CLOUDINARY_API_KEY,
-    secretLoaded: !!process.env.CLOUDINARY_API_SECRET
-});
+                cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+                apiKey: process.env.CLOUDINARY_API_KEY,
+                secretLoaded: !!process.env.CLOUDINARY_API_SECRET
+            });
 
-console.log("Uploading file:", req.file.path);
+            console.log("Uploading file:", req.file.path);
 
             // Upload local file to Cloudinary
-     const uploadResult =
-    await cloudinary.uploader.upload(
-        req.file.path,
-        {
-            folder: "durga-puja/gallery",
-            resource_type: "image",
-            timeout: 120000
-        }
-    );
+            const uploadResult =
+                await cloudinary.uploader.upload(
+                    req.file.path,
+                    {
+                        folder: "durga-puja/gallery",
+                        resource_type: "image",
+                        timeout: 120000
+                    }
+                );
             const item = {
 
                 titleHi:
@@ -2358,30 +2369,30 @@ console.log("Uploading file:", req.file.path);
 
         } catch (error) {
 
-           console.error(
-    "Gallery photo Cloudinary upload error:",
-    error
-);
+            console.error(
+                "Gallery photo Cloudinary upload error:",
+                error
+            );
 
-console.error(
-    "Cloudinary message:",
-    error?.message
-);
+            console.error(
+                "Cloudinary message:",
+                error?.message
+            );
 
-console.error(
-    "Cloudinary HTTP code:",
-    error?.http_code
-);
+            console.error(
+                "Cloudinary HTTP code:",
+                error?.http_code
+            );
 
-console.error(
-    "Cloudinary name:",
-    error?.name
-);
+            console.error(
+                "Cloudinary name:",
+                error?.name
+            );
 
-console.error(
-    "Cloudinary full details:",
-    JSON.stringify(error, null, 2)
-);
+            console.error(
+                "Cloudinary full details:",
+                JSON.stringify(error, null, 2)
+            );
             // Delete temporary file if upload/database fails
             if (req.file) {
 
@@ -3790,71 +3801,71 @@ app.get(
 
         try {
 
-    const extraFilters = [];
+            const extraFilters = [];
 
 
-    if (req.query.year) {
+            if (req.query.year) {
 
-        extraFilters.push({
+                extraFilters.push({
 
-            year:
-                toNumber(
-                    req.query.year
-                )
+                    year:
+                        toNumber(
+                            req.query.year
+                        )
 
-        });
+                });
 
-    }
-
-
-    if (req.query.search) {
-
-        const search =
-            safeString(
-                req.query.search
-            );
+            }
 
 
-        extraFilters.push({
+            if (req.query.search) {
 
-            $or: [
-
-                {
-                    name: {
-                        $regex: search,
-                        $options: "i"
-                    }
-                },
-
-                {
-                    mobile: {
-                        $regex: search,
-                        $options: "i"
-                    }
-                },
-
-                {
-                    email: {
-                        $regex: search,
-                        $options: "i"
-                    }
-                }
-
-            ]
-
-        });
-
-    }
+                const search =
+                    safeString(
+                        req.query.search
+                    );
 
 
-    const filter =
-        getValidDonationFilter(
-            extraFilters.length
-                ? {
-                    $and: extraFilters
-                }
-                : {}
-        );
+                extraFilters.push({
+
+                    $or: [
+
+                        {
+                            name: {
+                                $regex: search,
+                                $options: "i"
+                            }
+                        },
+
+                        {
+                            mobile: {
+                                $regex: search,
+                                $options: "i"
+                            }
+                        },
+
+                        {
+                            email: {
+                                $regex: search,
+                                $options: "i"
+                            }
+                        }
+
+                    ]
+
+                });
+
+            }
+
+
+            const filter =
+                getValidDonationFilter(
+                    extraFilters.length
+                        ? {
+                            $and: extraFilters
+                        }
+                        : {}
+                );
             const records =
                 await collections.donations
                     .find(filter)
@@ -3863,95 +3874,95 @@ app.get(
                         _id: -1
                     })
                     .toArray();
-// ============================================================
-// ENSURE RECEIPT NUMBER FOR OLD DONATION RECORDS
-// ============================================================
+            // ============================================================
+            // ENSURE RECEIPT NUMBER FOR OLD DONATION RECORDS
+            // ============================================================
 
-for (const record of records) {
+            for (const record of records) {
 
-    if (!record.receiptNo) {
+                if (!record.receiptNo) {
 
-        const receiptNo =
-            generateDonationReceiptNo(
-                record.year ||
-                new Date().getFullYear()
-            );
+                    const receiptNo =
+                        generateDonationReceiptNo(
+                            record.year ||
+                            new Date().getFullYear()
+                        );
 
-        await collections.donations.updateOne(
-            {
-                _id: record._id
-            },
-            {
-                $set: {
-                    receiptNo: receiptNo,
-                    updatedAt: new Date()
+                    await collections.donations.updateOne(
+                        {
+                            _id: record._id
+                        },
+                        {
+                            $set: {
+                                receiptNo: receiptNo,
+                                updatedAt: new Date()
+                            }
+                        }
+                    );
+
+                    record.receiptNo =
+                        receiptNo;
                 }
             }
-        );
 
-        record.receiptNo =
-            receiptNo;
+
+            // ============================================================
+            // DONATION SUMMARY
+            // ============================================================
+
+            const totalDonors =
+                records.length;
+
+            const totalDonation =
+                records.reduce(
+                    (
+                        total,
+                        record
+                    ) =>
+                        total +
+                        Number(
+                            record.amount || 0
+                        ),
+                    0
+                );
+
+
+            // ============================================================
+            // RESPONSE
+            // ============================================================
+
+            return res.json({
+
+                success: true,
+
+                records,
+
+                summary: {
+
+                    totalDonors,
+
+                    totalDonation
+
+                }
+
+            });
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Failed to fetch donations."
+
+            });
+
+        }
+
     }
-}
-
-
-// ============================================================
-// DONATION SUMMARY
-// ============================================================
-
-const totalDonors =
-    records.length;
-
-const totalDonation =
-    records.reduce(
-        (
-            total,
-            record
-        ) =>
-            total +
-            Number(
-                record.amount || 0
-            ),
-        0
-    );
-
-
-// ============================================================
-// RESPONSE
-// ============================================================
-
-return res.json({
-
-    success: true,
-
-    records,
-
-    summary: {
-
-        totalDonors,
-
-        totalDonation
-
-    }
-
-});
-
-} catch (error) {
-
-    console.error(error);
-
-    res.status(500).json({
-
-        success: false,
-
-        message:
-            "Failed to fetch donations."
-
-    });
-
-}
-
-}
 );
 
 // ============================================================
@@ -4055,15 +4066,15 @@ app.post(
 
             const donation = {
 
-    year:
-        new Date()
-            .getFullYear(),
+                year:
+                    new Date()
+                        .getFullYear(),
 
-    receiptNo:
-    generateDonationReceiptNo(
-        new Date().getFullYear()
-    ),
-    name,
+                receiptNo:
+                    generateDonationReceiptNo(
+                        new Date().getFullYear()
+                    ),
+                name,
 
                 mobile,
 
@@ -4256,7 +4267,7 @@ app.post(
             if (
                 donation.paymentStatus === "paid" &&
                 donation.razorpayPaymentId ===
-                    razorpayPaymentId
+                razorpayPaymentId
             ) {
 
                 return res.json({
@@ -4304,7 +4315,7 @@ app.post(
             // Timing-safe signature comparison
             const signaturesMatch =
                 generatedSignature.length ===
-                    razorpaySignature.length &&
+                razorpaySignature.length &&
                 crypto.timingSafeEqual(
                     Buffer.from(
                         generatedSignature,
@@ -4444,7 +4455,7 @@ app.post(
                     actualAmountPaise
                 ) ||
                 expectedAmountPaise !==
-                    actualAmountPaise
+                actualAmountPaise
             ) {
 
                 console.error(
@@ -4537,7 +4548,7 @@ app.post(
             if (
                 existingPayment &&
                 String(existingPayment._id) !==
-                    String(donation._id)
+                String(donation._id)
             ) {
 
                 return res.status(409).json({
@@ -4567,9 +4578,9 @@ app.post(
                             razorpayOrderId,
 
                         paymentStatus:
-                            {
-                                $ne: "paid"
-                            }
+                        {
+                            $ne: "paid"
+                        }
 
                     },
 
@@ -4621,9 +4632,9 @@ app.post(
                 if (
                     latestDonation &&
                     latestDonation.paymentStatus ===
-                        "paid" &&
+                    "paid" &&
                     latestDonation.razorpayPaymentId ===
-                        razorpayPaymentId
+                    razorpayPaymentId
                 ) {
 
                     return res.json({
@@ -4702,41 +4713,41 @@ app.post(
             // ------------------------------------------------
             // SUCCESS RESPONSE
             // ------------------------------------------------
-return res.json({
+            return res.json({
 
-    success: true,
+                success: true,
 
-    message:
-        "Payment verified successfully.",
+                message:
+                    "Payment verified successfully.",
 
-    paymentStatus:
-        "paid",
+                paymentStatus:
+                    "paid",
 
-    donationId:
-        donation._id,
+                donationId:
+                    donation._id,
 
-    receiptNo:
-        donation.receiptNo,
+                receiptNo:
+                    donation.receiptNo,
 
-    donorName:
-        donation.name,
+                donorName:
+                    donation.name,
 
-    amount:
-        donation.amount,
+                amount:
+                    donation.amount,
 
-    date:
-        donation.date,
+                date:
+                    donation.date,
 
-    paymentMode:
-        donation.paymentMode,
+                paymentMode:
+                    donation.paymentMode,
 
-    razorpayOrderId:
-        razorpayOrderId,
+                razorpayOrderId:
+                    razorpayOrderId,
 
-    razorpayPaymentId:
-        razorpayPaymentId
+                razorpayPaymentId:
+                    razorpayPaymentId
 
-});
+            });
 
         } catch (error) {
 
@@ -4976,34 +4987,34 @@ app.get(
 
         try {
 
-           const filter = {
+            const filter = {
 
-    approved:
-        true,
+                approved:
+                    true,
 
-    publicVisible:
-        true,
+                publicVisible:
+                    true,
 
-    $or: [
+                $or: [
 
-        // ONLINE DONATION
-        // Only successfully paid donations
-        {
-            source: "online",
-            paymentStatus: "paid"
-        },
+                    // ONLINE DONATION
+                    // Only successfully paid donations
+                    {
+                        source: "online",
+                        paymentStatus: "paid"
+                    },
 
-        // MANUAL / OLD DONATION
-        // Manual donations are already received
-        {
-            source: {
-                $ne: "online"
-            }
-        }
+                    // MANUAL / OLD DONATION
+                    // Manual donations are already received
+                    {
+                        source: {
+                            $ne: "online"
+                        }
+                    }
 
-    ]
+                ]
 
-};
+            };
 
 
             if (
@@ -5203,28 +5214,28 @@ app.post(
             // CREATE DONATION RECORD
             // -------------------------------
 
-           const record = {
+            const record = {
 
-    serialNo:
-        safeString(
-            req.body.serialNo
-        ),
+                serialNo:
+                    safeString(
+                        req.body.serialNo
+                    ),
 
-    receiptNo:
-        generateDonationReceiptNo(
-            toNumber(
-                req.body.year,
-                new Date().getFullYear()
-            )
-        ),
+                receiptNo:
+                    generateDonationReceiptNo(
+                        toNumber(
+                            req.body.year,
+                            new Date().getFullYear()
+                        )
+                    ),
 
-    year:
-        toNumber(
-            req.body.year,
-            new Date().getFullYear()
-        ),
+                year:
+                    toNumber(
+                        req.body.year,
+                        new Date().getFullYear()
+                    ),
 
-    name,
+                name,
 
                 fatherName:
                     safeString(
@@ -5295,8 +5306,8 @@ app.post(
 
                 source:
                     "manual",
-                    
-                    paymentStatus: "paid",
+
+                paymentStatus: "paid",
 
                 createdAt:
                     new Date(),
@@ -5898,7 +5909,7 @@ app.post(
 
             const worksheet =
                 workbook.Sheets[
-                    workbook.SheetNames[0]
+                workbook.SheetNames[0]
                 ];
 
 
@@ -5998,7 +6009,7 @@ app.post(
 );
 
 
-   
+
 
 // ============================================================
 // DIRECT VIDEO UPLOAD - CLOUDINARY
@@ -6009,127 +6020,127 @@ app.post(
 // ============================================================
 
 app.get(
-  "/api/admin/cloudinary/video-signature",
-  requireAdmin,
-  (req, res) => {
-    try {
-      const timestamp = Math.round(Date.now() / 1000);
+    "/api/admin/cloudinary/video-signature",
+    requireAdmin,
+    (req, res) => {
+        try {
+            const timestamp = Math.round(Date.now() / 1000);
 
-      const folder = "durga-puja/videos";
+            const folder = "durga-puja/videos";
 
-      const signature =
-        cloudinary.utils.api_sign_request(
-          {
-            timestamp,
-            folder
-          },
-          process.env.CLOUDINARY_API_SECRET
-        );
+            const signature =
+                cloudinary.utils.api_sign_request(
+                    {
+                        timestamp,
+                        folder
+                    },
+                    process.env.CLOUDINARY_API_SECRET
+                );
 
-      res.json({
-        success: true,
-        cloudName: process.env.CLOUDINARY_CLOUD_NAME,
-        apiKey: process.env.CLOUDINARY_API_KEY,
-        timestamp,
-        folder,
-        signature
-      });
+            res.json({
+                success: true,
+                cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+                apiKey: process.env.CLOUDINARY_API_KEY,
+                timestamp,
+                folder,
+                signature
+            });
 
-    } catch (error) {
-      console.error(
-        "Cloudinary signature error:",
-        error
-      );
+        } catch (error) {
+            console.error(
+                "Cloudinary signature error:",
+                error
+            );
 
-      res.status(500).json({
-        success: false,
-        message: "Failed to generate Cloudinary upload signature."
-      });
+            res.status(500).json({
+                success: false,
+                message: "Failed to generate Cloudinary upload signature."
+            });
+        }
     }
-  }
 );
 // ============================================================
 // SAVE DIRECT CLOUDINARY VIDEO IN MONGODB
 // ============================================================
 
 app.post(
-  "/api/admin/videos/direct-save",
-  requireAdmin,
-  async (req, res) => {
-    try {
+    "/api/admin/videos/direct-save",
+    requireAdmin,
+    async (req, res) => {
+        try {
 
-      const {
-        titleHi,
-        titleEn,
-        secureUrl,
-        publicId,
-        originalName
-      } = req.body;
+            const {
+                titleHi,
+                titleEn,
+                secureUrl,
+                publicId,
+                originalName
+            } = req.body;
 
-      if (
-        !titleHi ||
-        !titleEn ||
-        !secureUrl ||
-        !publicId
-      ) {
-        return res.status(400).json({
-          success: false,
-          message: "Missing video information."
-        });
-      }
+            if (
+                !titleHi ||
+                !titleEn ||
+                !secureUrl ||
+                !publicId
+            ) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Missing video information."
+                });
+            }
 
-      const video = {
-        titleHi: safeString(titleHi),
-        titleEn: safeString(titleEn),
+            const video = {
+                titleHi: safeString(titleHi),
+                titleEn: safeString(titleEn),
 
-        youtubeUrl: "",
+                youtubeUrl: "",
 
-        thumbnail: "",
+                thumbnail: "",
 
-        videoType: "upload",
+                videoType: "upload",
 
-        videoUrl: secureUrl,
+                videoUrl: secureUrl,
 
-        originalName: safeString(originalName),
+                originalName: safeString(originalName),
 
-        fileName: "",
+                fileName: "",
 
-        cloudinaryPublicId: publicId,
+                cloudinaryPublicId: publicId,
 
-        active: true,
+                active: true,
 
-        date: new Date(),
+                date: new Date(),
 
-        createdAt: new Date(),
+                createdAt: new Date(),
 
-        updatedAt: new Date()
-      };
+                updatedAt: new Date()
+            };
 
-      const result =
-        await collections.videos.insertOne(video);
+            const result =
+                await collections.videos.insertOne(video);
 
-      return res.status(201).json({
-        success: true,
-        message: "Video uploaded successfully.",
-        videoId: result.insertedId,
-        videoUrl: secureUrl
-      });
+            return res.status(201).json({
+                success: true,
+                message: "Video uploaded successfully.",
+                videoId: result.insertedId,
+                videoUrl: secureUrl
+            });
 
-    } catch (error) {
+        } catch (error) {
 
-      console.error(
-        "Direct video MongoDB save error:",
-        error
-      );
+            console.error(
+                "Direct video MongoDB save error:",
+                error
+            );
 
-      return res.status(500).json({
-        success: false,
-        message:
-          error.message ||
-          "Failed to save video."
-      });
+            return res.status(500).json({
+                success: false,
+                message:
+                    error.message ||
+                    "Failed to save video."
+            });
+        }
     }
-  }
 );
 
 app.post(
@@ -6147,69 +6158,69 @@ app.post(
                     message: "Please select a video file."
                 });
 
-           
- }
-// ============================================================
-// UPLOAD VIDEO TO CLOUDINARY - LARGE / CHUNKED
-// ============================================================
 
-const uploadResult = await new Promise((resolve, reject) => {
+            }
+            // ============================================================
+            // UPLOAD VIDEO TO CLOUDINARY - LARGE / CHUNKED
+            // ============================================================
 
-    cloudinary.uploader.upload_large(
-        req.file.path,
-        {
-            folder: "durga-puja/videos",
-            resource_type: "video",
-            chunk_size: 6 * 1024 * 1024
-        },
-        (error, result) => {
+            const uploadResult = await new Promise((resolve, reject) => {
 
-            if (error) {
+                cloudinary.uploader.upload_large(
+                    req.file.path,
+                    {
+                        folder: "durga-puja/videos",
+                        resource_type: "video",
+                        chunk_size: 6 * 1024 * 1024
+                    },
+                    (error, result) => {
 
-                console.error(
-                    "Cloudinary video upload error:",
-                    error
+                        if (error) {
+
+                            console.error(
+                                "Cloudinary video upload error:",
+                                error
+                            );
+
+                            reject(error);
+                            return;
+                        }
+
+                        console.log(
+                            "========== CLOUDINARY CALLBACK RESULT =========="
+                        );
+
+                        console.log(
+                            "Secure URL:",
+                            result && result.secure_url
+                        );
+
+                        console.log(
+                            "Public ID:",
+                            result && result.public_id
+                        );
+
+                        console.log(
+                            "Resource Type:",
+                            result && result.resource_type
+                        );
+
+                        console.log(
+                            "FULL RESULT:",
+                            result
+                        );
+
+                        console.log(
+                            "================================================"
+                        );
+
+                        resolve(result);
+                    }
                 );
 
-                reject(error);
-                return;
-            }
+            });
 
-            console.log(
-                "========== CLOUDINARY CALLBACK RESULT =========="
-            );
-
-            console.log(
-                "Secure URL:",
-                result && result.secure_url
-            );
-
-            console.log(
-                "Public ID:",
-                result && result.public_id
-            );
-
-            console.log(
-                "Resource Type:",
-                result && result.resource_type
-            );
-
-            console.log(
-                "FULL RESULT:",
-                result
-            );
-
-            console.log(
-                "================================================"
-            );
-
-            resolve(result);
-        }
-    );
-
-});
-
-const video = {
+            const video = {
 
                 titleHi:
                     safeString(req.body.titleHi),
@@ -6363,41 +6374,41 @@ app.get(
                     })
                     .toArray();
 
- // ============================================================
-// ENSURE RECEIPT NUMBER FOR OLD RECORDS
-// ============================================================
+            // ============================================================
+            // ENSURE RECEIPT NUMBER FOR OLD RECORDS
+            // ============================================================
 
-for (const record of records) {
+            for (const record of records) {
 
-    if (!record.receiptNo) {
+                if (!record.receiptNo) {
 
-        const receiptNo =
-            generateDonationReceiptNo(
-                record.year ||
-                new Date().getFullYear()
-            );
+                    const receiptNo =
+                        generateDonationReceiptNo(
+                            record.year ||
+                            new Date().getFullYear()
+                        );
 
-        await collections.donations.updateOne(
+                    await collections.donations.updateOne(
 
-            {
-                _id: record._id
-            },
+                        {
+                            _id: record._id
+                        },
 
-            {
-                $set: {
-                    receiptNo: receiptNo,
-                    updatedAt: new Date()
+                        {
+                            $set: {
+                                receiptNo: receiptNo,
+                                updatedAt: new Date()
+                            }
+                        }
+
+                    );
+
+                    record.receiptNo =
+                        receiptNo;
+
                 }
+
             }
-
-        );
-
-        record.receiptNo =
-            receiptNo;
-
-    }
-
-}
 
             const excelData =
                 records.map(
@@ -6538,10 +6549,10 @@ app.get(
                         approved: true,
                         active: true
                     })
-                   .sort({
-    date: -1,
-    createdAt: -1
-})
+                    .sort({
+                        date: -1,
+                        createdAt: -1
+                    })
                     .toArray();
 
 
@@ -6574,110 +6585,110 @@ app.post(
 
         try {
             const name = safeString(req.body.name);
-const mobile = safeString(req.body.mobile);
-const organization = safeString(req.body.organization);
-const contributionDetails = safeString(req.body.contributionDetails);
-const date = safeString(req.body.date);
+            const mobile = safeString(req.body.mobile);
+            const organization = safeString(req.body.organization);
+            const contributionDetails = safeString(req.body.contributionDetails);
+            const date = safeString(req.body.date);
 
-if (!name) {
-    return res.status(400).json({
-        success: false,
-        message: "Contributor name is required."
-    });
-}
+            if (!name) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Contributor name is required."
+                });
+            }
 
-if (!mobile) {
-    return res.status(400).json({
-        success: false,
-        message: "Mobile number is required."
-    });
-}
+            if (!mobile) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Mobile number is required."
+                });
+            }
 
-if (!/^[6-9]\d{9}$/.test(mobile)) {
-    return res.status(400).json({
-        success: false,
-        message: "Please enter a valid 10-digit mobile number."
-    });
-}
+            if (!/^[6-9]\d{9}$/.test(mobile)) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Please enter a valid 10-digit mobile number."
+                });
+            }
 
-if (!organization) {
-    return res.status(400).json({
-        success: false,
-        message: "Organization is required."
-    });
-}
+            if (!organization) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Organization is required."
+                });
+            }
 
-if (!contributionDetails) {
-    return res.status(400).json({
-        success: false,
-        message: "Contribution details are required."
-    });
-}
+            if (!contributionDetails) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Contribution details are required."
+                });
+            }
 
-if (!date) {
-    return res.status(400).json({
-        success: false,
-        message: "Date is required."
-    });
-}
+            if (!date) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Date is required."
+                });
+            }
 
-const today = new Date().toISOString().split("T")[0];
+            const today = new Date().toISOString().split("T")[0];
 
-if (date > today) {
-    return res.status(400).json({
-        success: false,
-        message: "Future date is not allowed."
-    });
-}
-const contributor = {
+            if (date > today) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Future date is not allowed."
+                });
+            }
+            const contributor = {
 
-    name:
-        safeString(
-            req.body.name
-        ),
+                name:
+                    safeString(
+                        req.body.name
+                    ),
 
-    mobile:
-        safeString(
-            req.body.mobile
-        ),
+                mobile:
+                    safeString(
+                        req.body.mobile
+                    ),
 
-    organization:
-        safeString(
-            req.body.organization
-        ),
+                organization:
+                    safeString(
+                        req.body.organization
+                    ),
 
-    contributionDetails:
-        safeString(
-            req.body.contributionDetails
-        ),
+                contributionDetails:
+                    safeString(
+                        req.body.contributionDetails
+                    ),
 
-    date:
-        safeString(
-            req.body.date
-        ),
+                date:
+                    safeString(
+                        req.body.date
+                    ),
 
-    active:
-        toBoolean(
-            req.body.active,
-            true
-        ),
-        approved:
-    true,
+                active:
+                    toBoolean(
+                        req.body.active,
+                        true
+                    ),
+                approved:
+                    true,
 
-    createdAt:
-        new Date(),
+                createdAt:
+                    new Date(),
 
-    updatedAt:
-        new Date()
+                updatedAt:
+                    new Date()
 
-};
+            };
 
             const result =
                 await collections.contributors
                     .insertOne(
                         contributor
                     );
-                    
+
 
 
             res.status(201).json({
@@ -6738,61 +6749,61 @@ app.put(
 
             }
             const name = safeString(req.body.name);
-const mobile = safeString(req.body.mobile);
-const organization = safeString(req.body.organization);
-const contributionDetails = safeString(req.body.contributionDetails);
-const date = safeString(req.body.date);
+            const mobile = safeString(req.body.mobile);
+            const organization = safeString(req.body.organization);
+            const contributionDetails = safeString(req.body.contributionDetails);
+            const date = safeString(req.body.date);
 
-if (!name) {
-    return res.status(400).json({
-        success: false,
-        message: "Contributor name is required."
-    });
-}
+            if (!name) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Contributor name is required."
+                });
+            }
 
-if (!mobile) {
-    return res.status(400).json({
-        success: false,
-        message: "Mobile number is required."
-    });
-}
+            if (!mobile) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Mobile number is required."
+                });
+            }
 
-if (!/^[6-9]\d{9}$/.test(mobile)) {
-    return res.status(400).json({
-        success: false,
-        message: "Please enter a valid 10-digit mobile number."
-    });
-}
+            if (!/^[6-9]\d{9}$/.test(mobile)) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Please enter a valid 10-digit mobile number."
+                });
+            }
 
-if (!organization) {
-    return res.status(400).json({
-        success: false,
-        message: "Organization is required."
-    });
-}
+            if (!organization) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Organization is required."
+                });
+            }
 
-if (!contributionDetails) {
-    return res.status(400).json({
-        success: false,
-        message: "Contribution details are required."
-    });
-}
+            if (!contributionDetails) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Contribution details are required."
+                });
+            }
 
-if (!date) {
-    return res.status(400).json({
-        success: false,
-        message: "Date is required."
-    });
-}
+            if (!date) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Date is required."
+                });
+            }
 
-const today = new Date().toISOString().split("T")[0];
+            const today = new Date().toISOString().split("T")[0];
 
-if (date > today) {
-    return res.status(400).json({
-        success: false,
-        message: "Future date is not allowed."
-    });
-}
+            if (date > today) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Future date is not allowed."
+                });
+            }
 
 
             const result =
@@ -6805,43 +6816,43 @@ if (date > today) {
                     {
                         $set: {
 
-    name:
-        safeString(
-            req.body.name
-        ),
+                            name:
+                                safeString(
+                                    req.body.name
+                                ),
 
-    mobile:
-        safeString(
-            req.body.mobile
-        ),
+                            mobile:
+                                safeString(
+                                    req.body.mobile
+                                ),
 
-    organization:
-        safeString(
-            req.body.organization
-        ),
+                            organization:
+                                safeString(
+                                    req.body.organization
+                                ),
 
-    contributionDetails:
-        safeString(
-            req.body.contributionDetails
-        ),
+                            contributionDetails:
+                                safeString(
+                                    req.body.contributionDetails
+                                ),
 
-    date:
-        safeString(
-            req.body.date
-        ),
+                            date:
+                                safeString(
+                                    req.body.date
+                                ),
 
-    active:
-        toBoolean(
-            req.body.active,
-            true
-        ),
-        approved:
-    true,
+                            active:
+                                toBoolean(
+                                    req.body.active,
+                                    true
+                                ),
+                            approved:
+                                true,
 
-    updatedAt:
-        new Date()
+                            updatedAt:
+                                new Date()
 
-}
+                        }
                     }
 
                 );
@@ -7280,17 +7291,17 @@ app.get(
 
                 collections.members.countDocuments(),
 
-               collections.donations.countDocuments(
-                 getValidDonationFilter()
+                collections.donations.countDocuments(
+                    getValidDonationFilter()
                 ),
                 // ONLY PAID DONATION AMOUNT
                 collections.donations
                     .aggregate([
 
-                       {
-    $match:
-        getValidDonationFilter()
-},
+                        {
+                            $match:
+                                getValidDonationFilter()
+                        },
 
                         {
                             $group: {
@@ -7338,15 +7349,15 @@ app.get(
             // RECENT DONATIONS
             // Show latest donation records
             const recentDonations =
-    await collections.donations
-        .find(
-            getValidDonationFilter()
-        )
-        .sort({
-            _id: -1
-        })
-        .limit(10)
-        .toArray();
+                await collections.donations
+                    .find(
+                        getValidDonationFilter()
+                    )
+                    .sort({
+                        _id: -1
+                    })
+                    .limit(10)
+                    .toArray();
 
 
             res.json({
@@ -7398,25 +7409,7 @@ app.get(
     }
 );
 
-// ============================================================
-// API 404 HANDLER
-// ============================================================
 
-app.use(
-    "/api",
-    (req, res) => {
-
-        res.status(404).json({
-
-            success: false,
-
-            message:
-                "API endpoint not found."
-
-        });
-
-    }
-);
 
 
 // ============================================================
@@ -7469,27 +7462,398 @@ app.use(
 connectMongoDB()
     .then(() => {
         app.get("/test-cloudinary", async (req, res) => {
-    try {
-        const result = await cloudinary.api.ping();
+            try {
+                const result = await cloudinary.api.ping();
 
-        res.json({
-            success: true,
-            message: "Cloudinary API connection successful",
-            result
+                res.json({
+                    success: true,
+                    message: "Cloudinary API connection successful",
+                    result
+                });
+
+            } catch (error) {
+
+                console.error("CLOUDINARY PING ERROR:", error);
+
+                res.status(500).json({
+                    success: false,
+                    message: error.message,
+                    http_code: error.http_code,
+                    name: error.name
+                });
+            }
         });
 
-    } catch (error) {
+        // ============================================================
+// BAL DANDIYA REGISTRATION
+// ============================================================
+console.log("DANDIYA ROUTE REGISTERING...");
 
-        console.error("CLOUDINARY PING ERROR:", error);
 
-        res.status(500).json({
-            success: false,
-            message: error.message,
-            http_code: error.http_code,
-            name: error.name
-        });
+app.post(
+    "/api/dandiya-registrations",
+    async (req, res) => {
+        console.log("DANDIYA ROUTE HIT");
+
+        try {
+
+            const childName =
+                safeString(
+                    req.body.childName
+                );
+
+            const parentName =
+                safeString(
+                    req.body.parentName
+                );
+
+            const mobile =
+                safeString(
+                    req.body.mobile
+                );
+
+            const address =
+                safeString(
+                    req.body.address
+                );
+
+            const className =
+                safeString(
+                    req.body.className
+                );
+
+            const age =
+                safeString(
+                    req.body.age
+                );
+
+            const school =
+                safeString(
+                    req.body.school
+                );
+
+            const consent =
+                req.body.consent === true;
+
+
+            /* ==========================================
+               REQUIRED VALIDATION
+            ========================================== */
+
+            if (
+                !childName ||
+                !parentName ||
+                !mobile ||
+                !address
+            ) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Required fields are missing."
+
+                });
+
+            }
+
+
+            if (
+                !/^[6-9][0-9]{9}$/.test(
+                    mobile
+                )
+            ) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Invalid mobile number."
+
+                });
+
+            }
+
+
+            if (!consent) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Parent consent is required."
+
+                });
+
+            }
+
+
+            /* ==========================================
+               SERIAL NUMBER
+               
+               S.No. is ONLY stored for Admin Panel.
+               It is NOT returned to participant.
+            ========================================== */
+
+            const lastRegistration =
+                await collections
+                    .dandiyaRegistrations
+                    .findOne(
+                        {},
+                        {
+                            sort: {
+                                serialNo: -1
+                            }
+                        }
+                    );
+
+
+            const serialNo =
+                lastRegistration &&
+                Number.isFinite(
+                    Number(
+                        lastRegistration.serialNo
+                    )
+                )
+                    ? Number(
+                        lastRegistration.serialNo
+                    ) + 1
+                    : 1;
+
+
+            /* ==========================================
+               SAVE
+            ========================================== */
+
+            await collections
+                .dandiyaRegistrations
+                .insertOne({
+
+                    serialNo,
+
+                    childName,
+
+                    parentName,
+
+                    mobile,
+
+                    address,
+
+                    className,
+
+                    age,
+
+                    school,
+
+                    consent: true,
+
+                    createdAt:
+                        new Date(),
+
+                    updatedAt:
+                        new Date(),
+
+                    active:
+                        true
+
+                });
+
+
+            /* ==========================================
+               IMPORTANT
+               Do NOT return serialNo
+            ========================================== */
+
+            return res.status(201).json({
+
+                success: true,
+
+                message:
+                    "Dandiya registration successful."
+
+            });
+
+} catch (error) {
+
+    console.error(
+        "Dandiya registration error:",
+        error
+    );
+
+    return res.status(500).json({
+
+        success: false,
+
+        message:
+            error.message || "Unable to save registration."
+
+    });
+
+}
+
     }
-});
+);
+// ============================================================
+// GET BAL DANDIYA REGISTRATIONS - ADMIN
+// ============================================================
+
+app.get(
+    "/api/dandiya-registrations",
+    async (req, res) => {
+
+        try {
+
+            const registrations =
+                await collections
+                    .dandiyaRegistrations
+                    .find({})
+                    .sort({
+                        serialNo: 1
+                    })
+                    .toArray();
+
+            return res.status(200).json({
+
+                success: true,
+
+                registrations
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Dandiya registrations fetch error:",
+                error
+            );
+
+            return res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Unable to fetch registrations."
+
+            });
+
+        }
+
+    }
+);
+// ============================================================
+// GET BAL DANDIYA REGISTRATIONS - ADMIN
+// ============================================================
+
+app.get(
+    "/api/dandiya-registrations",
+    async (req, res) => {
+
+        try {
+
+            const registrations =
+                await collections
+                    .dandiyaRegistrations
+                    .find({})
+                    .sort({
+                        serialNo: 1
+                    })
+                    .toArray();
+
+            return res.status(200).json({
+
+                success: true,
+
+                registrations
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Dandiya registrations fetch error:",
+                error
+            );
+
+            return res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Unable to load registrations."
+
+            });
+
+        }
+
+    }
+);
+// ============================================================
+// ADMIN - BAL DANDIYA REGISTRATIONS
+// ============================================================
+
+app.get(
+    "/api/admin/dandiya-registrations",
+    requireAdmin,
+    async (req, res) => {
+
+        try {
+
+            const registrations =
+                await collections
+                    .dandiyaRegistrations
+                    .find({})
+                    .sort({
+                        serialNo: 1
+                    })
+                    .toArray();
+
+            return res.json(
+                registrations
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Dandiya registrations fetch error:",
+                error
+            );
+
+            return res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Failed to fetch Dandiya registrations."
+
+            });
+
+        }
+
+    }
+);
+
+// ============================================================
+// API 404 HANDLER
+// ============================================================
+
+app.use(
+    "/api",
+    (req, res) => {
+
+        res.status(404).json({
+
+            success: false,
+
+            message:
+                "API endpoint not found."
+
+        });
+
+    }
+);
 
         app.listen(
             PORT,

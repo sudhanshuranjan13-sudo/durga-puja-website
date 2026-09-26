@@ -21,6 +21,22 @@
 
     <link rel="stylesheet" href="style.css">
 
+    <!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-F2YREXK2DF"></script>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+
+  gtag('js', new Date());
+
+  gtag('config', 'G-F2YREXK2DF');
+</script>
+<!-- End Google Analytics 4 -->
+
 </head>
 
 
@@ -40,7 +56,7 @@
 
     <!-- =====================================================
      FESTIVE LANGUAGE BAR
-===================================================== -->
+ ===================================================== -->
     <div class="language-bar">
 
         <!-- ROTATING FESTIVE TEXT -->
@@ -170,8 +186,8 @@
 
                 </li>
                 <!-- =================================================
-     COMMITTEE DROPDOWN
-================================================= -->
+                   COMMITTEE DROPDOWN
+                 ================================================= -->
 
                 <li class="dropdown">
 
@@ -222,57 +238,61 @@
                     </ul>
 
                 </li>
-                <!-- =================================================
-                     PUJA
-                ================================================== -->
+ <!-- =================================================
+     PUJA
+================================================== -->
 
-                <li class="dropdown">
+<li class="dropdown">
 
-                    <button type="button" class="dropdown-toggle">
+    <button type="button" class="dropdown-toggle">
 
-                        🪔
+        🪔
 
-                        <span data-hi="पूजा" data-en="Puja">
+        <span data-hi="पूजा" data-en="Puja">
+            पूजा
+        </span>
 
-                            पूजा
+        <span class="arrow">
+            ▾
+        </span>
 
-                        </span>
+    </button>
 
-                        <span class="arrow">
-                            ▾
-                        </span>
+    <ul class="dropdown-menu">
 
-                    </button>
+        <li>
+            <a
+                href="#program"
+                data-hi="कार्यक्रम"
+                data-en="Program">
+                कार्यक्रम
+            </a>
+        </li>
 
+        <li>
+            <a
+                href="#notices"
+                data-hi="नोटिस"
+                data-en="Notices">
+                नोटिस
+            </a>
+        </li>
 
-                    <ul class="dropdown-menu">
+        <!-- BAL DANDIYA REGISTRATION -->
+        <li>
+            <a
+                href="javascript:void(0)"
+                id="openDandiyaRegistration"
+                data-hi="💃 बाल डांडिया Registration"
+                data-en="💃 Bal Dandiya Registration">
+                💃 बाल डांडिया <br>
+                Registration
+            </a>
+        </li>
 
-                        <li>
+    </ul>
 
-                            <a href="#program" data-hi="कार्यक्रम" data-en="Program">
-
-                                कार्यक्रम
-
-                            </a>
-
-                        </li>
-
-
-                        <li>
-
-                            <a href="#notices" data-hi="नोटिस" data-en="Notices">
-
-                                नोटिस
-
-                            </a>
-
-                        </li>
-
-                    </ul>
-
-                </li>
-
-
+</li>
 
                 <!-- =================================================
                      MEDIA
@@ -493,9 +513,9 @@
 
 
 
-<!-- =================================================
+  <!-- =================================================
      HOME / HERO
-================================================= -->
+    ================================================= -->
 
         <section id="home" class="hero home-hero">
 
@@ -557,7 +577,7 @@
 
             <!-- =============================================
          BOTTOM WELCOME
-    ============================================== -->
+         ============================================== -->
 
             <div class="home-bottom-welcome">
 
@@ -759,7 +779,7 @@
 
         </section>
 
- <!-- =================================================
+     <!-- =================================================
      OFFICE BEARERS
      ================================================= -->
 
@@ -804,7 +824,7 @@
 
         <!-- =================================================
      GENERAL MEMBERS
-================================================= -->
+      ================================================ -->
 
         <section id="general-members" class="section committee-page">
 
@@ -1236,7 +1256,7 @@
 
         <!-- =================================================
      LIVE DARSHAN SETTINGS
-================================================== -->
+      ================================================== -->
 
         <section id="live" class="section live-section">
 
@@ -2200,6 +2220,323 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <script src="script.js"></script>
+
+<!-- ===== START: DURGA PUJA INVITATION POPUP ===== -->
+
+<div id="durgaInvitationPopup" class="durga-invitation-overlay">
+    <div class="durga-invitation-modal">
+
+        <button
+            type="button"
+            id="closeDurgaInvitation"
+            class="durga-invitation-close"
+            aria-label="Close Invitation">
+            ×
+        </button>
+
+        <!-- Invitation Card -->
+        <div class="durga-invitation-card">
+            <img
+                src="images/invitation-card.png"
+                alt="Durga Puja Invitation"
+                class="durga-invitation-image"
+                id="durgaInvitationImage"
+            >
+
+            <!-- Transparent clickable QR/payment area -->
+           <a
+    href="upi://pay?pa=7488585355@ybl&pn=SUDHANSHU%20RANJAN&cu=INR"
+    class="durga-invitation-payment"
+    aria-label="Donate using UPI">
+</a>
+        </div>
+
+    </div>
+</div>
+
+<!-- ===== END: DURGA PUJA INVITATION POPUP ===== -->
+
+<!-- =========================================================
+     BAL DANDIYA REGISTRATION MODAL
+========================================================= -->
+
+<div
+    id="dandiyaRegistrationModal"
+    class="dandiya-modal">
+
+    <div class="dandiya-modal-content">
+
+        <!-- HEADER -->
+
+        <div class="dandiya-modal-header">
+
+            <div>
+                <h2>
+                    💃 बाल डांडिया Registration
+                </h2>
+
+                <p>
+                    Bal Dandiya Registration
+                </p>
+            </div>
+
+            <button
+                type="button"
+                id="closeDandiyaModal"
+                class="dandiya-close">
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <form
+            id="dandiyaRegistrationForm"
+            autocomplete="off">
+
+            <div class="dandiya-form-grid">
+
+                <!-- CHILD NAME -->
+
+                <div class="dandiya-form-group">
+
+                    <label for="dandiyaChildName">
+                        बच्चे का नाम <span>*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="dandiyaChildName"
+                        name="childName"
+                        placeholder="बच्चे का नाम"
+                        required
+                        maxlength="100">
+
+                </div>
+
+
+                <!-- PARENT NAME -->
+
+                <div class="dandiya-form-group">
+
+                    <label for="dandiyaParentName">
+                        अभिभावक का नाम <span>*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="dandiyaParentName"
+                        name="parentName"
+                        placeholder="अभिभावक का नाम"
+                        required
+                        maxlength="100">
+
+                </div>
+
+
+                <!-- MOBILE -->
+
+                <div class="dandiya-form-group">
+
+                    <label for="dandiyaMobile">
+                        मोबाइल नंबर <span>*</span>
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="dandiyaMobile"
+                        name="mobile"
+                        placeholder="10 अंकों का मोबाइल नंबर"
+                        inputmode="numeric"
+                        maxlength="10"
+                        pattern="[6-9][0-9]{9}"
+                        required>
+
+                </div>
+
+
+                <!-- ADDRESS -->
+
+                <div class="dandiya-form-group dandiya-full-width">
+
+                    <label for="dandiyaAddress">
+                        पता / Address <span>*</span>
+                    </label>
+
+                    <textarea
+                        id="dandiyaAddress"
+                        name="address"
+                        placeholder="पूरा पता"
+                        rows="3"
+                        maxlength="300"
+                        required></textarea>
+
+                </div>
+
+
+                <!-- CLASS -->
+
+                <div class="dandiya-form-group">
+
+                    <label for="dandiyaClass">
+                        कक्षा
+                    </label>
+
+                    <input
+                        type="text"
+                        id="dandiyaClass"
+                        name="className"
+                        placeholder="जैसे 4th / 5th">
+
+                </div>
+
+
+                <!-- AGE -->
+
+                <div class="dandiya-form-group">
+
+                    <label for="dandiyaAge">
+                        उम्र
+                    </label>
+
+                    <input
+                        type="number"
+                        id="dandiyaAge"
+                        name="age"
+                        placeholder="उम्र"
+                        min="3"
+                        max="18">
+
+                </div>
+
+
+                <!-- SCHOOL -->
+
+                <div class="dandiya-form-group dandiya-full-width">
+
+                    <label for="dandiyaSchool">
+                        स्कूल का नाम
+                    </label>
+
+                    <input
+                        type="text"
+                        id="dandiyaSchool"
+                        name="school"
+                        placeholder="स्कूल का नाम"
+                        maxlength="150">
+
+                </div>
+
+            </div>
+
+
+            <!-- CONSENT -->
+
+            <div class="dandiya-consent">
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        id="dandiyaConsent"
+                        name="consent"
+                        required>
+
+                    <span>
+                        मैं अपने बच्चे को बाल डांडिया कार्यक्रम में
+                        भाग लेने की अनुमति देता/देती हूँ।
+                    </span>
+
+                </label>
+
+            </div>
+<!-- IMPORTANT NOTICE -->
+<div class="dandiya-important-notice">
+
+    <div class="dandiya-important-title">
+     📢 महत्वपूर्ण सूचना
+    </div>
+
+  <ul>
+
+    <li>
+        प्रत्येक प्रतिभागी अपनी
+        <strong>Dandiya Sticks</strong> स्वयं लेकर आए।
+    </li>
+
+    <li>
+        सभी प्रतिभागी कार्यक्रम के अनुरूप
+        <strong>Dandiya / Garba Dress</strong> में उपस्थित हों।
+    </li>
+
+    <li>
+        कार्यक्रम के दौरान समिति द्वारा निर्धारित
+        <strong>सुरक्षा एवं अनुशासन संबंधी नियमों का पालन करना अनिवार्य है।</strong>
+    </li>
+    <li>
+    अभिभावकों से अनुरोध है कि वे
+    <strong>अपने बच्चों के साथ कार्यक्रम स्थल पर उपस्थित रहें</strong>
+    तथा बच्चों की सुरक्षा एवं गतिविधियों पर ध्यान रखें,<strong>ताकि कार्यक्रम के
+    सुचारु एवं सुरक्षित संचालन में समिति को सहयोग मिल सके।</strong>
+</li>
+
+</ul>
+
+</div>
+            
+
+
+            <!-- ERROR -->
+
+            <div
+                id="dandiyaFormError"
+                class="dandiya-form-error">
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <button
+                type="submit"
+                id="dandiyaSubmitButton"
+                class="dandiya-submit-btn">
+
+                💃 Registration Submit करें
+
+            </button>
+
+        </form>
+
+
+        <!-- SUCCESS -->
+
+        <div
+            id="dandiyaSuccessMessage"
+            class="dandiya-success-message">
+
+            <div class="dandiya-success-icon">
+                ✓
+            </div>
+
+            <h3>
+                पंजीकरण सफलतापूर्वक हो गया है।
+            </h3>
+
+            <p>
+                बाल डांडिया कार्यक्रम में आपका स्वागत है। 🌸
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+ <script>
+    console.log("INDEX HTML SCRIPT TEST");
+</script>
 </body>
 
 </html>

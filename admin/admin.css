@@ -58,13 +58,9 @@ body {
         sans-serif;
 
     background:
-        linear-gradient(
-            rgba(255, 250, 240, 0.94),
-            rgba(245, 246, 248, 0.97)
-        ),
-        url("/images/admin-bg.jpg")
-        center / cover
-        fixed;
+        linear-gradient(rgba(255, 250, 240, 0.94),
+            rgba(245, 246, 248, 0.97)),
+        url("/images/admin-bg.jpg") center / cover fixed;
 
     color: var(--text);
 
@@ -102,13 +98,9 @@ textarea {
     padding: 25px;
 
     background:
-        linear-gradient(
-            rgba(93, 5, 10, 0.72),
-            rgba(93, 5, 10, 0.82)
-        ),
-        url("/images/admin-bg.jpg")
-        center / cover
-        fixed;
+        linear-gradient(rgba(93, 5, 10, 0.72),
+            rgba(93, 5, 10, 0.82)),
+        url("/images/admin-bg.jpg") center / cover fixed;
 }
 
 .login-box {
@@ -341,11 +333,9 @@ textarea {
     width: 100%;
 
     background:
-        linear-gradient(
-            135deg,
+        linear-gradient(135deg,
             var(--primary),
-            var(--primary-light)
-        );
+            var(--primary-light));
 
     color: #fff;
 
@@ -356,11 +346,9 @@ textarea {
 
 .btn-primary:hover {
     background:
-        linear-gradient(
-            135deg,
+        linear-gradient(135deg,
             var(--primary-dark),
-            var(--primary)
-        );
+            var(--primary));
 }
 
 .btn-add {
@@ -430,12 +418,10 @@ textarea {
     width: var(--sidebar-width);
 
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             #790b12 0%,
             #8f1018 45%,
-            #65070c 100%
-        );
+            #65070c 100%);
 
     color: #fff;
 
@@ -462,7 +448,7 @@ textarea {
 }
 
 .sidebar::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,.25);
+    background: rgba(255, 255, 255, .25);
 
     border-radius: 10px;
 }
@@ -480,7 +466,7 @@ textarea {
     margin-bottom: 15px;
 
     border-bottom:
-        1px solid rgba(255,255,255,.18);
+        1px solid rgba(255, 255, 255, .18);
 }
 
 .sidebar-logo h2 {
@@ -507,7 +493,7 @@ textarea {
     background: rgba(255, 213, 79, .13);
 
     border:
-        1px solid rgba(255,213,79,.35);
+        1px solid rgba(255, 213, 79, .35);
 
     color: #ffd54f;
 
@@ -538,7 +524,7 @@ textarea {
 
     background: transparent;
 
-    color: rgba(255,255,255,.90);
+    color: rgba(255, 255, 255, .90);
 
     padding: 12px 13px;
 
@@ -561,7 +547,7 @@ textarea {
 .nav-btn:hover {
 
     background:
-        rgba(255,255,255,.10);
+        rgba(255, 255, 255, .10);
 
     color: #fff;
 
@@ -571,16 +557,14 @@ textarea {
 .nav-btn.active {
 
     background:
-        linear-gradient(
-            135deg,
+        linear-gradient(135deg,
             #c51c28,
-            #a50f19
-        );
+            #a50f19);
 
     color: #fff;
 
     box-shadow:
-        0 5px 14px rgba(0,0,0,.18);
+        0 5px 14px rgba(0, 0, 0, .18);
 }
 
 .logout-btn {
@@ -588,7 +572,7 @@ textarea {
     margin-top: 18px;
 
     background:
-        rgba(198,40,40,.82);
+        rgba(198, 40, 40, .82);
 }
 
 .logout-btn:hover {
@@ -619,7 +603,7 @@ textarea {
     min-height: 70px;
 
     background:
-        rgba(255,255,255,.96);
+        rgba(255, 255, 255, .96);
 
     padding: 13px 18px;
 
@@ -638,7 +622,7 @@ textarea {
     box-shadow: var(--shadow-sm);
 
     border:
-        1px solid rgba(0,0,0,.04);
+        1px solid rgba(0, 0, 0, .04);
 
     position: sticky;
 
@@ -714,7 +698,7 @@ textarea {
     color: #fff;
 
     box-shadow:
-        0 2px 7px rgba(0,0,0,.15);
+        0 2px 7px rgba(0, 0, 0, .15);
 }
 
 #adminName {
@@ -792,7 +776,7 @@ textarea {
     box-shadow: var(--shadow-sm);
 
     border:
-        1px solid rgba(0,0,0,.045);
+        1px solid rgba(0, 0, 0, .045);
 
     position: relative;
 
@@ -868,7 +852,7 @@ textarea {
     box-shadow: var(--shadow-sm);
 
     border:
-        1px solid rgba(0,0,0,.045);
+        1px solid rgba(0, 0, 0, .045);
 }
 
 .card h2 {
@@ -1035,11 +1019,9 @@ td {
 th {
 
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             #fff8e9,
-            #f8ecd4
-        );
+            #f8ecd4);
 
     color: var(--primary);
 
@@ -1207,7 +1189,7 @@ td .btn {
         width: 275px;
 
         box-shadow:
-            10px 0 30px rgba(0,0,0,.20);
+            10px 0 30px rgba(0, 0, 0, .20);
     }
 
     .sidebar.open {
@@ -1435,6 +1417,7 @@ td .btn {
     }
 
 }
+
 /* =========================================================
    ADMIN GALLERY LIST - PREMIUM GRID
 ========================================================= */
@@ -1483,7 +1466,7 @@ td .btn {
 
 /* Details */
 
-.admin-gallery-item > div {
+.admin-gallery-item>div {
     padding: 14px 16px;
 }
 
@@ -1501,7 +1484,7 @@ td .btn {
 
 /* Year + Category */
 
-.admin-gallery-item > div > div {
+.admin-gallery-item>div>div {
     font-size: 13px;
     color: #777;
 }
@@ -1558,6 +1541,7 @@ td .btn {
     }
 
 }
+
 /* =========================================================
    DONATION TABLE - EXCEL STYLE
 ========================================================= */
@@ -1714,6 +1698,7 @@ td .btn {
         font-size: 13px;
     }
 }
+
 /* ============================================================
    DONATION TABLE - COMPACT + EXCEL STYLE
 ============================================================ */
@@ -1984,6 +1969,7 @@ td .btn {
     }
 
 }
+
 /* =========================================================
    RECENT DONATIONS - 10 ROWS + SCROLL
 ========================================================= */
@@ -1993,6 +1979,7 @@ td .btn {
     overflow-y: auto;
     overflow-x: auto;
 }
+
 .btn-edit {
     background: #198754;
     color: #fff;
@@ -2006,6 +1993,7 @@ td .btn {
 .btn-edit:hover {
     background: #157347;
 }
+
 /* =========================================================
    DONATION MANAGEMENT - COMPACT FORM
 ========================================================= */
@@ -2047,6 +2035,7 @@ td .btn {
     padding: 7px 12px;
     font-size: 12px;
 }
+
 /* =========================================================
    COMMITTEE MEMBERS - COMPACT FORM
 ========================================================= */
@@ -2088,6 +2077,7 @@ td .btn {
     padding: 7px 12px;
     font-size: 12px;
 }
+
 /* =========================================================
    PUJA PROGRAM - COMPACT FORM
 ========================================================= */
@@ -2129,6 +2119,7 @@ td .btn {
     padding: 7px 12px;
     font-size: 12px;
 }
+
 /* =========================================================
    NOTICE MANAGEMENT - COMPACT FORM
 ========================================================= */
@@ -2171,6 +2162,7 @@ td .btn {
     font-size: 12px;
 
 }
+
 /* =========================================
    NOTICE EDIT / DELETE BUTTON SIZE
 ========================================= */
@@ -2184,6 +2176,7 @@ td .btn {
     line-height: 1.2;
     margin: 2px;
 }
+
 /* =========================================
    NOTICE FIELD ERROR
 ========================================= */
@@ -2199,6 +2192,7 @@ td .btn {
 #notices .field-error:empty {
     display: none;
 }
+
 /* =========================================================
    GALLERY - COMPACT FORM
 ========================================================= */
@@ -2247,6 +2241,7 @@ td .btn {
     padding: 7px 12px;
     font-size: 12px;
 }
+
 .btn-edit {
     background: #16a34a !important;
     color: white !important;
@@ -2256,6 +2251,7 @@ td .btn {
 .btn-edit:hover {
     background: #15803d !important;
 }
+
 /* =========================================================
    VIDEO MANAGEMENT - COMPACT FORM
 ========================================================= */
@@ -2307,6 +2303,7 @@ td .btn {
     padding: 7px 12px;
     font-size: 12px;
 }
+
 #videos .field-error {
     display: block;
     color: #dc2626;
@@ -2328,6 +2325,7 @@ td .btn {
 #videos .btn-edit:hover {
     background: #15803d !important;
 }
+
 /* =========================================================
    LIVE DARSHAN - COMPACT FORM
 ========================================================= */
@@ -2379,6 +2377,7 @@ td .btn {
     padding: 7px 12px;
     font-size: 12px;
 }
+
 /* =========================================================
    SPECIAL DARSHAN - COMPACT FORM
 ========================================================= */
@@ -2430,6 +2429,7 @@ td .btn {
     padding: 7px 12px;
     font-size: 12px;
 }
+
 /* =========================================================
    CONTRIBUTORS - COMPACT FORM
 ========================================================= */
@@ -2481,6 +2481,7 @@ td .btn {
     padding: 7px 12px;
     font-size: 12px;
 }
+
 /* =========================================================
    CONTACT MESSAGES - COMPACT EXCEL STYLE
 ========================================================= */
@@ -2528,6 +2529,7 @@ td .btn {
     min-height: 28px;
     margin: 1px;
 }
+
 /* =========================================================
    DONATION TABLE - S.NO COMPACT
 ========================================================= */
@@ -2555,6 +2557,7 @@ td .btn {
     text-align: center;
     white-space: nowrap;
 }
+
 /*----------------Gender-----------------*/
 #memberForm input[name="memberGender"] {
     width: 16px;
@@ -2563,4 +2566,86 @@ td .btn {
 
 #memberForm label {
     font-size: 16px;
+}
+
+/* =========================================================
+   BAL DANDIYA - EXCEL STYLE TABLE
+========================================================= */
+
+#dandiyaRegistrations .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    background: #ffffff;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+}
+
+#dandiyaRegistrations .admin-table {
+    width: 100%;
+    min-width: 1100px;
+    border-collapse: collapse;
+    background: #ffffff;
+    font-size: 14px;
+}
+
+/* Header */
+
+#dandiyaRegistrations .admin-table thead th {
+    background: #f3f6f9;
+    color: #222;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 12px;
+    border: 1px solid #cfd6dc;
+    white-space: nowrap;
+}
+
+/* Cells */
+
+#dandiyaRegistrations .admin-table tbody td {
+    padding: 9px 12px;
+    border: 1px solid #d9dee3;
+    color: #333;
+    background: #fff;
+    vertical-align: middle;
+}
+
+/* Excel-like alternate rows */
+
+#dandiyaRegistrations .admin-table tbody tr:nth-child(even) td {
+    background: #f8fafc;
+}
+
+/* Hover */
+
+#dandiyaRegistrations .admin-table tbody tr:hover td {
+    background: #eef5ff;
+}
+
+/* S.No. */
+
+#dandiyaRegistrations .admin-table th:first-child,
+#dandiyaRegistrations .admin-table td:first-child {
+    width: 65px;
+    text-align: center;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+    #dandiyaRegistrations .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #dandiyaRegistrations .admin-table {
+        min-width: 1100px;
+        font-size: 13px;
+    }
+
+    #dandiyaRegistrations .admin-table th,
+    #dandiyaRegistrations .admin-table td {
+        padding: 8px 10px;
+    }
 }

@@ -5596,3 +5596,400 @@ document.addEventListener("touchstart", () => {
 document.addEventListener("DOMContentLoaded", function () {
     setupMediaViewer();
 });
+
+// ===== START: DURGA PUJA INVITATION POPUP =====
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const invitationPopup =
+        document.getElementById("durgaInvitationPopup");
+
+    const closeInvitation =
+        document.getElementById("closeDurgaInvitation");
+
+    console.log("INVITATION POPUP:", invitationPopup);
+
+    if (!invitationPopup) {
+        console.error("Invitation popup NOT FOUND");
+        return;
+    }
+
+    // FORCE OPEN
+    invitationPopup.style.display = "flex";
+    invitationPopup.style.opacity = "1";
+    invitationPopup.style.visibility = "visible";
+    invitationPopup.style.pointerEvents = "auto";
+
+
+    // CLOSE BUTTON
+    if (closeInvitation) {
+
+        closeInvitation.addEventListener("click", function () {
+
+            invitationPopup.style.opacity = "0";
+            invitationPopup.style.visibility = "hidden";
+            invitationPopup.style.pointerEvents = "none";
+
+        });
+
+    }
+    // AUTO CLOSE AFTER 15 SECONDS
+setTimeout(function () {
+
+    invitationPopup.style.opacity = "0";
+    invitationPopup.style.visibility = "hidden";
+    invitationPopup.style.pointerEvents = "none";
+
+}, 20000);
+
+});
+
+// ===== END: DURGA PUJA INVITATION POPUP =====
+
+console.log("DANDIYA JS LOADED");
+
+(function () {
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const modal =
+            document.getElementById("dandiyaRegistrationModal");
+
+        const openButton =
+            document.getElementById("openDandiyaRegistration");
+
+        const closeButton =
+            document.getElementById("closeDandiyaModal");
+
+        const form =
+            document.getElementById("dandiyaRegistrationForm");
+
+        const submitButton =
+            document.getElementById("dandiyaSubmitButton");
+
+        const errorBox =
+            document.getElementById("dandiyaFormError");
+
+        const successBox =
+            document.getElementById("dandiyaSuccessMessage");
+
+        console.log("Dandiya elements:", {
+            modal,
+            openButton,
+            closeButton,
+            form
+        });
+
+        if (!modal || !openButton || !closeButton || !form) {
+            console.error("Dandiya registration elements missing!");
+            return;
+        }
+// ============================================================
+// BAL DANDIYA REGISTRATION STATUS
+// ============================================================
+// false = Registration अभी बंद है
+// true  = Registration शुरू हो गया है
+//
+// Registration शुरू होने पर सिर्फ false को true करना है.
+// ============================================================
+
+//const DANDIYA_REGISTRATION_OPEN = false;
+
+                                              const DANDIYA_REGISTRATION_OPEN = true;
+
+
+/* =========================================================
+   OPEN DANDIYA MODAL
+========================================================= */
+
+openButton.addEventListener("click", function (event) {
+
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    console.log("DANDIYA BUTTON CLICKED");
+
+    /* Close Puja dropdown */
+    const dropdown = openButton.closest(".dropdown");
+
+    if (dropdown) {
+        dropdown.classList.remove("active");
+    }
+
+
+    /* =====================================================
+       REGISTRATION CLOSED
+    ===================================================== */
+
+    if (!DANDIYA_REGISTRATION_OPEN) {
+
+        console.log(
+            "DANDIYA REGISTRATION IS CURRENTLY CLOSED"
+        );
+
+        /* Hide registration form */
+        form.style.display = "none";
+
+        /* Hide success message */
+        if (successBox) {
+            successBox.classList.remove("show");
+        }
+
+        /* Show coming soon message */
+        if (errorBox) {
+
+            errorBox.textContent =
+                "💃 पंजीकरण जल्द ही शुरू होने वाला है। कृपया कुछ समय बाद पुनः प्रयास करें।";
+
+            errorBox.style.display = "block";
+            
+        }
+
+    } else {
+
+        /* =================================================
+           REGISTRATION OPEN
+
+           बाद में सिर्फ:
+           DANDIYA_REGISTRATION_OPEN = true
+
+           करना है.
+        ================================================== */
+
+        console.log(
+            "DANDIYA REGISTRATION IS OPEN"
+        );
+
+        /* Clear message */
+        if (errorBox) {
+            errorBox.textContent = "";
+            errorBox.style.display = "";
+        }
+
+        /* Show registration form */
+        form.style.display = "";
+    }
+
+
+    /* Open Dandiya Registration Modal */
+    modal.classList.add("show");
+
+    document.body.style.overflow = "hidden";
+
+    console.log(
+        "DANDIYA MODAL CLASS:",
+        modal.className
+    );
+
+});
+
+/* CLOSE */
+        function closeDandiyaModal() {
+
+            modal.classList.remove("show");
+
+            document.body.style.overflow = "";
+
+            form.reset();
+
+            if (errorBox) {
+                errorBox.textContent = "";
+            }
+
+            if (successBox) {
+                successBox.classList.remove("show");
+            }
+
+            form.style.display = "";
+
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent =
+                    "💃 Registration Submit करें";
+            }
+        }
+
+
+        closeButton.addEventListener("click", function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            closeDandiyaModal();
+
+        });
+
+
+        /* CLICK OUTSIDE */
+        modal.addEventListener("click", function (event) {
+
+            if (event.target === modal) {
+                closeDandiyaModal();
+            }
+
+        });
+
+
+        /* ESC */
+        document.addEventListener("keydown", function (event) {
+
+            if (
+                event.key === "Escape" &&
+                modal.classList.contains("show")
+            ) {
+                closeDandiyaModal();
+            }
+
+        });
+
+
+        /* SUBMIT */
+        form.addEventListener("submit", async function (event) {
+
+            event.preventDefault();
+
+            if (errorBox) {
+                errorBox.textContent = "";
+            }
+
+            const childName =
+                document.getElementById("dandiyaChildName")?.value.trim() || "";
+
+            const parentName =
+                document.getElementById("dandiyaParentName")?.value.trim() || "";
+
+            const mobile =
+                document.getElementById("dandiyaMobile")?.value.trim() || "";
+
+            const address =
+                document.getElementById("dandiyaAddress")?.value.trim() || "";
+
+            const className =
+                document.getElementById("dandiyaClass")?.value.trim() || "";
+
+            const age =
+                document.getElementById("dandiyaAge")?.value.trim() || "";
+
+            const school =
+                document.getElementById("dandiyaSchool")?.value.trim() || "";
+
+            const consent =
+                document.getElementById("dandiyaConsent")?.checked || false;
+
+
+            if (!childName) {
+                errorBox.textContent =
+                    "कृपया बच्चे का नाम दर्ज करें।";
+                return;
+            }
+
+            if (!parentName) {
+                errorBox.textContent =
+                    "कृपया अभिभावक का नाम दर्ज करें।";
+                return;
+            }
+
+            if (!/^[6-9][0-9]{9}$/.test(mobile)) {
+                errorBox.textContent =
+                    "कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।";
+                return;
+            }
+
+            if (!address) {
+                errorBox.textContent =
+                    "कृपया पूरा पता दर्ज करें।";
+                return;
+            }
+
+            if (!consent) {
+                errorBox.textContent =
+                    "कृपया अभिभावक की सहमति दें।";
+                return;
+            }
+
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = "Submitting...";
+            }
+
+
+            const apiBase =
+                (typeof API_BASE_URL !== "undefined")
+                    ? API_BASE_URL
+                    : "";
+
+            try {
+             const response = await fetch(
+    "/api/dandiya-registrations",
+    {
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            childName,
+            parentName,
+            mobile,
+            address,
+            className,
+            age,
+            school,
+            consent
+        })
+    }
+);
+
+                let result = {};
+
+                try {
+                    result = await response.json();
+                } catch (jsonError) {
+                    result = {};
+                }
+
+
+                if (!response.ok) {
+                    throw new Error(
+                        result.message ||
+                        "Registration failed."
+                    );
+                }
+
+
+                form.style.display = "none";
+
+                if (successBox) {
+                    successBox.classList.add("show");
+                }
+
+
+                setTimeout(function () {
+                    closeDandiyaModal();
+                }, 2200);
+
+
+            } catch (error) {
+
+                console.error(
+                    "Dandiya registration error:",
+                    error
+                );
+
+                errorBox.textContent =
+                    "पंजीकरण नहीं हो सका। कृपया कुछ समय बाद फिर प्रयास करें।";
+
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent =
+                        "💃 Registration Submit करें";
+                }
+            }
+
+        });
+
+    });
+
+})();
