@@ -24,7 +24,6 @@ const razorpay = new Razorpay({
 });
 
 const crypto = require("crypto");
-const tls = require("tls");
 
 
 
@@ -408,16 +407,10 @@ app.get("/admin/index.html", (req, res) => {
 // ============================================================
 
 
-const secureContext = tls.createSecureContext({
-    minVersion: "TLSv1.2",
-    maxVersion: "TLSv1.2"
-});
-
 const client = new MongoClient(process.env.MONGO_URL, {
-    tls: true,
-    secureContext,
     serverSelectionTimeoutMS: 10000
 });
+
 let db = null;
 
 let collections = {};
@@ -777,16 +770,17 @@ async function connectMongoDB() {
             `Database: ${DB_NAME}`
         );
 
-    } catch (error) {
+   } catch (error) {
 
-        console.error(
-            "MongoDB connection error:",
-            error
-        );
+    console.error(
+        "MongoDB connection error:",
+        error
+    );
 
-        process.exit(1);
+    db = null;
+    collections = {};
 
-    }
+}
 
 }
 
