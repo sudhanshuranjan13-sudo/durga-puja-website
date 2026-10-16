@@ -5,3 +5,11 @@ backend/node_modules/
 # Environment variables
 .env
 backend/.env
+# Local development and temporary files
+.vscode/
+backend/mongo-test.js
+durga-puja-deploy/
+durga-puja-website-deploy.zip
+
+# Uploaded user content
+backend/uploads/
